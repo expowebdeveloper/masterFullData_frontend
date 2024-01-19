@@ -2,10 +2,9 @@ import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import authimg from  '../../assets/img/auth-img.png'
 import logo from '../../assets/img/logo.svg'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-const Login = () => {
+const ResetPassword = () => {
   return (
     <>
       <div className='auth-section'>
@@ -17,26 +16,26 @@ const Login = () => {
                   <img src={logo} className='auth-logo'/>
                 </div>
                 <div className='mb-4'>
-                  <h2 className='auth-heading'>Login</h2>
-                  <p className='auth-text'>Please login your account</p>
+                  <h2 className='auth-heading'>Reset Password</h2>
+                  <p className='auth-text'>Please create new password for your account</p>
                 </div>
                 <form>
-                  <div className='mb-23'>
-                    <label className='label-text'>Email Address <span className='highlight-req'>*</span></label>
-                    <input type="email" name='email' className='form-control form-field shadow-none' />
-                  </div>
                   <div className='mb-40'>
-                    <label className='label-text'>Password <span className='highlight-req'>*</span></label>
+                    <label className='label-text'>Enter New Password <span className='highlight-req'>*</span></label>
                     <div className='position-relative'>
                       <input type="password" name='password' className='form-control form-field shadow-none' />
                       <button className='password-eye-btn'><FontAwesomeIcon icon={faEye}/></button>
                     </div>
                   </div>
-                  <div className='text-end mb-40'>
-                    <Link to={" "} className='forgot-link'>Forgot Password?</Link>
+                  <div className='mb-40'>
+                    <label className='label-text'>Confirm New Password <span className='highlight-req'>*</span></label>
+                    <div className='position-relative'>
+                      <input type="password" name='password' className='form-control form-field shadow-none' />
+                      <button className='password-eye-btn'><FontAwesomeIcon icon={faEye}/></button>
+                    </div>
                   </div>
                   <div className='text-center'>
-                    <button className='common-btn'>Login</button>
+                    <button className='common-btn'>Reset Password</button>
                   </div>
                 </form>
               </div>
@@ -54,4 +53,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default ResetPassword

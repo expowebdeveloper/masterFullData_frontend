@@ -2,6 +2,8 @@ import { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { route } from "./router";
 import PublicLayout from './layout/PublicLayout';
+import './assets/style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
