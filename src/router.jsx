@@ -3,6 +3,7 @@ const Register = lazy(() => import("./views/authentication/register"));
 const Login = lazy(() => import("./views/authentication/login"));
 const ForgotPassword = lazy(() => import("./views/authentication/forgotPassword"));
 const ResetPassword = lazy(() => import("./views/authentication/resetPassword"));
+const Dimensions = lazy(() => import("./views/dashboard/dimensions/dimensions") )
 const MdDashboard = lazy(() =>
   import("./views/dashboard/mdDashboard/mdDashboard")
 );
@@ -31,6 +32,11 @@ export const route = [
   {
     path: "/",
     element: <MdDashboard />,
+    private: false,
+  },
+  {
+    path: "/dimensions",
+    element: <Dimensions />,
     private: false,
   },
 ];

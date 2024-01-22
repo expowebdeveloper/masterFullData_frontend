@@ -184,6 +184,189 @@ svg
 {
     min-height: 90vh;
 }
+.sidebar
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 450px;
+    padding-top: 33px;
+    border-radius: 0px 16px 16px 0px;
+    background: #F4F7FF;
+}
+.sidebar .sidebar-logo
+{
+    max-width: 280px;
+}
+.sidebar-listing li
+{
+    padding: 0 30px;
+}
+.sidebar-link
+{
+    display: block;
+    width: 100%;
+    padding: 19px 27px;
+    color: #5864FF;
+    font-size: 23px;
+    display: flex;
+    gap: 23px;
+    align-items: center;
+    font-weight: 400;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: .4s ease;
+}
+.sidebar-link:hover
+{
+    background-color: #5864FF;
+    color: #fff;
+}
+.nav-header
+{
+    padding: 18px 30px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 450px);
+    border-bottom: 1px solid #E3E3E3;
+}
+.logout-btn
+{
+    padding: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 23px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 0px 0px 16px 0px;
+    background: #5864FF;
+}
+.userbx-img
+{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    flex: none;
+    object-fit: cover;
+}
+.user-name
+{
+    font-size: 25px;
+    color: #000;
+    font-weight: 400;
+}
+.menu-btn
+{
+    width: 49px;
+    height: 46px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5864FF;
+    color: #fff;
+    font-size: 19px;
+    border: 1px solid #5864FF;
+    transition: .4s ease;
+}
+.menu-btn:hover
+{
+    background-color: transparent;
+    color: #5864FF;
+}
+.main-wrapper
+{
+    width: calc(100% - 450px);
+    margin-left: auto;
+}
+.dashboard-wrapper
+{
+    padding: 120px 40px 50px;
+}
+.welcome-text
+{
+    font-size: 33px;
+    color: #000;
+    font-weight: 400;
+}
+.name-login
+{
+    color: #5864FF;
+    font-weight: 700;
+}
+.dashboard-card
+{
+    padding: 32px 20px;
+    border-radius: 30px;
+    background: radial-gradient(253.08% 68% at 50% 50%, #5864FF 0%, #757FFE 100%);
+    font-size: 33px;
+    color: #fff;
+    text-align: center;
+    font-weight: 400;
+}
+.total-dimensions
+{
+    min-width: 76px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #fff;
+    font-size: 53px;
+    color: #5864FF;
+    font-weight: 600;
+    margin: 0px auto 10px;
+}
+.dimensions-wrapper
+{
+    padding: 86px 0 40px;
+}
+.page-name
+{
+    padding: 40px 10px;
+    text-align: center;
+    font-size: 33px;
+    color: #5864FF;
+    background-color: #F1F2FF;
+    margin-bottom: 30px;
+}
+.common-field
+{
+    font-size: 18px;
+    font-weight: 400;
+    color: #000;
+    padding: 14px 29px;
+    border-radius: 14px;
+    border: none;
+    display: block;
+    width: 100%;
+    background-color: #f7f7f7;
+}
+.create-dimension-card
+{
+    border-radius: 26px;
+    border: 1px solid #DADADA;
+    background: #FFF;
+    padding: 32px 40px;
+}
+.dimension-head
+{
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 33px;
+    color: #000;
+    font-weight: 500;
+}
+.label-form
+{
+    font-size: 20px;
+    color: #000;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
 @media only screen and (max-width: 1440px)
 {
     .auth-img
@@ -194,5 +377,17 @@ svg
     {
         max-width: 320px;
         height: 311px;
+    }
+    .sidebar
+    {
+        width: 300px;
+    }
+    .nav-header
+    {
+        width: calc(100% - 300px);
+    }
+    .main-wrapper
+    {
+        width: calc(100% - 300px);
     }
 }
