@@ -4,10 +4,23 @@ import { route } from "./router";
 import PublicLayout from './layout/PublicLayout';
 import './assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer } from 'react-bootstrap';
 
 function App() {
   return (
     <>
+       <ToastContainer
+        className="custom-toast-container"
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
      <Suspense fallback={<p>Loading....</p>}>
         <Router>
           <Routes>
