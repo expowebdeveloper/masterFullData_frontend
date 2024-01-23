@@ -141,6 +141,7 @@ img
 {
     font-size: 18px;
     font-weight: 400;
+    outline: none;
     color: #000;
     padding: 14px 29px;
     border-radius: 14px;
@@ -163,6 +164,7 @@ svg
     padding: 12px;
     min-width: 290px;
     border: none;
+    outline: none;
     border-radius: 13px;
     background: #5864FF;
     border: 1px solid #5864FF;
@@ -353,6 +355,10 @@ svg
     display: block;
     width: 100%;
     background-color: #f7f7f7;
+}
+.common-field:focus
+{
+    outline: none;
 }
 .create-dimension-card
 {

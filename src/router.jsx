@@ -7,6 +7,9 @@ const Dimensions = lazy(() => import("./views/dashboard/dimensions/dimensions") 
 const MdDashboard = lazy(() =>
   import("./views/dashboard/mdDashboard/mdDashboard")
 );
+const SingleDimension = lazy(() =>
+  import("./views/dashboard/SingleDimension/singleDimension")
+);
 
 export const route = [
   {
@@ -37,6 +40,11 @@ export const route = [
   {
     path: "/dimensions",
     element: <Dimensions />,
+    private: false,
+  },
+  {
+    path: "/single-dimension",
+    element: <SingleDimension />,
     private: false,
   },
 ];
