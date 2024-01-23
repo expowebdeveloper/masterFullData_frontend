@@ -17,7 +17,7 @@ const Sidebar = () => {
                         </div>
                         <ul className="sidebar-listing ps-0">
                             <li className="sidebar-ite">
-                                <Link to={" "} className="sidebar-link"><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> Dimensions</Link>
+                                <Link to="/dimensions" className="sidebar-link"><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> Dimensions</Link>
                             </li>
                             <li className="sidebar-ite">
                                 <Link to={" "} className="sidebar-link"><FontAwesomeIcon icon={faShareNodes} /> Properties</Link>
