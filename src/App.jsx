@@ -5,6 +5,7 @@ import PublicLayout from './layout/PublicLayout';
 import './assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-bootstrap';
+import PrivateLayout from './layout/PrivateLayout';
 
 function App() {
   return (
@@ -25,11 +26,14 @@ function App() {
         <Router>
           <Routes>
             {route?.map((item, index) =>
-              !item.private && (
-                <Route key={index} element={<PublicLayout />}>
+              item.private ?(
+                <Route key={index} element={<PrivateLayout />}>
                   <Route path={item.path} element={item.element} />
                 </Route>
-              ) 
+              ) :
+              <Route key={index} element={<PublicLayout />}>
+              <Route path={item.path} element={item.element} />
+            </Route>
             )}
           </Routes>
         </Router>

@@ -8,8 +8,6 @@ const MdDashboard = () => {
 
   return (
     <>
-      <Navbar />
-      <Sidebar/>
       <section className='main-wrapper dashboard-wrapper'>
         <Container fluid>
           <div className='inner-main-wrapper'>

@@ -4,9 +4,6 @@ import { toast } from 'react-toastify';
 
 const initialAuthData = {
     loading: false,
-    userData: {},
-    isVerified: true,
-    forgotPasswordID: '',
 }
 
 export const authenticationSlice = createSlice({
@@ -18,12 +15,9 @@ export const authenticationSlice = createSlice({
         },
         authDataSuccess: (state, action) => {
             state.loading = false;
-            state.userData = action.payload
         },
         authDataError: (state, action) => {
             state.loading = false;
-            state.isVerified = false
-            state.userData.email = action.payload
         },
 
     }
@@ -31,6 +25,7 @@ export const authenticationSlice = createSlice({
 })
 
 export const {authDataLoading,authDataSuccess,authDataError}= authenticationSlice.actions
+export default authenticationSlice.reducer
 
 export function userRegister(payload, callback) {
     return async (dispatch) => {
@@ -48,12 +43,6 @@ export function userRegister(payload, callback) {
                 dispatch(authDataError(false))
                 toast.error("Please Enter valid credentials")
             }
-            dispatch(authDataError(error.response.data.email))
-            if (error.response.data.verified == false) {
-                dispatch(authDataError(error.response.data.email))
-                return callback("sign-up")
-            }
-
         }
     };
 }

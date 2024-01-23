@@ -35,12 +35,12 @@ export const route = [
   {
     path: "/",
     element: <MdDashboard />,
-    private: false,
+    private: true,
   },
   {
     path: "/dimensions",
     element: <Dimensions />,
-    private: false,
+    private: true,
   },
   {
     path: "/single-dimension",
