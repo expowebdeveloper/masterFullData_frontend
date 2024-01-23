@@ -40,6 +40,7 @@ function GTree(props) {
     askConfirmationFn,
     onAction
   );
+  console.log(treeData,"treeData")
   return (
     <IconsContext.Provider value={iconDict}>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>

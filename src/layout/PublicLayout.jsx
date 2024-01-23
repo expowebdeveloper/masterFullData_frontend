@@ -1,9 +1,12 @@
 import React from 'react'
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { getToken } from '../utils/common';
 
 const PublicLayout = () => {
+const  isToken=getToken()
+console.log(isToken,"isi")
   return (
-    <div><Outlet/></div>
+    <div>{!isToken? <Outlet/>:<Navigate to="/"/>}</div>
   )
 }
 

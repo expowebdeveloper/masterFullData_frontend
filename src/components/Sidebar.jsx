@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeFork } from "@fortawesome/free-solid-svg-icons";
 import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faForward } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import logoimg from '../assets/img/logo-wide.png';
+
 const Sidebar = () => {
+    const location=useLocation();
     return (
         <>
             <div className="sidebar">
@@ -17,13 +19,13 @@ const Sidebar = () => {
                         </div>
                         <ul className="sidebar-listing ps-0">
                             <li className="sidebar-ite">
-                                <Link to={" "} className="sidebar-link"><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> Dimensions</Link>
+                                <Link to="/dimensions" className={`sidebar-link ${location.pathname=="/dimensions" ?"active":""}`}><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> Dimensions</Link>
                             </li>
                             <li className="sidebar-ite">
-                                <Link to={" "} className="sidebar-link"><FontAwesomeIcon icon={faShareNodes} /> Properties</Link>
+                                <Link to="/properties" className={`sidebar-link ${location.pathname=="/properties" ?"active":""}`}><FontAwesomeIcon icon={faShareNodes} /> Properties</Link>
                             </li>
                             <li className="sidebar-ite">
-                                <Link to={" "} className="sidebar-link"><FontAwesomeIcon icon={faForward} className="dimension-icon" /> Integrations</Link>
+                                <Link to="/integrations" className={`sidebar-link ${location.pathname=="/integrations" ?"active":""}`}><FontAwesomeIcon icon={faForward} className="dimension-icon" /> Integrations</Link>
                             </li>
                         </ul>
                     </div>

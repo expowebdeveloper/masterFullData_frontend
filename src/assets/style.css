@@ -232,6 +232,10 @@ svg
     background-color: #5864FF;
     color: #fff;
 }
+.active{
+    background-color: #5864FF;
+    color: #fff; 
+}
 .nav-header
 {
     padding: 18px 30px;
