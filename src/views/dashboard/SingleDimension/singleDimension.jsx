@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { flatTreeObjToNodeModel } from "../../../treeView/common/utils";
 import GTree from "../../../treeView/components/gtree";
 import { useDispatch, useSelector } from "react-redux";
+import MdButton from "../../../components/common/atomic/MdButton";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { addNode, deleteNode, getHierarchy, moveNode, renameNode } from "../../../store/slices/dimensionsSlice";
 
 const SingleDimension = () => {
@@ -68,13 +73,79 @@ const SingleDimension = () => {
 
   return (
     <>
-      <div className="text-center" style={{ marginTop: "120px" }}>
-        {newData.length > 0 ? (
-          <GTree initialData={newData} onAction={onAction} />
-        ) : (
-          ""
-        )}
-      </div>
+    <div className="dimensionSingle">
+      <Row>
+        <div className="col-md-3">
+          <div className="text-center" style={{ marginTop: "120px" }}>
+            {newData.length > 0 ? (
+              <GTree initialData={newData} onAction={onAction} />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+        <div className="col-md-9">
+            <div className="heading p-3"><h2 className="text-center m-0">Test 01 Dimension</h2></div>
+            <div className="propertyListing p-4 mt-4">
+              <MdButton text="Add Property"/>
+              <Form className="mt-4">
+                <Row>
+                  <Col md>
+                    <Form.Group className="mb-3" controlId="formBasicFName">
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter First Name" />
+                    </Form.Group>
+                  </Col>
+                  <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicLName">
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter Last Name" />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md>
+                    <Form.Group className="mb-3" controlId="formBasicpropertytype">
+                      <Form.Label>Property Type</Form.Label>
+                      <select className="d-block">
+                        <option>Property Type 1</option>
+                        <option>Property Type 1</option>
+                        <option>Property Type 1</option>
+                      </select>
+                    </Form.Group>
+                  </Col>
+                  <Col md>
+                    <Form.Group className="mb-3" controlId="formBasiczipcode">
+                      <Form.Label>Zip Code</Form.Label>
+                      <Form.Control type="number" placeholder="Enter Zip code" />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md>
+                    <Form.Group className="mb-3" controlId="formBasicFName">
+                      <Form.Label>Calculated Field</Form.Label>
+                      <Form.Control type="number" placeholder="Enter Calculated Field" />
+                    </Form.Group>
+                  </Col>
+                  <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicLName">
+                      <Form.Label>Member</Form.Label>
+                      <Form.Control type="text" placeholder="CFO" />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </div>
+          </div>
+      </Row>
+    </div>
+      
+
+      
     </>
   );
 };
