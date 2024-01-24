@@ -23,25 +23,35 @@ export function defaultConfirmDelete(objName) {
 }
 
 export function flatTreeObjToNodeModel(
-  obj,
+  objArry,
   parent
 ){
-  // @ts-ignore
-  const { children: _, ...restObj } = obj;
-  const maybeChildren =
-    obj.type === "directory"
-      ? obj.children.flatMap((it) => flatTreeObjToNodeModel(it, obj.id))
-      : [];
-  return [
-    {
-      id: obj.id,
-      parent,
-      text: obj.name,
-      droppable: obj.type === "directory",
-      data: restObj
-    },
-    ...maybeChildren
-  ];
+//   return [
+//     {
+//       id: obj.id,
+//       parent,
+//       text: obj.name,
+//       droppable: obj.type === "directory",
+//       data: restObj
+//     },
+//   ];
+let newArr= objArry.map((item,index)=>{
+    return {
+        id:item.node.name,
+        text:item.node.name,
+        parent:item.node.name==item.parent?0:item.parent,
+        droppable:true,
+        data: {
+            name: item.node.name,
+            id:item.node.name,
+            type: "directory",
+        }
+
+    }
+})
+
+return newArr
+
 }
 
 export function getFullPath(

@@ -42,12 +42,13 @@ function maybeEditItem(id, text, it) {
   };
 }
 
-function buildAddOrMvAction(node, source, target) {
+function buildAddOrMvAction(node, source, target,text) {
   switch (true) {
     case node.id === "new" && !!node.droppable:
       return {
         type: "add-dir",
-        source: source
+        source: source,
+        text:text
       };
     case node.id === "new":
       return {
@@ -89,7 +90,7 @@ function maybeReportEditedNode(id, text, extra) {
   const source = getFullPath(id, treeData);
   const target = source.slice(0, -1).concat(text);
 
-  let action = buildAddOrMvAction(node, source, target);
+  let action = buildAddOrMvAction(node, source, target,text);
   onAction(action);
 }
 

@@ -1,82 +1,82 @@
+import { useEffect, useState } from "react";
 import { flatTreeObjToNodeModel } from "../../../treeView/common/utils";
-import GTree from "../../../treeView/components/gtree"
+import GTree from "../../../treeView/components/gtree";
+import { useDispatch, useSelector } from "react-redux";
+import { addNode, deleteNode, getHierarchy, moveNode, renameNode } from "../../../store/slices/dimensionsSlice";
 
-const SingleDimension=()=>{
-       const fakeServerData = {
-    id: "A",
-    name: "Root",
-    type: "directory",
-    children: [
-      {
-        id: "B",
-        name: "Node 1",
-        type: "directory",
-        children: [
-          {
-            id: "D",
-            name: "Node 3",
-            type: "file",
-          },
-        ],
-      },
-      {
-        id: "221",
-        name: "index.js",
-        type: "file",
-      },
-      {
-        id: "222",
-        name: "index.ts",
-        type: "file",
-      },
-      {
-        id: "224",
-        name: "index.html",
-        type: "file",
-      },
-      {
-        id: "225",
-        name: "index.py",
-        type: "file",
-      },
-      { id: "C", name: "Node 2", type: "file" },
-      {
-        id: "B1",
-        name: "Node 11",
-        type: "directory",
-        children: [
-          {
-            id: "D1",
-            name: "Node 32",
-            type: "file",
-          },
-          {
-            id: "B2",
-            name: "Node 12",
-            type: "directory",
-            children: [
-              {
-                id: "22",
-                name: "Node 32",
-                type: "file",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
-  const newData = flatTreeObjToNodeModel(fakeServerData, 0);
-  const onAction = (v) =>{
+const SingleDimension = () => {
+  const dispatch = useDispatch();
+  const { hierarchyList } = useSelector((state) => state.dimensionData);
+  const newData = flatTreeObjToNodeModel(hierarchyList, 0);
+  useEffect(() => {
+    dispatch(getHierarchy("College"));
+  }, []);
+
+  const onAction = (v) => {
     console.log("onAction", v);
-    console.log(newData,"kkk")
-  } 
-  
-    return(
-        <>
-        <GTree initialData={newData} onAction={onAction}/>
-        </>
-    )
-} 
+    let data = {};
+    switch (v.type) {
+      case "add-dir":
+        data = {
+          parent: v?.source[v.source.length - 2],
+          child: v?.text,
+          dimension: "College",
+          position: 0,
+        };
+        console.log(data,"hhh")
+        dispatch(addNode(data));
+        break;
 
-export default SingleDimension
+      case "delete-dir":
+        data = {
+          name: v.source[v.source.length-1],
+          dimension: "College",
+        };
+        dispatch(deleteNode(data));
+        break;
+
+      case "mv":
+        if(v.source.length===v.target.length&&v.source[v.source.length-1]!==v.target[v.target.length-1]){
+          data = 
+            {
+              "old_name": v.source[v.source.length-1],
+              "new_name": v.target[v.target.length-1],
+              "dimension": "College"
+            
+          };
+          dispatch(renameNode(data))
+        }else{
+          data = {
+            node_name: v.source[v.source.length - 1],
+            old_parent: v.source[v.source.length - 2],
+            new_parent: v.target[v.target.length - 1],
+            dimension: "College",
+            position: 0,
+          };
+          console.log(data,"nnew")
+          dispatch(moveNode(data))
+        }
+        
+        break;
+
+      default:
+        break;
+    }
+
+    console.log(data, "data");
+  };
+
+  return (
+    <>
+      <div className="text-center" style={{ marginTop: "120px" }}>
+        {newData.length > 0 ? (
+          <GTree initialData={newData} onAction={onAction} />
+        ) : (
+          ""
+        )}
+      </div>
+    </>
+  );
+};
+
+export default SingleDimension;

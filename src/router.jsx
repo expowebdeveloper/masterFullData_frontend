@@ -45,6 +45,6 @@ export const route = [
   {
     path: "/single-dimension",
     element: <SingleDimension />,
-    private: false,
+    private: true,
   },
 ];
