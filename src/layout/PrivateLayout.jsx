@@ -5,17 +5,18 @@ import Sidebar from "../components/Sidebar";
 import { getToken } from "../utils/common";
 
 const PrivateLayout = () => {
-  let isToken=getToken()
+  let isToken = getToken();
   return (
-    <>{
-      isToken?<>
-      <Navbar />
-      <Sidebar />
-      <Outlet />
-      </>:
-      <Navigate to="/login"/>
-    }
-      
+    <>
+      {isToken ? (
+        <>
+          <Navbar />
+          <Sidebar />
+          <Outlet />
+        </>
+      ) : (
+        <Navigate to="/login" />
+      )}
     </>
   );
 };

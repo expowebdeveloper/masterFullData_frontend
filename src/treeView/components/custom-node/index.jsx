@@ -9,6 +9,7 @@ import { useDragOver } from "@minoru/react-dnd-treeview";
 import { ICON_SIZE_S, INDENT_UNIT } from "../../common/consts";
 import TypedIcon from "../TypedIcon";
 import Title from "./Title";
+import StyledNode, { MaybeSpan } from "./StyledNode";
 
 
 function FolderActions(props) {
@@ -16,9 +17,9 @@ function FolderActions(props) {
   if (!droppable) return null;
   return (
     <>
-      <button onClick={addFile} title="Add File">
+      {/* <button onClick={addFile} title="Add File">
         <FilePlus className="icon" size={ICON_SIZE_S} />
-      </button>
+      </button> */}
       <button onClick={addFolder} title="Add Directory">
         <FolderPlus className="icon" size={ICON_SIZE_S} />
       </button>
@@ -64,7 +65,8 @@ function CustomNode(props) {
   const dragOverProps = useDragOver(id, isOpen, onToggle);
   return (
     <>
-      <input
+    <div className="container w-25">
+    <input
         type="radio"
         name="node"
         id={elId}
@@ -72,6 +74,7 @@ function CustomNode(props) {
         onClick={onSelect}
         defaultChecked={isSelected}
       />
+      {/* <StyledNode style={{ paddingInlineStart: indent }} {...dragOverProps}> */}
         <label className="content" htmlFor={elId}>
           <TypedIcon
             text={text}
@@ -87,7 +90,7 @@ function CustomNode(props) {
             onEditItem={onEditItem}
           />
         </label>
-        
+        {/* <MaybeSpan className="actions" visible={!isEditMode}> */}
           <button onClick={toggleEdit} title="Rename">
             <Edit className="icon" size={ICON_SIZE_S} />
           </button>
@@ -99,6 +102,10 @@ function CustomNode(props) {
           <button onClick={onLocalDelete} title="Delete">
             <Trash className="icon" size={ICON_SIZE_S} />
           </button>
+          {/* </MaybeSpan> */}
+          {/* </StyledNode> */}
+    </div>
+     
     </>
   );
 }
