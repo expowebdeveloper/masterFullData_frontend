@@ -410,3 +410,83 @@ svg
         width: calc(100% - 300px);
     }
 }
+
+
+/* 24/01/2024 */
+
+.dimensionTable {
+    border-radius: 26px;
+    border: 1px solid #DADADA;
+    background: #FFF;
+    padding: 32px 40px;
+}
+
+.dimensionTable table thead tr {
+    background: #5864ff;
+    border-radius: 26px;
+}
+
+.dimensionTable table thead tr th {
+    background: transparent;
+    color: #fff;
+}
+
+.dimensionTable table tbody tr td {
+    border: none;
+    background: #f7f7f7;
+}
+
+.dimensionTable table tbody tr {
+    background: #fff;
+}
+
+.dimensionTable table tbody tr td:first-child, .dimensionTable table thead tr th:first-child {
+    border-radius: 8px 0 0 8px;
+    border: none;
+}
+
+.dimensionTable table tbody tr td:last-child, .dimensionTable table thead tr th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.dimensionTable table {
+    border-spacing: 0px 10px;
+    border-collapse: separate;
+}
+
+/* Single Dimension */
+
+.dimensionSingle {
+    width: calc(100% - 300px);
+    margin-left: 300px;
+}
+
+.dimensionSingle .heading {
+    padding: 20px;
+    background: #f1f2ff;
+}
+
+.dimensionSingle .heading h2 {
+    color: #5864ff;
+    font-weight: bold;
+}
+
+.propertyListing form {
+    padding: 20px;
+    border: 1px solid #E3E3E3;
+    border-radius: 24px;
+}
+
+.propertyListing form input, .propertyListing form select {
+    width: 100%;
+    padding: 10px;
+    min-height: 48px;
+    border-radius: 4px;
+    border: 1px solid #E3E3E3 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.propertyListing form label {
+    line-height: normal;
+}

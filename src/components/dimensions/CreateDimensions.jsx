@@ -4,6 +4,8 @@ import MdButton from "../common/atomic/MdButton";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createDimensions, getAllDimensionsList } from "../../store/slices/dimensionsSlice";
+import Table from 'react-bootstrap/Table';
+import { Link } from "react-router-dom";
 
 const CreateDimensions = () => {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const CreateDimensions = () => {
     <>
       <Row className="justify-content-center">
         <Col xxl={10} xl={11}>
-          <div className="create-dimension-card">
+          <div className="create-dimension-card mb-4">
             <h4 className="dimension-head">Create Dimensions</h4>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <Row className="mb-4">
@@ -72,6 +74,45 @@ const CreateDimensions = () => {
                 <MdButton text="Create Dimension" isLoading={loading} />
               </div>
             </form>
+          </div>
+          <div className='dimensionTable'>
+            <h4 className="dimension-head">Dimensions</h4>
+            <Table hover>
+              <thead>
+                <tr>
+                  <th>Dimension Name</th>
+                  <th>Top Node</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Test 1</td>
+                  <td>CFO</td>
+                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
+                </tr>
+                <tr>
+                  <td>Test 1</td>
+                  <td>CFO</td>
+                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
+                </tr>
+                <tr>
+                  <td>Test 1</td>
+                  <td>CFO</td>
+                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
+                </tr>
+                <tr>
+                  <td>Test 1</td>
+                  <td>CFO</td>
+                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
+                </tr>
+                <tr>
+                  <td>Test 1</td>
+                  <td>CFO</td>
+                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
+                </tr>
+              </tbody>
+            </Table>
           </div>
         </Col>
       </Row>
