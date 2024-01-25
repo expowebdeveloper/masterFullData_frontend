@@ -10,6 +10,11 @@ const MdDashboard = lazy(() =>
 const SingleDimension = lazy(() =>
   import("./views/dashboard/SingleDimension/singleDimension")
 );
+const AdminDashboard = lazy(() => import("./views/adminDashboard/dashboard/dashboard"));
+const AllUsers = lazy(() => import("./views/adminDashboard/allUsers/allUser"));
+const UserDetails = lazy(() => import("./views/adminDashboard/allUsers/userDetails"));
+
+
 
 export const route = [
   {
@@ -47,4 +52,19 @@ export const route = [
     element: <SingleDimension />,
     private: false,
   },
+  {
+    path: "/dashboard",
+    element: <AdminDashboard />,
+    private: true,
+  },
+  {
+    path: "/all-users",
+    element: <AllUsers />,
+    private: true,
+  },
+  {
+    path: "/user-details/:userId",
+    element: <UserDetails />,
+    private: true,
+  }
 ];
