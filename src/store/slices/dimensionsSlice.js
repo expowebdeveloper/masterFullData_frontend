@@ -14,7 +14,6 @@ export const dimensionsSlice = createSlice({
     reducers: {
         dimensionDataLoading: (state, action) => {
             state.loading = true;
-            
         },
         dimensionsDataSuccess: (state, action) => {
             state.loading = false;
@@ -141,6 +140,22 @@ export function renameNode(payload) {
         dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`rename_node`,{...payload})
+              console.log(result,"lll")
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        } 
+    };
+}
+
+export function getPropertyNode(payload) {
+    return async (dispatch) => {
+        dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.post(`get_node_properties`,{...payload})
               console.log(result,"lll")
 
         } catch (error) {

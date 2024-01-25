@@ -23,9 +23,9 @@ const CreateDimensions = () => {
     console.log(data, "ppp");
   };
 
-//   useEffect(()=>{
-//   dispatch(getAllDimensionsList())
-//   },[])
+  useEffect(()=>{
+  dispatch(getAllDimensionsList())
+  },[])
   return (
     <>
       <Row className="justify-content-center">

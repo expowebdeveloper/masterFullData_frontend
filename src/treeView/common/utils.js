@@ -24,7 +24,8 @@ export function defaultConfirmDelete(objName) {
 
 export function flatTreeObjToNodeModel(
   objArry,
-  parent
+  parent,
+  currentDimension
 ){
 //   return [
 //     {

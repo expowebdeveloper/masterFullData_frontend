@@ -65,7 +65,7 @@ const StyledDiv = styled.div`
 
 
 export const MaybeSpan = styled.span`
-  display: ${(props) => (props.visible ? "inherit" : "none")};
+  display: ${(props) => (props.visible ? "initial" : "none")};
 `;
 
 export default StyledDiv;
