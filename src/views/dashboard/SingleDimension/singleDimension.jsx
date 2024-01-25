@@ -17,6 +17,7 @@ import {
 } from "../../../store/slices/dimensionsSlice";
 import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import AddProperty from "../../../components/dimensions/AddProperty";
 
 
 const SingleDimension = () => {
@@ -119,72 +120,7 @@ const SingleDimension = () => {
             )}
           </div>
         </div>
-        <div className="col-md-9">
-            <div className="heading p-3"><h2 className="text-center m-0">Test 01 Dimension</h2></div>
-            <div className="uploadFileCSV">
-              <Form.Control type="file" placeholder="Enter First Name" />
-              <b>Upload CSV or JSON File</b>
-            </div>
-            <div className="propertyListing p-4 mt-4">
-              <Button variant="primary" onClick={handlepropShow} className="PropertyBtn">
-                Add Property
-              </Button>
-              <Button variant="primary" onClick={handleShow} className="ms-2">
-                Delete Popup
-              </Button>
-              <Form className="mt-4">
-                <Row>
-                  <Col md>
-                    <Form.Group className="mb-3" controlId="formBasicFName">
-                      <Form.Label>First Name</Form.Label>
-                      <input type="text" className="common-field" name="name" placeholder=""/>
-                    </Form.Group>
-                  </Col>
-                  <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicLName">
-                      <Form.Label>Last Name</Form.Label>
-                      <input type="text" className="common-field" name="name" placeholder=""/>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md>
-                    <Form.Group className="mb-3" controlId="formBasicpropertytype">
-                      <Form.Label>Property Type</Form.Label>
-                      <select className="d-block">
-                        <option>Property Type 1</option>
-                        <option>Property Type 1</option>
-                        <option>Property Type 1</option>
-                      </select>
-                    </Form.Group>
-                  </Col>
-                  <Col md>
-                    <Form.Group className="mb-3" controlId="formBasiczipcode">
-                      <Form.Label>Zip Code</Form.Label>
-                      <input type="text" className="common-field" name="name" placeholder=""/>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md>
-                    <Form.Group className="mb-3" controlId="formBasicFName">
-                      <Form.Label>Calculated Field</Form.Label>
-                      <input type="text" className="common-field" name="name" placeholder=""/>
-                    </Form.Group>
-                  </Col>
-                  <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicLName">
-                      <Form.Label>Member</Form.Label>
-                      <input type="text" className="common-field" name="name" placeholder=""/>
-                    </Form.Group>
-                  </Col>
-                </Row>
-                {/* <Button variant="primary" type="submit">
-                  Submit
-                </Button> */}
-              </Form>
-            </div>
-          </div>
+        <AddProperty/>
       </Row>
     </div>
     <Modal show={show} className="deleteModal" onHide={handleClose}>
