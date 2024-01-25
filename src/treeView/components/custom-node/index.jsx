@@ -74,8 +74,8 @@ function CustomNode(props) {
         onClick={onSelect}
         defaultChecked={isSelected}
       />
-      {/* <StyledNode style={{ paddingInlineStart: indent }} {...dragOverProps}> */}
-        <label className="content" htmlFor={elId}>
+      <StyledNode style={{ paddingInlineStart: indent }} {...dragOverProps}>
+        <label className="d-flex" htmlFor={elId}>
           <TypedIcon
             text={text}
             droppable={droppable}
@@ -90,7 +90,7 @@ function CustomNode(props) {
             onEditItem={onEditItem}
           />
         </label>
-        {/* <MaybeSpan className="actions" visible={!isEditMode}> */}
+        <MaybeSpan className="actions" visible={!isEditMode}>
           <button onClick={toggleEdit} title="Rename">
             <Edit className="icon" size={ICON_SIZE_S} />
           </button>
@@ -102,8 +102,8 @@ function CustomNode(props) {
           <button onClick={onLocalDelete} title="Delete">
             <Trash className="icon" size={ICON_SIZE_S} />
           </button>
-          {/* </MaybeSpan> */}
-          {/* </StyledNode> */}
+          </MaybeSpan>
+           </StyledNode>
     </div>
      
     </>

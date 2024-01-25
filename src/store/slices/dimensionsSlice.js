@@ -18,6 +18,11 @@ export const dimensionsSlice = createSlice({
         },
         dimensionsDataSuccess: (state, action) => {
             state.loading = false;
+
+        },
+        dimensionsDataListSuccess: (state, action) => {
+            state.loading = false;
+            state.dimensionsList=action.payload 
         },
         dimensionDataError: (state, action) => {
             state.loading = false;
@@ -31,7 +36,7 @@ export const dimensionsSlice = createSlice({
 
 })
 
-export const {dimensionDataLoading,dimensionsDataSuccess,dimensionDataError,dimensionHierarchy}= dimensionsSlice.actions
+export const {dimensionDataLoading,dimensionsDataSuccess,dimensionDataError,dimensionHierarchy,dimensionsDataListSuccess}= dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
@@ -56,6 +61,7 @@ export function getAllDimensionsList(payload, callback) {
         try {
             let result = await instance.get('list_dimensions', { ...payload })
               console.log(result,"lll")
+              dispatch(dimensionsDataListSuccess(result.data))
         } catch (error) {
             const message = error.message || "Something went wrong";
             if(error.response.status==400){

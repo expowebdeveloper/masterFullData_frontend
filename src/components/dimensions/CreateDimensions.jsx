@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createDimensions, getAllDimensionsList } from "../../store/slices/dimensionsSlice";
 import Table from 'react-bootstrap/Table';
 import { Link } from "react-router-dom";
+import DimensionTable from "./DimensionTable";
 
 const CreateDimensions = () => {
   const dispatch = useDispatch();
@@ -75,45 +76,7 @@ const CreateDimensions = () => {
               </div>
             </form>
           </div>
-          <div className='dimensionTable'>
-            <h4 className="dimension-head">Dimensions</h4>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th>Dimension Name</th>
-                  <th>Top Node</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Test 1</td>
-                  <td>CFO</td>
-                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
-                </tr>
-                <tr>
-                  <td>Test 1</td>
-                  <td>CFO</td>
-                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
-                </tr>
-                <tr>
-                  <td>Test 1</td>
-                  <td>CFO</td>
-                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
-                </tr>
-                <tr>
-                  <td>Test 1</td>
-                  <td>CFO</td>
-                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
-                </tr>
-                <tr>
-                  <td>Test 1</td>
-                  <td>CFO</td>
-                  <td><Link className="edit text-black me-2">Edit</Link><Link className="delete text-danger">Delete</Link></td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>
+          <DimensionTable/>
         </Col>
       </Row>
     </>

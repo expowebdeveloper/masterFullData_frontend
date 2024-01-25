@@ -7,12 +7,60 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 import { addNode, deleteNode, getHierarchy, moveNode, renameNode } from "../../../store/slices/dimensionsSlice";
 
+
 const SingleDimension = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [propshow, setpropShow] = useState(false);
+
+  const handlepropClose = () => setpropShow(false);
+  const handlepropShow = () => setpropShow(true);
   const dispatch = useDispatch();
   const { hierarchyList } = useSelector((state) => state.dimensionData);
-  const newData = flatTreeObjToNodeModel(hierarchyList, 0);
+  const inputHierarchy =  [
+    {
+      "node": {
+        "name": "Aviox",
+        "dimension": "Aviox"
+      },
+      "parent": "Aviox",
+      "sortOrder": null
+    },
+    {
+      "node": {
+        "name": "React",
+        "sort": 3,
+        "dimension": "Aviox"
+      },
+      "parent": "Aviox",
+      "sortOrder": 3
+    },
+    {
+      "node": {
+        "name": "Python",
+        "sort": 1.5,
+        "dimension": "Aviox"
+      },
+      "parent": "Aviox",
+      "sortOrder": 1.5
+    },
+    {
+      "node": {
+        "name": "Pnakaj",
+        "sort": 1,
+        "dimension": "Aviox"
+      },
+      "parent": "Aviox",
+      "sortOrder": 1
+    }
+];
+  const newData = flatTreeObjToNodeModel(inputHierarchy, 0);
   useEffect(() => {
     dispatch(getHierarchy("College"));
   }, []);
@@ -70,6 +118,7 @@ const SingleDimension = () => {
 
     console.log(data, "data");
   };
+  
 
   return (
     <>
@@ -86,20 +135,29 @@ const SingleDimension = () => {
         </div>
         <div className="col-md-9">
             <div className="heading p-3"><h2 className="text-center m-0">Test 01 Dimension</h2></div>
+            <div className="uploadFileCSV">
+              <Form.Control type="file" placeholder="Enter First Name" />
+              <b>Upload CSV or JSON File</b>
+            </div>
             <div className="propertyListing p-4 mt-4">
-              <MdButton text="Add Property"/>
+              <Button variant="primary" onClick={handlepropShow} className="PropertyBtn">
+                Add Property
+              </Button>
+              <Button variant="primary" onClick={handleShow} className="ms-2">
+                Delete Popup
+              </Button>
               <Form className="mt-4">
                 <Row>
                   <Col md>
                     <Form.Group className="mb-3" controlId="formBasicFName">
                       <Form.Label>First Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter First Name" />
+                      <input type="text" className="common-field" name="name" placeholder=""/>
                     </Form.Group>
                   </Col>
                   <Col md>
                   <Form.Group className="mb-3" controlId="formBasicLName">
                       <Form.Label>Last Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter Last Name" />
+                      <input type="text" className="common-field" name="name" placeholder=""/>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -117,7 +175,7 @@ const SingleDimension = () => {
                   <Col md>
                     <Form.Group className="mb-3" controlId="formBasiczipcode">
                       <Form.Label>Zip Code</Form.Label>
-                      <Form.Control type="number" placeholder="Enter Zip code" />
+                      <input type="text" className="common-field" name="name" placeholder=""/>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -125,25 +183,95 @@ const SingleDimension = () => {
                   <Col md>
                     <Form.Group className="mb-3" controlId="formBasicFName">
                       <Form.Label>Calculated Field</Form.Label>
-                      <Form.Control type="number" placeholder="Enter Calculated Field" />
+                      <input type="text" className="common-field" name="name" placeholder=""/>
                     </Form.Group>
                   </Col>
                   <Col md>
                   <Form.Group className="mb-3" controlId="formBasicLName">
                       <Form.Label>Member</Form.Label>
-                      <Form.Control type="text" placeholder="CFO" />
+                      <input type="text" className="common-field" name="name" placeholder=""/>
                     </Form.Group>
                   </Col>
                 </Row>
-                <Button variant="primary" type="submit">
+                {/* <Button variant="primary" type="submit">
                   Submit
-                </Button>
+                </Button> */}
               </Form>
             </div>
           </div>
       </Row>
     </div>
-      
+    <Modal show={show} className="deleteModal" onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Node</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure, you want to delete the node?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Delete Node
+          </Button>
+        </Modal.Footer>
+    </Modal>
+
+    <Modal show={propshow} className="addProperty" onHide={handlepropClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Property</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Form className="mt-4">
+              <Row>
+                <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicFName">
+                    <Form.Label>Name</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+                <Col md>
+                <Form.Group className="mb-3" controlId="formBasicLName">
+                    <Form.Label>Type</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicFName">
+                    <Form.Label>Data Type</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+                <Col md>
+                <Form.Group className="mb-3" controlId="formBasicLName">
+                    <Form.Label>Default Values</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicFName">
+                    <Form.Label>Valid Values</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+                <Col md>
+                <Form.Group className="mb-3" controlId="formBasicLName">
+                    <Form.Label>Values</Form.Label>
+                    <input type="text" className="common-field" name="name"/>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handlepropClose}>
+          Add Property
+          </Button>
+        </Modal.Footer>
+    </Modal>
 
       
     </>
