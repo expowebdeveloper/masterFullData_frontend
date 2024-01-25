@@ -216,63 +216,6 @@ const SingleDimension = () => {
         </Modal.Footer>
     </Modal>
 
-    <Modal show={propshow} className="addProperty" onHide={handlepropClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Property</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <Form className="mt-4">
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Name</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Type</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Data Type</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Default Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Valid Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handlepropClose}>
-          Add Property
-          </Button>
-        </Modal.Footer>
-    </Modal>
-
       
     </>
   );

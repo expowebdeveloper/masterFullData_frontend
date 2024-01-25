@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import Settings from "./views/adminDashboard/settings/settings";
 const Register = lazy(() => import("./views/authentication/register"));
 const Login = lazy(() => import("./views/authentication/login"));
 const ForgotPassword = lazy(() => import("./views/authentication/forgotPassword"));
@@ -65,6 +66,11 @@ export const route = [
   {
     path: "/user-details/:userId",
     element: <UserDetails />,
+    private: true,
+  },
+  {
+    path: "/settings",
+    element: <Settings/>,
     private: true,
   }
 ];
