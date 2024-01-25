@@ -18,6 +18,7 @@ const StyledDiv = styled.div`
 
   & > .content > .icon {
     padding: 0px 8px;
+   
   }
 
   & > .content > .title {

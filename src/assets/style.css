@@ -386,6 +386,36 @@ svg
     font-weight: 500;
     margin-bottom: 10px;
 }
+/*tree-vew*/
+.hidden {
+    display: none;
+  }
+  
+  .gtree_root {
+    height: 100%;
+  }
+  .gtree_root,
+  ul.gtree_root,
+  ul.gtree_root ul {
+    list-style: none;
+    padding-inline-start: 0px;
+  }
+  
+  .dropTarget {
+    background-color: lightgrey;
+  }
+  
+  .placeholder {
+    background-color: #1967d2;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-50%);
+  }
+
+   
+
 @media only screen and (max-width: 1440px)
 {
     .auth-img
