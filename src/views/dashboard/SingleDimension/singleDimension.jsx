@@ -112,7 +112,7 @@ const SingleDimension = () => {
     <>
     <div className="dimensionSingle">
       <Row>
-        <div className="col-md-8">
+        <div className="col-md-3">
           <div className="text-center" style={{ marginTop: "120px" }}>
             {newData.length > 0 ? (
               <GTree initialData={newData} onAction={onAction} />
@@ -121,8 +121,12 @@ const SingleDimension = () => {
             )}
           </div>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-9">
             <div className="heading p-3"><h2 className="text-center m-0">Test 01 Dimension</h2></div>
+            <div className="uploadFileCSV">
+              <Form.Control type="file" placeholder="Enter First Name" />
+              <b>Upload CSV or JSON File</b>
+            </div>
             <div className="propertyListing p-4 mt-4">
               <MdButton text="Add Property"/>
               <Form className="mt-4">

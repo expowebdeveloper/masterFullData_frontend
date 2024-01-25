@@ -489,6 +489,7 @@ svg
 .dimensionSingle {
     width: calc(100% - 300px);
     margin-left: 300px;
+    margin-top: 86px;
 }
 
 .dimensionSingle .heading {
