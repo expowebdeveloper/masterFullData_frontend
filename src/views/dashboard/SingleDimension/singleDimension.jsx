@@ -11,6 +11,7 @@ import {
   addNode,
   deleteNode,
   getHierarchy,
+  getPropertyList,
   getPropertyNode,
   moveNode,
   renameNode,
@@ -18,7 +19,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
-
+import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
 
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
@@ -33,17 +34,19 @@ const SingleDimension = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const currentDimension = location.search.split("=")[1];
-  const { hierarchyList } = useSelector((state) => state.dimensionData);
+  const { hierarchyList, listProperties } = useSelector(
+    (state) => state.dimensionData
+  );
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
   console.log(currentDimension, "currentDimension");
-  const [treeData, setTreeData] = useState(newData);
-  
+
   useEffect(() => {
     dispatch(getHierarchy(currentDimension));
+    dispatch(getPropertyList(currentDimension));
+   
   }, []);
 
-
-  console.log(newData, "newData");
+  console.log(listProperties, "listProperties");
 
   const onAction = (v) => {
     console.log("onAction", v);
@@ -104,98 +107,42 @@ const SingleDimension = () => {
         break;
     }
   };
-  
 
   console.log(hierarchyList, newData, "hierarchyList");
   return (
     <>
-    <div className="dimensionSingle">
-      <Row>
-        <div className="col-md-3">
-          <div className="text-center" style={{ marginTop: "120px" }}>
-            {newData.length > 0 ? (
-              <GTree initialData={newData} onAction={onAction} />
-            ) : (
-              ""
-            )}
+      <div className="dimensionSingle">
+        <Row>
+          <div className="col-md-3">
+            <div className="text-center" style={{ marginTop: "120px" }}>
+              {newData.length > 0 ? (
+                <GTree initialData={newData} onAction={onAction} />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
-        <AddProperty/>
-      </Row>
-    </div>
-    <Modal show={show} className="deleteModal" onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Node</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure, you want to delete the node?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Delete Node
-          </Button>
-        </Modal.Footer>
-    </Modal>
+          {listProperties.length > 0 ? (
+            <AddProperty
+              handleShow={handleShow}
+              handlepropShow={handlepropShow}
+            />
+          ) : (
+            ""
+          )}
+        </Row>
+      </div>
 
-    <Modal show={propshow} className="addProperty" onHide={handlepropClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Property</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <Form className="mt-4">
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Name</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Type</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Data Type</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Default Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col md>
-                  <Form.Group className="mb-3" controlId="formBasicFName">
-                    <Form.Label>Valid Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-                <Col md>
-                <Form.Group className="mb-3" controlId="formBasicLName">
-                    <Form.Label>Values</Form.Label>
-                    <input type="text" className="common-field" name="name"/>
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handlepropClose}>
-          Add Property
-          </Button>
-        </Modal.Footer>
-    </Modal>
+      <AddPropertyModal
+        propshow={propshow}
+        handlepropClose={handlepropClose}
+        currentDimension={currentDimension}
+      />
 
-      
+      <p className="text-center">
+        No Property Added <span onClick={handlepropShow}>Add Property</span> to
+        dimension
+      </p>
     </>
   );
 };

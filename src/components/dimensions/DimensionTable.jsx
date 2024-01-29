@@ -12,7 +12,7 @@ const DimensionTable = () => {
   console.log(dimensionsList,"dimensionsList")
   const editDimension=(item)=>{
     // dispatch(getHierarchy(item));
-    navigate(`/single-dimension?dimension=${item}`)
+    window.location.href=`/single-dimension?dimension=${item}`
   }
 
   const deleteDimension=()=>{
