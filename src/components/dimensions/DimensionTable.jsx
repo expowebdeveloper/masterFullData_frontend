@@ -1,16 +1,22 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { getHierarchy } from "../../store/slices/dimensionsSlice";
 
 const DimensionTable = () => {
+  const navigate=useNavigate() 
+  const dispatch =useDispatch()
+ 
   const { dimensionsList } = useSelector((state) => state.dimensionData);
-  const editDimension=()=>{
-
+  console.log(dimensionsList,"dimensionsList")
+  const editDimension=(item)=>{
+    // dispatch(getHierarchy(item));
+    window.location.href=`/single-dimension?dimension=${item}`
   }
 
   const deleteDimension=()=>{
-    
+
   }
   return (
     <>
@@ -25,15 +31,15 @@ const DimensionTable = () => {
             </tr>
           </thead>
           <tbody>
-            {['','','','',''].map((item, index) => {
+            {dimensionsList?.map((item, index) => {
               return (
                 <>
                   <tr>
-                    <td>Test 1</td>
-                    <td>CFO</td>
+                    <td>{item}</td>
+                    <td>{item}</td>
                     <td>
-                      <Link className="edit text-black me-2 " onClick={editDimension}>Edit</Link>
-                      <Link className="delete text-danger" onClick={deleteDimension}>Delete</Link>
+                      <span className="edit text-black me-2" onClick={()=>editDimension(item)}>Edit</span>
+                      <span className="delete text-danger" onClick={deleteDimension}>Delete</span>
                     </td>
                   </tr>
                 </>

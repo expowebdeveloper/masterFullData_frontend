@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import {
   Tree,
@@ -27,6 +27,7 @@ function GTree(props) {
     iconDict = EMPTY_OBJ,
     initialSelectedId
   } = props;
+  console.log(initialData,"initialData")
   const [lastSelectedId, setLastSelectedId] = useState(initialSelectedId);
   const [treeData, setTreeData] = useState(initialData);
   const handleDrop = useHandleDrop(setTreeData, treeData, onAction);
@@ -40,7 +41,7 @@ function GTree(props) {
     askConfirmationFn,
     onAction
   );
-  console.log(treeData,"treeData")
+  console.log(treeData,"tree")
   return (
     <IconsContext.Provider value={iconDict}>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
