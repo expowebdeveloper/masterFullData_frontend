@@ -24,11 +24,7 @@ import AddPropertyModal from "../../../components/singleDimensions/AddPropertyMo
 import Select from "react-select";
 
 const animatedComponents = makeAnimated();
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
   const [selectedNode, setSelectedNode] = useState("");
@@ -37,12 +33,23 @@ const SingleDimension = () => {
   const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
   const [isPropertyAdded,setIsPropertyAdded]=useState(true)
   const [isAssignProperty,setIsAssignProperty]=useState(false)
+  const [isEditProperty,setPropertyEdit]=useState({
+    isEdit:false,
+    name:""
+  })
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const [propshow, setpropShow] = useState(false);
 
-  const handlepropClose = () => setpropShow(false);
+  const handlepropClose = () => {
+    setPropertyEdit(prevState => ({
+      ...prevState,
+      isEdit: false,
+      name:""
+    }));
+    setpropShow(false);
+  }
   const handlepropShow = () => setpropShow(true);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -96,6 +103,7 @@ const SingleDimension = () => {
           name: v.source[v.source.length - 1],
           dimension: currentDimension,
         };
+
         dispatch(deleteNode(data));
         break;
 
@@ -137,6 +145,10 @@ const SingleDimension = () => {
     }
   };
 
+  const editPropertyFields=()=>{
+    setPropertyEdit(true)
+  }
+
   console.log(hierarchyList, newData, "hierarchyList");
   return (
     <>
@@ -164,6 +176,7 @@ const SingleDimension = () => {
               setIsAssignProperty={setIsAssignProperty}
               isPropertyAdded={isPropertyAdded}
               listProperties={listProperties}
+              setPropertyEdit={setPropertyEdit}
             />
           ) : (
             ""
@@ -204,6 +217,9 @@ const SingleDimension = () => {
         propshow={propshow}
         handlepropClose={handlepropClose}
         currentDimension={currentDimension}
+        isEditProperty={isEditProperty}
+       
+
       />
 
      {listProperties.length==0? <p className="text-center">

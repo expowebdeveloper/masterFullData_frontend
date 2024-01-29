@@ -19,7 +19,9 @@ const CreateDimensions = () => {
 
 
   const onSubmit = (data) => {
-    dispatch(createDimensions(data));
+    dispatch(createDimensions(data,()=>{
+      dispatch(getAllDimensionsList())
+    }));
     console.log(data, "ppp");
   };
 

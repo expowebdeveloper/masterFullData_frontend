@@ -33,11 +33,8 @@ export const dimensionsSlice = createSlice({
                 state.hierarchyList = action.payload
         },
         allListProperties: (state, action) => {
-            let listPropertyLabelAndValues=action.payload?.map((item)=>{
-                return {label:item,value:item}
-            })
             state.loading = false,
-            state.listProperties = listPropertyLabelAndValues
+            state.listProperties = action.payload
         },
         singleNodeProperties: (state, action) => {
             state.loading = false,
@@ -55,10 +52,13 @@ export default dimensionsSlice.reducer
 
 export function createDimensions(payload, callback) {
     return async (dispatch) => {
+        
         dispatch(dimensionDataLoading())
         try {
             let result = await instance.post('create_dimension', { ...payload })
             dispatch(dimensionsDataSuccess())
+            toast.success("New Dimension is Added")
+            return callback()
         } catch (error) {
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {
@@ -200,13 +200,14 @@ export function getPropertyNode(payload) {
     };
 }
 
-export function addProperty(payload) {
+export function addProperty(payload,callback) {
     return async (dispatch) => {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`define_property`, { ...payload })
             console.log(result, "lll")
-
+         toast.success(result.data.status)
+         return callback()
         } catch (error) {
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {
@@ -216,12 +217,14 @@ export function addProperty(payload) {
     };
 }
 
-export function assignProperty(payload) {
+export function assignProperty(payload,callback) {
     return async (dispatch) => {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`assign_property_value`,{...payload})
               console.log(result,"lll")
+              toast.success(result.data.success)
+              return callback()
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -238,6 +241,22 @@ export function deleteProperty(payload) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.delete(`delete_property?property_name=${payload.property_name}&dimension=${payload.dimension}`)
+              console.log(result,"lll")
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
+
+export function editPropertyDefinition(payload) {
+    return async (dispatch) => {
+        // dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.post(`edit_property_definition`,{...payload})
               console.log(result,"lll")
 
         } catch (error) {

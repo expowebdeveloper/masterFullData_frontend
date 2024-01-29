@@ -5,26 +5,31 @@ import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
 import { useDispatch } from "react-redux";
 import { deleteProperty } from "../../store/slices/dimensionsSlice";
 
-const EditDeleteProperty = ({ listProperties,currentDimension}) => {
+const EditDeleteProperty = ({
+  listProperties,
+  currentDimension,
+  handlepropShow,
+  setPropertyEdit,
+}) => {
   const [show, setShow] = useState(false);
-  const [selectedProperty,setSelectedProperty]=useState('')
-  const dispatch =useDispatch()
+  const [selectedProperty, setSelectedProperty] = useState("");
+  const dispatch = useDispatch();
   const deleteModal = (item) => {
     setShow(true);
-    setSelectedProperty(item)
+    setSelectedProperty(item);
   };
   const handleClose = () => {
     setShow(false);
   };
 
-  const confirmDelete=()=>{
-    let data={
-        property_name:selectedProperty,
-        dimension:currentDimension
-    }
-    dispatch(deleteProperty(data))
-    setShow(false)
-  }
+  const confirmDelete = () => {
+    let data = {
+      property_name: selectedProperty,
+      dimension: currentDimension,
+    };
+    dispatch(deleteProperty(data));
+    setShow(false);
+  };
   return (
     <>
       <Container>
@@ -36,7 +41,16 @@ const EditDeleteProperty = ({ listProperties,currentDimension}) => {
                   <div className="property-edit-delete">
                     {item.label}
                     <div>
-                      <span>
+                      <span
+                        onClick={() => {
+                          handlepropShow(),
+                          setPropertyEdit(prevState => ({
+                            ...prevState,
+                            isEdit: true,
+                            name:item.label
+                          }));
+                        }}
+                      >
                         {" "}
                         <MdEdit />
                       </span>

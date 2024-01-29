@@ -15,15 +15,26 @@ const AddProperty = ({
   allNodeProperties,
   setIsAssignProperty,
   isPropertyAdded,
-  listProperties
+  listProperties,
+  setPropertyEdit
 }) => {
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
+  
+  useEffect(()=>{
+    allNodeProperties.forEach((item)=>{
+      setValue(item.name,item.value)
+    })
+
+  },[allNodeProperties])
+
+ 
   const onSubmit = (data) => {
     console.log(data, "jjjj");
     let propertiesValue = {};
@@ -46,7 +57,9 @@ const AddProperty = ({
       ],
     };
 
-    dispatch(assignProperty(payloadData));
+    dispatch(assignProperty(payloadData,()=>{
+      
+    }));
   };
 
   return (
@@ -79,7 +92,6 @@ const AddProperty = ({
                           type={item?.type}
                           className="common-field"
                           name={item.name}
-                          value={item?.defaultValue}
                           placeholder=""
                           {...register(item?.name, {
                             required: {
@@ -104,10 +116,16 @@ const AddProperty = ({
         )}
       </div>
       :
-      <EditDeleteProperty
+      <>
+      <Button onClick={handlepropShow}>Add Property</Button>
+        <EditDeleteProperty
       listProperties={listProperties}
       currentDimension={currentDimension}
+      handlepropShow={handlepropShow}
+      setPropertyEdit={setPropertyEdit}
       />
+      </>
+   
       }
     </div>
   );
