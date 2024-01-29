@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import makeAnimated from "react-select/animated";
 import {
   addNode,
   deleteNode,
@@ -20,10 +21,22 @@ import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
+import Select from "react-select";
 
+const animatedComponents = makeAnimated();
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
-
+  const [selectedNode, setSelectedNode] = useState("");
+  const [selectedPropertyField, setSelectedPropertyFiled] = useState("");
+  const [allNodeProperties, setAllNodeProperties] = useState([]);
+  const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
+  const [isPropertyAdded,setIsPropertyAdded]=useState(true)
+  const [isAssignProperty,setIsAssignProperty]=useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -34,19 +47,34 @@ const SingleDimension = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const currentDimension = location.search.split("=")[1];
-  const { hierarchyList, listProperties } = useSelector(
+  const { hierarchyList, listProperties, nodeProperties } = useSelector(
     (state) => state.dimensionData
   );
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
   console.log(currentDimension, "currentDimension");
 
   useEffect(() => {
+    let matchedPairs = listProperties
+      .filter((item) => nodeProperties.some((prop) => prop.name === item.label))
+      .map((matchedItem) => ({
+        label: matchedItem.label,
+        value: matchedItem.value,
+      }));
+    console.log(matchedPairs, "matchedPairs");
+    setDropdownSelectedFields(matchedPairs);
+  }, [nodeProperties]);
+
+  useEffect(() => {
     dispatch(getHierarchy(currentDimension));
     dispatch(getPropertyList(currentDimension));
-   
   }, []);
 
   console.log(listProperties, "listProperties");
+
+  console.log(dropdownSelectedFields, "dropdownSelectedFields");
+  useEffect(() => {
+    setAllNodeProperties(nodeProperties);
+  }, [nodeProperties]);
 
   const onAction = (v) => {
     console.log("onAction", v);
@@ -100,8 +128,9 @@ const SingleDimension = () => {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
         };
+        setSelectedNode(data.node_name);
         dispatch(getPropertyNode(data));
-
+        setIsPropertyAdded(true)
         break;
       default:
         break;
@@ -112,6 +141,7 @@ const SingleDimension = () => {
   return (
     <>
       <div className="dimensionSingle">
+        <p onClick={()=>setIsPropertyAdded(false) }>Add Property</p>
         <Row>
           <div className="col-md-3">
             <div className="text-center" style={{ marginTop: "120px" }}>
@@ -122,31 +152,67 @@ const SingleDimension = () => {
               )}
             </div>
           </div>
+         
           {listProperties.length > 0 ? (
             <AddProperty
               handleShow={handleShow}
               handlepropShow={handlepropShow}
+              selectedNode={selectedNode}
+              currentDimension={currentDimension}
+              selectedPropertyField={selectedPropertyField}
+              allNodeProperties={allNodeProperties}
+              setIsAssignProperty={setIsAssignProperty}
+              isPropertyAdded={isPropertyAdded}
+              listProperties={listProperties}
             />
           ) : (
             ""
           )}
         </Row>
+        {isAssignProperty?<div className="w-50 mb-5">
+          <Select
+            closeMenuOnSelect={false}
+            components={animatedComponents}
+            isMulti
+            options={listProperties}
+            value={dropdownSelectedFields}
+            onChange={(selectedOption, action) => {
+              setDropdownSelectedFields(selectedOption);
+              console.log(action, "acti");
+              if (action.action === "remove-value") {
+                let filter = allNodeProperties.filter(
+                  (item) => item.name !== action.removedValue.label
+                );
+                console.log(filter, "del");
+                setAllNodeProperties([...filter]);
+              } else {
+                dropdownSelectedFields;
+                let data = {
+                  defaultValue: "",
+                  name: selectedOption[selectedOption.length - 1].value,
+                  type: "text",
+                  value: "",
+                };
+                console.log(data, "lllllllllll");
+                setAllNodeProperties([...allNodeProperties, data]);
+              }
+            }}
+          />
+        </div>:""}
       </div>
 
-<<<<<<< HEAD
-      
-=======
+
       <AddPropertyModal
         propshow={propshow}
         handlepropClose={handlepropClose}
         currentDimension={currentDimension}
       />
 
-      <p className="text-center">
+     {listProperties.length==0? <p className="text-center">
         No Property Added <span onClick={handlepropShow}>Add Property</span> to
         dimension
-      </p>
->>>>>>> e989fbe3c04348ea277e9cb2ba811f9ea9abaea4
+
+      </p>:""}
     </>
   );
 };

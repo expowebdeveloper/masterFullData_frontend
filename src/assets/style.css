@@ -611,6 +611,15 @@ svg {
     transform: translateY(-50%);
   }
 
+  .property-edit-delete{
+    background: #dad5d5;
+    padding: 9px 13px;
+    margin-top: 13px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+
    
 
 @media only screen and (max-width: 1440px)
