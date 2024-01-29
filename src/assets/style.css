@@ -530,9 +530,8 @@ svg {
 }
 .user-profile-dimension-card{
   width: 100%;
-  height: 562px;
+  min-height: 500px;
   border-radius: 40px;
-  border: 1px;
   border: 1px solid #D3D3D3
 }
 .user-profile-img {
@@ -957,4 +956,186 @@ button.PropertyBtn {
 button.PropertyBtn:hover {
     color: #5864ff;
     background-color: transparent;
+}
+
+.dimensionTable.userDimension {
+    border: none;
+    background: transparent;
+}
+
+.dimensionTable.userDimension  table thead tr th {
+    box-shadow: none;
+    border-style: hidden;
+}
+
+.dimensionTable.userDimension td {
+    box-shadow: none;
+}
+
+.SettingTabs {
+    padding: 30px;
+}
+
+.SettingTabs li.react-tabs__tab {
+    display: inline-block;
+    padding: 15px 30px;
+    margin-right: 10px;
+    border-radius: 10px;
+    color: #5864FF;
+    background: #fff;
+}
+
+.SettingTabs ul.react-tabs__tab-list {
+    margin: 0;
+    padding: 0;
+}
+
+.SettingTabs li.react-tabs__tab.react-tabs__tab--selected {
+    background: #5864FF;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    border: none;
+    outline: none;
+}
+
+.userInfo {
+    padding: 30px;
+    border-radius: 30px;
+    border: 1px solid #E0E0E0;
+    margin-top: 100px;
+    position: relative;
+}
+
+.userInfo .userImg {
+    text-align: center;
+    margin-top: -110px;
+}
+
+.userInfo .userImg .imgwrap {
+    position: relative;
+    max-width: 150px;
+    display: inline-block;
+}
+
+.userInfo .userImg a {
+    background: #5864FF;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid #fff;
+}
+
+.userInfo .userImg a svg {
+    width: 20px;
+    height: 20px;
+}
+
+.userInfo button.btn.btn-primary {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 12px 30px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 8.7px 0px rgba(88, 100, 255, 0.53);
+    transition: 0.4s ease;
+    background: #5864FF;
+    border: 1px solid #5864ff;
+    border-radius: 13px;
+}
+
+.userInfo button.btn.btn-primary:hover {
+    color: #5864FF;
+    background: #fff;
+}
+
+.userInfo label.form-label {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.userInfo button.btn.btn-danger {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 12px 30px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 8.7px 0px #dc354570;
+    transition: 0.4s ease;
+    background: #dc3545;
+    border: 1px solid #dc3545;
+    border-radius: 13px;
+}
+
+
+.userInfo button.btn.btn-danger:hover {
+    color: #dc3545;
+    background: #fff;
+}
+
+.deleteBtn {
+    width: 80%;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    border-radius: 13px;
+    border: 1px solid #FF5858;
+    background: #FFDBDB;
+    color: #FF5858;
+    font-size: 20px;
+    transition: 0.4s ease-in-out;
+    margin: 20px auto 0;
+}
+
+.deleteBtn:hover {
+    background: #FF5858;
+    color: #ffffff;
+}
+
+.EditRole .modal-dialog {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) !important;
+    max-width: 700px;
+    border-radius: 40px;
+    overflow: hidden;
+    min-width: 600px;
+}
+
+.EditRole .modal-dialog .modal-header {
+    background: #5864FF;
+    box-shadow: 0px 0px 23.5px 0px rgba(0, 0, 0, 0.10);
+}
+
+.EditRole .modal-dialog .modal-header button.btn-close {
+    display: none;
+}
+
+.EditRole .modal-dialog .modal-header .modal-title.h4 {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    margin: 0;
+}
+
+.EditRole label {
+    width: 100%;
+    color: #000;
+    font-size: 20px;
+    line-height: normal;
+}
+
+.EditRole select {width: 100%;border-radius: 12px;background: #F7F7F7;padding: 11px;border: none;font-size: 20px;}
+
+.EditRole button.btn.btn-primary {
+    padding: 10px 40px;
+    border-radius: 13px;
+    font-size: 20px;
 }
