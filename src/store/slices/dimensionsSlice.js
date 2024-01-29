@@ -33,8 +33,11 @@ export const dimensionsSlice = createSlice({
                 state.hierarchyList = action.payload
         },
         allListProperties: (state, action) => {
+            let listPropertyLabelAndValues=action.payload?.map((item)=>{
+                return {label:item,value:item}
+            })
             state.loading = false,
-                state.listProperties = action.payload
+            state.listProperties = listPropertyLabelAndValues
         },
         singleNodeProperties: (state, action) => {
             state.loading = false,
@@ -213,18 +216,35 @@ export function addProperty(payload) {
     };
 }
 
-// export function getNodeProperty(payload) {
-//     return async (dispatch) => {
-//         // dispatch(dimensionDataLoading())
-//         try {
-//             let result = await instance.post(`get_node_properties`,{...payload})
-//               console.log(result,"lll")
+export function assignProperty(payload) {
+    return async (dispatch) => {
+        // dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.post(`assign_property_value`,{...payload})
+              console.log(result,"lll")
 
-//         } catch (error) {
-//             const message = error.message || "Something went wrong";
-//             if(error.response.status==400){
-//                 dispatch(dimensionDataError())
-//             }
-//         }
-//     };
-// }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
+
+
+export function deleteProperty(payload) {
+    return async (dispatch) => {
+        // dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.delete(`delete_property?property_name=${payload.property_name}&dimension=${payload.dimension}`)
+              console.log(result,"lll")
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}

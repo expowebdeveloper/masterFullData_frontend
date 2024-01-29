@@ -1,19 +1,19 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
 
-const DeletePropertyModal = ({show,handleClose}) => {
+const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete}) => {
   return (
     <>
      <Modal show={show} className="deleteModal" onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Node</Modal.Title>
+          <Modal.Title>Delete {heading}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure, you want to delete the node?</Modal.Body>
+        <Modal.Body>{message}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={confirmDelete}>
             Delete Node
           </Button>
         </Modal.Footer>
