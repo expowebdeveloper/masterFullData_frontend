@@ -56,6 +56,12 @@ function buildAddOrMvAction(node, source, target,text) {
         type: "add-file",
         source: target
       };
+      case node?.data.type === "directory":
+      return {
+        type: "rename",
+        source,
+        target
+      };
     default:
       return {
         type: "mv",
