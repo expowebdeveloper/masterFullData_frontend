@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import { Row, Col } from "react-bootstrap";
 import authimg from "../../assets/img/auth-img.png";
 import logo from "../../assets/img/logo.svg";
@@ -9,11 +9,11 @@ import {
 } from "../../store/slices/authenticationSlice";
 import MdButton from "../../components/common/atomic/MdButton";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import OTPInput from "react-otp-input";
 
-const ForgotPassword = () => {
+const OtpVerify = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const [otp, setOtp] = useState('');
   const {
     register,
     handleSubmit,
@@ -22,9 +22,11 @@ const ForgotPassword = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(forGotPassword(data, ()=>{
-      navigate("/opt-verify") 
-    }));
+    // dispatch(forGotPassword(data));
+  };
+
+  const handleOtpInputChange = (otp) => {
+    setOtp(otp)
   };
 
   return (
@@ -38,34 +40,32 @@ const ForgotPassword = () => {
                   <img src={logo} className="auth-logo" />
                 </div>
                 <div className="mb-4">
-                  <h2 className="auth-heading">Forgot Password</h2>
-                  <p className="auth-text">Please enter email address</p>
+                  <h2 className="auth-heading">Verify OTP</h2>
+                  <p className="auth-text">Enter OTP code for reset password</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                   <div className="mb-23">
                     <label className="label-text">
-                      Email Address <span className="highlight-req">*</span>
+                      Enter One Time Password(OTP) <span className="highlight-req">*</span>
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      className="form-control form-field shadow-none"
-                      {...register("email", {
-                        required: {
-                          value: true,
-                          message: "Email is required",
-                        },
-                        pattern: {
-                          value:
-                            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-                          message: "Please Enter valid email",
-                        },
-                      })}
+                    <OTPInput
+                      value={otp}
+                      onChange={handleOtpInputChange}
+                      numInputs={6}
+                      renderInput={(props) => (
+                        <input
+                          {...props}
+                          placeholder="-"
+                          className="otpInput"
+                        />
+                      )}
+                      isInputNum={true}
+                      containerStyle="OTPInputContainer"
                     />
                     <p className="error-message">{errors.email?.message}</p>
                   </div>
                   <div className="text-center">
-                    <MdButton text="Forgot Password" />
+                    <MdButton text="Verify OTP" />
                   </div>
                 </form>
               </div>
@@ -83,4 +83,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default OtpVerify;

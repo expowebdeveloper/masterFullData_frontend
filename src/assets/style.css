@@ -1256,8 +1256,15 @@ button.PropertyBtn:hover {
       font-size: 17px;
       gap: 19px;
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3a86947e96259d59ca5ffe4ee64c0e2b3fc61671
   }
 
+=======
+}
+>>>>>>> 9f3a7d16d4c8cf0d6c5dab21e46d955194aad391
 ul.gtree_root span.title {
   text-transform: capitalize;
   margin-left: 5px;
@@ -1384,6 +1391,7 @@ ul.gtree_root li ul li {
 ul.gtree_root li ul li:last-child {
   border-color: transparent;
 }
+<<<<<<< HEAD
 
 span.edit.text-black.me-2 {
   cursor: pointer;
@@ -1502,3 +1510,4 @@ h2.property_added-toggle span {
 .user-table-content table tr td:last-child {
   border: none;
 }
+
