@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import {
   addProperty,
   editPropertyDefinition,
+  getPropertyList,
 } from "../../store/slices/dimensionsSlice";
 
 const AddPropertyModal = ({
@@ -22,8 +23,13 @@ const AddPropertyModal = ({
   } = useForm({});
 
   useEffect(() => {
-    setValue("name", isEditProperty.name);
+    setValue("name", isEditProperty.name?.name);
+    setValue("type", isEditProperty.name?.type);
+    setValue("dataType", isEditProperty.name?.dataType);
+    setValue("defaultValues", isEditProperty.name?.defaultValue);
   }, [isEditProperty]);
+
+  console.log(isEditProperty,"isEditProperty")
 
   const onSubmit = (data) => {
     if (isEditProperty.edit) {
@@ -49,6 +55,7 @@ const AddPropertyModal = ({
       };
       dispatch(addProperty(propertyData,()=>{
         handlepropClose()
+        dispatch(getPropertyList(currentDimension));
       }));
     }
   };
@@ -84,7 +91,7 @@ const AddPropertyModal = ({
                 <Col md>
                   <Form.Group className="mb-3" controlId="formBasicLName">
                     <Form.Label>Type</Form.Label>
-                    <input
+                    {/* <input
                       type="text"
                       className="common-field"
                       name="type"
@@ -94,7 +101,14 @@ const AddPropertyModal = ({
                           message: "Type is required",
                         },
                       })}
-                    />
+                    /> */}
+
+                    <select className="common-field">
+                      <option disabled>Select Input Type</option>
+                    <option>text</option>
+                    <option>number</option>
+                    <option>date</option>
+                    </select>
                   </Form.Group>
                 </Col>
               </Row>
@@ -102,7 +116,7 @@ const AddPropertyModal = ({
                 <Col md>
                   <Form.Group className="mb-3" controlId="formBasicFName">
                     <Form.Label>Data Type</Form.Label>
-                    <input
+                    {/* <input
                       type="text"
                       className="common-field"
                       name="dataType"
@@ -112,7 +126,12 @@ const AddPropertyModal = ({
                           message: "Data Type is required",
                         },
                       })}
-                    />
+                    /> */}
+                     <select className="common-field">
+                      <option disabled>Select Data Type</option>
+                    <option>string</option>
+                    <option>number</option>
+                    </select>
                   </Form.Group>
                 </Col>
                 <Col md>

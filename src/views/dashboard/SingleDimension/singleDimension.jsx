@@ -62,14 +62,21 @@ const SingleDimension = () => {
 
   useEffect(() => {
     let matchedPairs = listProperties
-      .filter((item) => nodeProperties.some((prop) => prop.name === item.label))
+      .filter((item) => nodeProperties.some((prop) => prop.name === item.name))
       .map((matchedItem) => ({
-        label: matchedItem.label,
-        value: matchedItem.value,
+        label: matchedItem.name,
+        value: matchedItem.name,
       }));
     console.log(matchedPairs, "matchedPairs");
     setDropdownSelectedFields(matchedPairs);
+
   }, [nodeProperties]);
+
+  let labelValueList=listProperties.map((item)=>{
+    return {label:item.name,value:item.name}
+  })
+
+
 
   useEffect(() => {
     dispatch(getHierarchy(currentDimension));
@@ -145,9 +152,7 @@ const SingleDimension = () => {
     }
   };
 
-  const editPropertyFields=()=>{
-    setPropertyEdit(true)
-  }
+
 
   console.log(hierarchyList, newData, "hierarchyList");
   return (
@@ -187,11 +192,11 @@ const SingleDimension = () => {
             closeMenuOnSelect={false}
             components={animatedComponents}
             isMulti
-            options={listProperties}
+            options={labelValueList}
             value={dropdownSelectedFields}
             onChange={(selectedOption, action) => {
+              console.log(action,"act")
               setDropdownSelectedFields(selectedOption);
-              console.log(action, "acti");
               if (action.action === "remove-value") {
                 let filter = allNodeProperties.filter(
                   (item) => item.name !== action.removedValue.label
@@ -200,14 +205,11 @@ const SingleDimension = () => {
                 setAllNodeProperties([...filter]);
               } else {
                 dropdownSelectedFields;
-                let data = {
-                  defaultValue: "",
-                  name: selectedOption[selectedOption.length - 1].value,
-                  type: "text",
-                  value: "",
-                };
-                console.log(data, "lllllllllll");
-                setAllNodeProperties([...allNodeProperties, data]);
+                console.log(listProperties,"inside")
+               let findObj= listProperties.find((item)=>item.name==action.option.value);
+               console.log(findObj,"find")
+            
+                setAllNodeProperties([...allNodeProperties, findObj]);
               }
             }}
           />

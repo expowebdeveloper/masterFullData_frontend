@@ -236,12 +236,13 @@ export function assignProperty(payload,callback) {
 }
 
 
-export function deleteProperty(payload) {
+export function deleteProperty(payload,callback) {
     return async (dispatch) => {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.delete(`delete_property?property_name=${payload.property_name}&dimension=${payload.dimension}`)
-              console.log(result,"lll")
+              toast.success("Property is deleted")
+              return callback()
 
         } catch (error) {
             const message = error.message || "Something went wrong";

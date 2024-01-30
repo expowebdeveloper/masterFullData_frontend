@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { MdEdit, MdDelete } from "react-icons/md";
 import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
 import { useDispatch } from "react-redux";
-import { deleteProperty } from "../../store/slices/dimensionsSlice";
+import { deleteProperty, getPropertyList } from "../../store/slices/dimensionsSlice";
 
 const EditDeleteProperty = ({
   listProperties,
@@ -27,7 +27,9 @@ const EditDeleteProperty = ({
       property_name: selectedProperty,
       dimension: currentDimension,
     };
-    dispatch(deleteProperty(data));
+    dispatch(deleteProperty(data,()=>{
+        dispatch(getPropertyList(currentDimension));
+    }));
     setShow(false);
   };
   return (
@@ -39,7 +41,7 @@ const EditDeleteProperty = ({
               <>
                 <Col>
                   <div className="property-edit-delete">
-                    {item.label}
+                    {item.name}
                     <div>
                       <span
                         onClick={() => {
@@ -47,14 +49,14 @@ const EditDeleteProperty = ({
                           setPropertyEdit(prevState => ({
                             ...prevState,
                             isEdit: true,
-                            name:item.label
+                            name:item
                           }));
                         }}
                       >
                         {" "}
                         <MdEdit />
                       </span>
-                      <span onClick={() => deleteModal(item.label)}>
+                      <span onClick={() => deleteModal(item.name)}>
                         {" "}
                         <MdDelete />
                       </span>
