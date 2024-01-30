@@ -73,7 +73,13 @@ export function forGotPassword(payload, callback) {
         dispatch(authDataLoading())
         try {
             let result = await instance.post('forget-pass', { ...payload })
-            toast.success("otp send successfully")
+            console.log(result, '--------------------')
+            if (result.status == 200) {
+                toast.success("OTP send successfully")
+                return callback()
+            } else {
+                toast.error("Something went wrong")
+            }
         } catch (error) {
             const message = error.message || "Something went wrong";
             if(error.response.status==400){

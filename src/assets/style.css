@@ -1233,8 +1233,12 @@ button.PropertyBtn:hover {
       font-size: 17px;
       gap: 19px;
     }
+<<<<<<< HEAD
   }
 
+=======
+}
+>>>>>>> 9f3a7d16d4c8cf0d6c5dab21e46d955194aad391
 ul.gtree_root span.title {
   text-transform: capitalize;
   margin-left: 5px;

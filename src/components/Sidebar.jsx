@@ -14,6 +14,11 @@ const Sidebar = ({ sidebarActive }) => {
     const location=useLocation();
     const params = useParams();
 
+    const logoutBtn = () => {
+        localStorage.clear();
+        window.location.href="/"
+    };
+
     console.log(location.pathname,'-------------------------')
     return (
         <>
@@ -42,7 +47,7 @@ const Sidebar = ({ sidebarActive }) => {
                             </li>
                         </ul>
                     </div>
-                    <Link to={" "} className="logout-btn"><FontAwesomeIcon icon={faRightFromBracket} /> <span>Logout</span></Link>
+                    <Link onClick={logoutBtn} className="logout-btn"><FontAwesomeIcon icon={faRightFromBracket} /> <span>Logout</span></Link>
                 </div>
             </div>
         </>
