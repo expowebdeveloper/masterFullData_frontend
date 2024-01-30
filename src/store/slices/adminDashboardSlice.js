@@ -7,7 +7,10 @@ const initialAuthData = {
     allUser: [],
     activeUser: 0,
     inActiveUser: 0,
-    totalUser: 0
+    totalUser: 0,
+    singleUser: {},
+    allRoles: [],
+    allPermissions: [],
 }
 
 export const adminDashboardSlice = createSlice({
@@ -24,18 +27,31 @@ export const adminDashboardSlice = createSlice({
             state.loading = false;
         },
         saveUserDetail: (state, action) => {
-            console.log(action, 'action000000000000000')
             state.allUser = action.payload.users;
             state.activeUser = action.payload.total_active
             state.inActiveUser = action.payload.total_inactive
             state.totalUser = action.payload.total_user
         },
+        removeDeletedUserFromList: (state, action) =>{
+            let userId = action.payload
+            let users = state.allUser.filter(obj => obj.id !== userId);
+            state.allUser = users;
+        },
+        singleUserDetail: (state, action) => {
+            state.singleUser = action.payload
+        },
+        allRoles: (state, action) => {
+            state.allRoles = action.payload
+        },
+        allPermissions: (state, action) => {
+            state.allPermissions = action.payload
+        }
 
     }
 
 })
 
-export const {authDataLoading,authDataSuccess,authDataError, saveUserDetail}= adminDashboardSlice.actions
+export const {authDataLoading,authDataSuccess,authDataError, saveUserDetail, removeDeletedUserFromList, singleUserDetail, allRoles, allPermissions}= adminDashboardSlice.actions
 export default adminDashboardSlice.reducer
 
 export function getUserList(callback) {
@@ -44,7 +60,6 @@ export function getUserList(callback) {
         try {
             let result = await instance.get('get-users', {})
             if (result.status == 200) {
-                console.log('----result-------', result.data)
                 dispatch(saveUserDetail(result.data))
             }
         } catch (error) {
@@ -57,3 +72,102 @@ export function getUserList(callback) {
         }
     };
 }
+
+export function deleteUser(userID, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.delete(`users/${userID}`, {})
+            if (result.status == 200) {
+                dispatch(removeDeletedUserFromList(userID))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+            //     toast.error("Please Enter valid credentials")
+            // }
+        }
+    };
+}
+
+export function getUser(userID, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.get(`get-user/${userID}`, {})
+            if (result.status == 200) {
+                dispatch(singleUserDetail(result.data))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+            //     toast.error("Please Enter valid credentials")
+            // }
+        }
+    };
+}
+
+
+export function getRoles(callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.get(`roles`, {})
+            if (result.status == 200) {
+                dispatch(allRoles(result.data))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+            //     toast.error("Please Enter valid credentials")
+            // }
+        }
+    };
+}
+
+export function getPermissions(callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.get(`permissions`, {})
+            if (result.status == 200) {
+                console.log('----permission-------', result.data)
+                dispatch(allPermissions(result.data))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+            //     toast.error("Please Enter valid credentials")
+            // }
+        }
+    };
+}
+
+export function updateUser(userId, payload, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.patch(`users/${userId}`, payload)
+            if (result.status == 200) {
+                toast.success("User Update Successfully")
+                dispatch(singleUserDetail(result.data))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+            //     toast.error("Please Enter valid credentials")
+            // }
+        }
+    };
+}
+

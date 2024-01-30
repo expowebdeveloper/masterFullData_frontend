@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Container, Row, Col } from "react-bootstrap";
 import trash from '../../../assets/img/trash-solid.png';
 import eye from '../../../assets/img/eye.png';
@@ -6,16 +6,39 @@ import searchIcon from '../../../assets/img/iconamoon_search-thin.png'
 import previousIcon from '../../../assets/img/previous.png'
 import nextIcon from '../../../assets/img/next.png'
 import { useNavigate } from "react-router-dom";
+import { getUserList, deleteUser } from '../../../store/slices/adminDashboardSlice';
+import { useDispatch, useSelector } from "react-redux";
+import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
 
 const AllUsers = () => {
-
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [userId, setUserId] = useState('')
+    const [show, setShow] = useState(false);
+    const {allUser} =useSelector(state=>state.adminDashboardData)
 
     const handleUserDetails = () =>{
-        navigate("/user-details/22")
-        
+        navigate("/user-details/22") 
     }
 
+    useEffect(()=>{
+        dispatch(getUserList())
+    }, [])
+
+    const deleteModal = (userId) => {
+        setShow(true);
+        setUserId(userId)
+    };
+
+    const handleClose = () => {
+        setShow(false);
+      };
+
+    const confirmDelete=()=>{
+        dispatch(deleteUser(userId))
+        setShow(false)
+        setUserId("")
+    }
   return (
     <>
         <section className='main-wrapper dashboard-wrapper'>
@@ -43,97 +66,23 @@ const AllUsers = () => {
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill user'>User</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye' onClick={handleUserDetails}><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill power-user'>Power User</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye'><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill admin'>Admin</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye'><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill user'>User</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye'><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill power-user'>Power User</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye'><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Shibdas</td>
-                            <td>Kumbhakar</td>
-                            <td>shibdas@avioxtechnologies.com</td>
-                            <td><span className='role-pill admin'>Admin</span></td>
-                            <td>15</td>
-                            <td className='d-flex justify-content-around'>
-                                <span>
-                                    <div className='action-span eye'><img src={eye} alt="" className='action-image'/></div>
-                                </span>
-                                <span>
-                                    <div className='action-span trash'><img src={trash} alt="" className='action-image' /></div>
-                                </span>
-                            </td>
-                        </tr>
-                        
+                        {allUser.map((user, index) => (
+                            <tr  key={index}>
+                                <td>{user.first_name}</td>
+                                <td>{user.last_name}</td>
+                                <td>{user.email}</td>
+                                <td><span className='role-pill user'>{user.roles.name}</span></td>
+                                <td>15</td>
+                                <td className='d-flex justify-content-around'>
+                                    <span>
+                                        <div className='action-span eye' onClick={handleUserDetails}><img src={eye} alt="" className='action-image'/></div>
+                                    </span>
+                                    <span>
+                                        <div className='action-span trash' onClick={() => deleteModal(user.id)}><img src={trash} alt="" className='action-image' /></div>
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -165,6 +114,14 @@ const AllUsers = () => {
                 </div>
             </div>
         </Container>
+        <DeletePropertyModal
+            show={show}
+            handleClose={handleClose}
+            heading={"User"}
+            message={"Are you sure, you want to delete the User?"}
+            confirmDelete={confirmDelete}
+            btnText={"Delete User"}
+        />
         </section>
     </>
   )

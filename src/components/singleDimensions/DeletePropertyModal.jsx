@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
 
-const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete}) => {
+const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete, btnText = "Delete Node"}) => {
   return (
     <>
      <Modal show={show} className="deleteModal" onHide={handleClose}>
@@ -14,7 +14,7 @@ const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete}) =
             Cancel
           </Button>
           <Button variant="primary" onClick={confirmDelete}>
-            Delete Node
+            {btnText}
           </Button>
         </Modal.Footer>
     </Modal> 

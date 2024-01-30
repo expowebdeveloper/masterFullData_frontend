@@ -1,22 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import userProfileImage from '../../../assets/img/user-profile.png'
+import { getUser, deleteUser, getRoles, getPermissions, updateUser } from '../../../store/slices/adminDashboardSlice';
+import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
+import Select from 'react-select';
+
 
 const UserDetails = () => {
-const [show, setShow] = useState(false);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [show, setShow] = useState(false);
+    const params = useParams();
+    const [userId, setUserId] = useState('')
+    const [deleteShow, setDeleteShow] = useState(false);
+    const {singleUser, allRoles, allPermissions} = useSelector(state=>state.adminDashboardData)
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedRole, setSelectedRole] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+    useEffect(()=>{
+        dispatch(getUser(params.userId))
+        dispatch(getRoles())
+        dispatch(getPermissions())
+    }, [])
+
+    useEffect(() =>{
+        setSelectedOption(singleUser?.permissions)
+        setSelectedRole(singleUser?.roles)
+    },[singleUser?.permissions, singleUser?.roles])
+    
+    const deleteModal = (userId) => {
+        setDeleteShow(true);
+        setUserId(userId)
+    };
+
+    const handleDeleteClose = () => {
+        setDeleteShow(false);
+      };
+
+    const confirmDelete=()=>{
+        dispatch(deleteUser(userId))
+        setDeleteShow(false)
+        setUserId("")
+        navigate("/dashboard")
+    }
+
+    const handleSubmit = () =>{
+        setShow(false)
+        const data = {
+            roles: selectedRole,
+            permissions: selectedOption.map((item) => item.id)
+        }
+        dispatch(updateUser(singleUser.id, data))
+
+    };
+    const handleShow = () => setShow(true);
+
     return (
         <>
             <section className='main-wrapper dimensions-wrapper'>
                 <div className='user-details-username d-flex justify-content-center align-items-center'>
-                    <h3>Lorem Ipsum</h3>
+                    <h3>{singleUser.first_name} {singleUser.last_name}</h3>
                 </div>
 
                 <Container fluid className='profile-section'>
@@ -25,11 +76,11 @@ const [show, setShow] = useState(false);
                             <div className='user-profile-card'>
                                 <div className='text-center'>
                                     <img className='user-profile-img' src={userProfileImage} alt="" />
-                                    <h4 className='user-name mt-5'>Lorem Ipsum</h4>
+                                    <h4 className='user-name mt-5'>{singleUser.first_name} {singleUser.last_name}</h4>
                                 </div>
                                 <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1'>
                                     <h3 className='user-card-headings mb-0'>Email</h3>
-                                    <p className='user-card-para mb-0'>loremipsum@gmail.com</p>
+                                    <p className='user-card-para mb-0'>{singleUser.email}</p>
                                 </div>
                                 <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1'>
                                     <h3 className='user-card-headings mb-0'>Phone No</h3>
@@ -37,10 +88,10 @@ const [show, setShow] = useState(false);
                                 </div>
                                 <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1 border-0'>
                                     <h3 className='user-card-headings mb-0'>Email</h3>
-                                    <a className='user-btn role-pill user'>User</a>
+                                    <a className={`user-btn role-pill ${singleUser.roles?.name.toLowerCase()}`}>{singleUser.roles?.name}</a>
                                     <p className='user-card-para mb-0'><a className='edit-role' onClick={handleShow}>Edit Role</a></p>
                                 </div>
-                                <Link className='deleteBtn'>Delete User</Link>
+                                <Link className='deleteBtn' onClick={() => deleteModal(singleUser.id)}>Delete User</Link>
                             </div>
                         </Col>
                         <Col lg={7}>
@@ -83,7 +134,7 @@ const [show, setShow] = useState(false);
                     </Row>
                 </Container>
             </section>
-            <Modal show={show} className="EditRole" onHide={handleClose}>
+            <Modal show={show} className="EditRole" onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Role</Modal.Title>
                 </Modal.Header>
@@ -93,11 +144,11 @@ const [show, setShow] = useState(false);
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicFName">
                             <Form.Label>Select Role</Form.Label>
-                            <select>
+                            <select onChange={(e) => setSelectedRole(e.target.value)}>
                                 <option>Select Role</option>
-                                <option>Role 1</option>
-                                <option>Role 2</option>
-                                <option>Role 3</option>
+                                {allRoles.map((role, index) => (
+                                    <option selected={singleUser.roles?.name === role.name ? true : false} key={index} value={role.id}>{role.name}</option>
+                                ))}
                             </select>
                             </Form.Group>
                         </Col>
@@ -106,12 +157,15 @@ const [show, setShow] = useState(false);
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicFName">
                             <Form.Label>Select Permissions</Form.Label>
-                            <select>
-                                <option>Select Permissions</option>
-                                <option>Role 1</option>
-                                <option>Role 2</option>
-                                <option>Role 3</option>
-                            </select>
+                            <Select
+                                defaultValue={selectedOption}
+                                onChange={setSelectedOption}
+                                options={allPermissions}
+                                isMulti={true}
+                                className='edit-permission'
+                                getOptionLabel={(option) => option.name}
+                                getOptionValue={(option) => option.id}
+                            />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -119,11 +173,19 @@ const [show, setShow] = useState(false);
 
                 </Modal.Body>
                 <Modal.Footer className='justify-content-center'>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Submit
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <DeletePropertyModal
+            show={deleteShow}
+            handleClose={handleDeleteClose}
+            heading={"User"}
+            message={"Are you sure, you want to delete the User?"}
+            confirmDelete={confirmDelete}
+            btnText={"Delete User"}
+        />
         </>
     )
 }

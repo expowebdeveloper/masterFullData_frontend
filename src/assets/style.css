@@ -180,6 +180,7 @@ svg {
   padding-top: 33px;
   border-radius: 0px 16px 16px 0px;
   background: #f4f7ff;
+  transition: .4s ease;
 }
 .sidebar .sidebar-logo {
   max-width: 280px;
@@ -200,6 +201,7 @@ svg {
   border-radius: 15px;
   margin-bottom: 20px;
   transition: 0.4s ease;
+  white-space: nowrap;
 }
 .sidebar-link:hover {
   background-color: #5864ff;
@@ -218,6 +220,7 @@ svg {
   border-bottom: 1px solid #e3e3e3;
   background: white;
   z-index: 999;
+  transition: .3s;
 }
 .logout-btn {
   padding: 18px;
@@ -263,6 +266,7 @@ svg {
 .main-wrapper {
   width: calc(100% - 450px);
   margin-left: auto;
+  transition: .3s;
 }
 .dashboard-wrapper {
   padding: 120px 40px 50px;
@@ -622,30 +626,6 @@ svg {
 
    
 
-@media only screen and (max-width: 1440px)
-{
-    .auth-img
-    {
-        max-width: 300px;
-    }
-    .box-blur
-    {
-        max-width: 320px;
-        height: 311px;
-    }
-    .sidebar
-    {
-        width: 300px;
-    }
-    .nav-header
-    {
-        width: calc(100% - 300px);
-    }
-    .main-wrapper
-    {
-        width: calc(100% - 300px);
-    }
-}
 
 
 /* 24/01/2024 */
@@ -1134,8 +1114,113 @@ button.PropertyBtn:hover {
 
 .EditRole select {width: 100%;border-radius: 12px;background: #F7F7F7;padding: 11px;border: none;font-size: 20px;}
 
+.EditRole .edit-permission{
+  width: 100%;
+  border-radius: 12px;
+  background: #F7F7F7;
+  padding: 11px;
+  border: none;
+  font-size: 20px; 
+}
 .EditRole button.btn.btn-primary {
     padding: 10px 40px;
     border-radius: 13px;
     font-size: 20px;
+}
+.sidebar.sideactive
+{
+    width: 100px;
+    background-color: #5864FF;
+}
+.sidebar.sideactive li
+{
+  padding: 0px 10px;
+  text-align: center;
+}
+.sidebar.sideactive .sidebar-link
+{
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0px;
+  border-left: 3px solid transparent;
+}
+.sidebar-logo-small
+{
+  display: none;
+  width: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -30px;
+}
+.sidebar.sideactive .sidebar-logo
+{
+  display: none;
+}
+.sidebar.sideactive .sidebar-logo-small
+{
+  display: block;
+}
+.sidebar.sideactive .sidebar-link span
+{
+  display: none;
+}
+.sidebar.sideactive .sidebar-link svg path
+{
+  fill: #fff;
+}
+.sidebar.sideactive .sidebar-link.active,
+.sidebar.sideactive .sidebar-link:hover
+{
+  background-color: rgba(255, 255, 255, .5);
+  border-left: 3px solid #fff;
+  border-radius: 0px;
+}
+.sidebar.sideactive + .main-wrapper
+{
+  width: calc(100% - 100px);
+}
+.nav-header.navactive
+{
+  width: calc(100% - 100px);
+}
+@media only screen and (max-width: 1440px)
+{
+    .auth-img
+    {
+        max-width: 300px;
+    }
+    .box-blur
+    {
+        max-width: 320px;
+        height: 311px;
+    }
+    .sidebar
+    {
+        width: 300px;
+    }
+    .nav-header
+    {
+        width: calc(100% - 300px);
+    }
+    .main-wrapper
+    {
+        width: calc(100% - 300px);
+    }
+    .sidebar-link 
+    {
+      padding: 10px 27px;
+      font-size: 18px;
+      gap: 19px;
+      margin-bottom: 10px;
+    }
+    .logout-btn
+    {
+      padding: 13px 18px;
+      font-size: 17px;
+      gap: 19px;
+    }
 }

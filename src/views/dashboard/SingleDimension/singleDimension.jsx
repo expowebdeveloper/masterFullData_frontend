@@ -201,18 +201,20 @@ const SingleDimension = () => {
         </div>:""}
       </div>
 
-
       <AddPropertyModal
         propshow={propshow}
         handlepropClose={handlepropClose}
         currentDimension={currentDimension}
       />
 
-     {listProperties.length==0? <p className="text-center">
+     {listProperties.length==0 && 
+      <p className="text-center">
         No Property Added <span onClick={handlepropShow}>Add Property</span> to
         dimension
+      </p>
+      }
 
-      </p>:""}
+
     </>
   );
 };
