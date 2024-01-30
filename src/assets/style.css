@@ -877,6 +877,15 @@ svg {
     justify-content: center;
 }
 
+.property_added-toggle{
+  cursor: pointer;
+}
+
+.property_added-toggle:hover{
+  cursor: pointer;
+  color:#1967d2
+}
+
 .addProperty .modal-content {
     max-width: 700px;
     background: #fff;
@@ -1212,7 +1221,6 @@ ul.gtree_root .container.w-25 {
 
 ul.gtree_root li {
     position: relative;
-    padding-left: 40px;
     display: block;
 }
 
@@ -1252,7 +1260,7 @@ ul.gtree_root li ul li:before {
     width: 27px;
     height: 20px;
     position: absolute;
-    left: -2px;
+    left: -1px;
     background: transparent;
     top: -7px;
     border-radius: 0px 0px 0px 17px;
@@ -1262,6 +1270,7 @@ ul.gtree_root li ul li:before {
 
 ul.gtree_root li ul li {
     border-left: 2px solid #ddd;
+    padding-left: 40px;
 }
 
 ul.gtree_root li ul li:last-child {

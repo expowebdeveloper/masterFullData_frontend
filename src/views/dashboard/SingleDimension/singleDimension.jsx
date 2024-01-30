@@ -7,7 +7,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import makeAnimated from "react-select/animated";
 import {
   addNode,
   deleteNode,
@@ -21,9 +20,7 @@ import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
-import Select from "react-select";
 
-const animatedComponents = makeAnimated();
 
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
@@ -58,7 +55,6 @@ const SingleDimension = () => {
     (state) => state.dimensionData
   );
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
-  console.log(currentDimension, "currentDimension");
 
   useEffect(() => {
     let matchedPairs = listProperties
@@ -67,9 +63,8 @@ const SingleDimension = () => {
         label: matchedItem.name,
         value: matchedItem.name,
       }));
-    console.log(matchedPairs, "matchedPairs");
     setDropdownSelectedFields(matchedPairs);
-
+   console.log(matchedPairs,"matchedPairs")
   }, [nodeProperties]);
 
   let labelValueList=listProperties.map((item)=>{
@@ -77,15 +72,17 @@ const SingleDimension = () => {
   })
 
 
-
   useEffect(() => {
+    let data={
+      dimension: currentDimension,
+      node_name: currentDimension,
+    }
     dispatch(getHierarchy(currentDimension));
     dispatch(getPropertyList(currentDimension));
+    dispatch(getPropertyNode(data));
   }, []);
 
-  console.log(listProperties, "listProperties");
 
-  console.log(dropdownSelectedFields, "dropdownSelectedFields");
   useEffect(() => {
     setAllNodeProperties(nodeProperties);
   }, [nodeProperties]);
@@ -158,14 +155,13 @@ const SingleDimension = () => {
   return (
     <>
       <div className="dimensionSingle">
-        {/* <p onClick={()=>setIsPropertyAdded(false) }>Add Property</p> */}
         <Row>
           <div className="col-md-3 p-0">
             <div className="secondBar">
               <div className="topName">
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="titleName">
-                    <h2>Test 1 <span>17 Total Nodes</span></h2>
+                    <h2 className="property_added-toggle" onClick={()=>setIsPropertyAdded(false) }>{currentDimension} <span>{hierarchyList.length} Total Nodes</span></h2>
                   </div>
                   <div className="btnList">
                     <button>
@@ -194,62 +190,44 @@ const SingleDimension = () => {
               </div>
             </div>
           </div>
+
+          
+          <div className="col-md-9">
          
-          {listProperties.length > 0 ? (
-            <AddProperty
-              handleShow={handleShow}
-              handlepropShow={handlepropShow}
-              selectedNode={selectedNode}
-              currentDimension={currentDimension}
-              selectedPropertyField={selectedPropertyField}
-              allNodeProperties={allNodeProperties}
-              setIsAssignProperty={setIsAssignProperty}
-              isPropertyAdded={isPropertyAdded}
-              listProperties={listProperties}
-              setPropertyEdit={setPropertyEdit}
-            />
-          ) : (
-            ""
-          )}
+            {listProperties.length > 0 ? (
+              <AddProperty
+                handleShow={handleShow}
+                handlepropShow={handlepropShow}
+                selectedNode={selectedNode}
+                currentDimension={currentDimension}
+                selectedPropertyField={selectedPropertyField}
+                allNodeProperties={allNodeProperties}
+                setIsAssignProperty={setIsAssignProperty}
+                isPropertyAdded={isPropertyAdded}
+                listProperties={listProperties}
+                setPropertyEdit={setPropertyEdit}
+                isAssignProperty={isAssignProperty}
+                setDropdownSelectedFields={setDropdownSelectedFields}
+                dropdownSelectedFields={dropdownSelectedFields}
+                setAllNodeProperties={setAllNodeProperties}
+                labelValueList={labelValueList}
+              />
+            ) : (
+              ""
+            )}
           
 
-          <div className="col-md-9">
-          {listProperties.length==0? <p className="text-center noPropertyaddition">
-              No Property Added <span onClick={handlepropShow}>Add Property</span> to
-              dimension
+            {listProperties.length==0? <p className="text-center noPropertyaddition">
+                No Property Added <span onClick={handlepropShow}>Add Property</span> to
+                dimension
 
-            </p>
+              </p>
 
-            :""}
+              :""}
+
+         
           </div>
         </Row>
-        {isAssignProperty?<div className="w-50 mb-5">
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            isMulti
-            options={labelValueList}
-            value={dropdownSelectedFields}
-            onChange={(selectedOption, action) => {
-              console.log(action,"act")
-              setDropdownSelectedFields(selectedOption);
-              if (action.action === "remove-value") {
-                let filter = allNodeProperties.filter(
-                  (item) => item.name !== action.removedValue.label
-                );
-                console.log(filter, "del");
-                setAllNodeProperties([...filter]);
-              } else {
-                dropdownSelectedFields;
-                console.log(listProperties,"inside")
-               let findObj= listProperties.find((item)=>item.name==action.option.value);
-               console.log(findObj,"find")
-            
-                setAllNodeProperties([...allNodeProperties, findObj]);
-              }
-            }}
-          />
-        </div>:""}
       </div>
 
       <AddPropertyModal

@@ -222,8 +222,7 @@ export function assignProperty(payload,callback) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`assign_property_value`,{...payload})
-              console.log(result,"lll")
-              toast.success(result.data.success)
+              toast.success(result.data.status)
               return callback()
 
         } catch (error) {

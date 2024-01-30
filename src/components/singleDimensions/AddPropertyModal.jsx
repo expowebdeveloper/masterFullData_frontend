@@ -103,8 +103,10 @@ const AddPropertyModal = ({
                       })}
                     /> */}
 
-                    <select className="common-field">
-                      <option disabled>Select Input Type</option>
+                    <select className="common-field" 
+                    {...register("type", { required: true,message: "Type is required"})}
+                    >
+                    <option disabled>Select Input Type</option>
                     <option>text</option>
                     <option>number</option>
                     <option>date</option>
@@ -127,7 +129,9 @@ const AddPropertyModal = ({
                         },
                       })}
                     /> */}
-                     <select className="common-field">
+                     <select className="common-field"
+                     {...register("dataType", { required: true,message: "Data Type is required", })}
+                     >
                       <option disabled>Select Data Type</option>
                     <option>string</option>
                     <option>number</option>
