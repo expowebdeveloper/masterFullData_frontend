@@ -90,7 +90,7 @@ export function getAllDimensionsList(payload, callback) {
 
 export function getHierarchy(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.get(`get_hierarchy?name=${payload}`)
             console.log(result, "lll")
@@ -124,7 +124,7 @@ export function getPropertyList(payload) {
 
 export function addNode(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`add_node`, { ...payload })
             console.log(result, "lll")
@@ -140,7 +140,7 @@ export function addNode(payload) {
 
 export function deleteNode(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`delete_node`, { ...payload })
             console.log(result, "lll")
@@ -156,7 +156,7 @@ export function deleteNode(payload) {
 
 export function moveNode(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`move_node`, { ...payload })
             console.log(result, "lll")
@@ -172,7 +172,7 @@ export function moveNode(payload) {
 
 export function renameNode(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`rename_node`, { ...payload })
             console.log(result, "lll")
@@ -188,7 +188,7 @@ export function renameNode(payload) {
 
 export function getPropertyNode(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`get_node_properties`, { ...payload })
             console.log(result, "lll")
@@ -222,10 +222,11 @@ export function addProperty(payload,callback) {
 
 export function assignProperty(payload,callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`assign_property_value`,{...payload})
               toast.success(result.data.status)
+              dispatch(dimensionDataLoadingSuccess());
               return callback()
 
         } catch (error) {

@@ -585,6 +585,23 @@ svg {
   font-weight: 500;
 }
 
+.no-data {
+  background: #ffe0e0;
+  padding: 10px 20px;
+  color: #f00;
+  border-left: 4px solid #f00;
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.no-data img {
+  width: 40px;
+}
+
 
 @media only screen and (max-width: 1440px) {
   .auth-img {
@@ -604,6 +621,8 @@ svg {
     width: calc(100% - 300px);
   }
 }
+
+
 /*tree-vew*/
 .hidden {
     display: none;

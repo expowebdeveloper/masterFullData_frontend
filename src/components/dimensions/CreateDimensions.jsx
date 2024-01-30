@@ -13,6 +13,7 @@ const CreateDimensions = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
@@ -20,12 +21,16 @@ const CreateDimensions = () => {
 
   const onSubmit = (data) => {
     dispatch(createDimensions(data,()=>{
+      setValue('name',"")
+      setValue('top_node',"")
       dispatch(getAllDimensionsList())
     }));
   };
 
   useEffect(()=>{
   dispatch(getAllDimensionsList())
+
+
   },[])
   return (
     <>

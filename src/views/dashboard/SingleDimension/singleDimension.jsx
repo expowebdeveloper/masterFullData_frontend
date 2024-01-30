@@ -242,7 +242,7 @@ const SingleDimension = () => {
             )}
 
             {listProperties.length == 0 ? (
-              <p className="text-center noPropertyaddition">
+              <p className="text-center noPropertyaddition mt-5">
                 No Property Added{" "}
                 <span onClick={handlepropShow}>Add Property</span> to dimension
               </p>

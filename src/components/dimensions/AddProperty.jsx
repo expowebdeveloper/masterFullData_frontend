@@ -7,6 +7,8 @@ import { assignProperty } from "../../store/slices/dimensionsSlice";
 import EditDeleteProperty from "./EditDeleteProperty";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import NoDataFound from "../common/atomic/NoDataFound";
+import SmallSpinner from "../common/atomic/SmallSpinner";
 
 
 const animatedComponents = makeAnimated();
@@ -35,32 +37,43 @@ const AddProperty = ({
     setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
+  const {loading}=useSelector(state=>state.dimensionData)
 
   
   useEffect(()=>{
     allNodeProperties.forEach((item)=>{
-      setValue(item.name,item.value)
+      setValue(item.name, item.value?item?.value:item?.defaultValue)
     })
 
   },[allNodeProperties])
 
  
   const onSubmit = (data) => {
+  
     let propertiesValue = {};
     for (let key in data) {
       console.log(key, "ll");
-      if (data[key]) {
-        propertiesValue = {
-          ...propertiesValue,
-          [key]: data[key],
-        };
+      if(Object.keys(data).length>1){
+        if (data[key]) {
+          propertiesValue = {
+            ...propertiesValue,
+            [key]: data[key],
+          };
+        }
+      }else{
+        if (data[key]) {
+          propertiesValue = {
+            [key]: data[key],
+          };
+        }
       }
+      
     }
     let payloadData = {
       dimension: currentDimension,
       assignments: [
         {
-          node_name: selectedNode,
+          node_name: selectedNode==""?currentDimension:selectedNode,
           properties: propertiesValue,
         },
       ],
@@ -71,6 +84,7 @@ const AddProperty = ({
     }));
   };
 
+  console.log(allNodeProperties,"allNodeProperties")
   return (
     <div className="PropertyAddon">
       <div className="heading p-3">
@@ -88,6 +102,7 @@ const AddProperty = ({
         >
           Assign Property
         </Button>
+
         {isAssignProperty?<div className="w-100 my-4">
           <label>Select Property</label>
               <Select
@@ -145,11 +160,11 @@ const AddProperty = ({
             })}
 
             <Button variant="primary" type="submit">
-              Submit
+              {loading?<SmallSpinner/>: "Submit"}
             </Button>
           </form>
         ) : (
-          ""
+          <NoDataFound/>
         )}
       </div>
       :
