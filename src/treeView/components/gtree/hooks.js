@@ -43,6 +43,7 @@ function maybeEditItem(id, text, it) {
 }
 
 function buildAddOrMvAction(node, source, target,text) {
+  console.log(node,"node")
   switch (true) {
     case node.id === "new" && !!node.droppable:
       return {

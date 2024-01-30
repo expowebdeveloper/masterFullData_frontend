@@ -15,12 +15,13 @@ const CreateDimensions = () => {
     handleSubmit,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
+
   const {loading}=useSelector(state=>state.dimensionData)
 
-
   const onSubmit = (data) => {
-    dispatch(createDimensions(data));
-    console.log(data, "ppp");
+    dispatch(createDimensions(data,()=>{
+      dispatch(getAllDimensionsList())
+    }));
   };
 
   useEffect(()=>{

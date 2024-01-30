@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { assignProperty } from "../../store/slices/dimensionsSlice";
 import EditDeleteProperty from "./EditDeleteProperty";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+
+
+const animatedComponents = makeAnimated();
 
 const AddProperty = ({
   handlepropShow,
@@ -15,17 +20,32 @@ const AddProperty = ({
   allNodeProperties,
   setIsAssignProperty,
   isPropertyAdded,
-  listProperties
+  listProperties,
+  setPropertyEdit,
+  setAllNodeProperties,
+  setDropdownSelectedFields,
+  isAssignProperty,
+  labelValueList,
+  dropdownSelectedFields
 }) => {
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
+  
+  useEffect(()=>{
+    allNodeProperties.forEach((item)=>{
+      setValue(item.name,item.value)
+    })
+
+  },[allNodeProperties])
+
+ 
   const onSubmit = (data) => {
-    console.log(data, "jjjj");
     let propertiesValue = {};
     for (let key in data) {
       console.log(key, "ll");
@@ -46,16 +66,18 @@ const AddProperty = ({
       ],
     };
 
-    dispatch(assignProperty(payloadData));
+    dispatch(assignProperty(payloadData,()=>{
+
+    }));
   };
 
   return (
-    <div className="col-md-9">
+    <div className="PropertyAddon">
       <div className="heading p-3">
         <h2 className="text-center m-0">{currentDimension}</h2>
       </div>
       <div className="uploadFileCSV">
-        <Form.Control type="file" placeholder="Enter First Name" />
+        <Form.Control type="file" placeholder="Enter First Name" accept="csv/json"/>
         <b>Upload CSV or JSON File</b>
       </div>
     { isPropertyAdded? <div className="propertyListing p-4 mt-4">
@@ -66,6 +88,34 @@ const AddProperty = ({
         >
           Assign Property
         </Button>
+        {isAssignProperty?<div className="w-100 my-4">
+          <label>Select Property</label>
+              <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                options={labelValueList}
+                value={dropdownSelectedFields}
+                onChange={(selectedOption, action) => {
+                  console.log(action,"act")
+                  setDropdownSelectedFields(selectedOption);
+                  if (action.action === "remove-value") {
+                    let filter = allNodeProperties.filter(
+                      (item) => item.name !== action.removedValue.label
+                    );
+                    console.log(filter, "del");
+                    setAllNodeProperties([...filter]);
+                  } else {
+                    dropdownSelectedFields;
+                    console.log(listProperties,"inside")
+                  let findObj= listProperties.find((item)=>item.name==action.option.value);
+                  console.log(findObj,"find")
+                
+                    setAllNodeProperties([...allNodeProperties, findObj]);
+                  }
+                }}
+              />
+            </div>:""}
         {allNodeProperties.length > 0 ? (
           <form className="mt-4" onSubmit={handleSubmit(onSubmit)} noValidate>
             {allNodeProperties?.map((item, index) => {
@@ -79,7 +129,6 @@ const AddProperty = ({
                           type={item?.type}
                           className="common-field"
                           name={item.name}
-                          value={item?.defaultValue}
                           placeholder=""
                           {...register(item?.name, {
                             required: {
@@ -104,10 +153,17 @@ const AddProperty = ({
         )}
       </div>
       :
-      <EditDeleteProperty
+      <>
+      <Button onClick={handlepropShow} className="mt-3 me-3">Add Property</Button>
+      
+        <EditDeleteProperty
       listProperties={listProperties}
       currentDimension={currentDimension}
+      handlepropShow={handlepropShow}
+      setPropertyEdit={setPropertyEdit}
       />
+      </>
+   
       }
     </div>
   );
