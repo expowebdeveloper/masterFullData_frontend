@@ -3,6 +3,7 @@ import Settings from "./views/adminDashboard/settings/settings";
 const Register = lazy(() => import("./views/authentication/register"));
 const Login = lazy(() => import("./views/authentication/login"));
 const ForgotPassword = lazy(() => import("./views/authentication/forgotPassword"));
+const OtpVerify = lazy(() => import("./views/authentication/otpVerify"))
 const ResetPassword = lazy(() => import("./views/authentication/resetPassword"));
 const Dimensions = lazy(() => import("./views/dashboard/dimensions/dimensions") )
 const MdDashboard = lazy(() =>
@@ -26,6 +27,11 @@ export const route = [
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
+    private: false,
+  },
+  {
+    path: "/opt-verify",
+    element: <OtpVerify />,
     private: false,
   },
   {

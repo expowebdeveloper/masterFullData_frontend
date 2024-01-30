@@ -1233,7 +1233,7 @@ button.PropertyBtn:hover {
       font-size: 17px;
       gap: 19px;
     }
-
+}
 ul.gtree_root span.title {
   text-transform: capitalize;
   margin-left: 5px;
@@ -1359,5 +1359,4 @@ ul.gtree_root li ul li {
 
 ul.gtree_root li ul li:last-child {
   border-color: transparent;
-}
 }
