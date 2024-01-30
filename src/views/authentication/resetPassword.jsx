@@ -1,10 +1,48 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Row, Col } from 'react-bootstrap'
 import authimg from  '../../assets/img/auth-img.png'
 import logo from '../../assets/img/logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { resetPassword } from '../../store/slices/authenticationSlice'
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+
 const ResetPassword = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userId } = useParams();
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else if (field === 'confirmPassword') {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log(password, confirmPassword)
+    if (password === confirmPassword) {
+      var data = {
+        user_id: userId,
+        password: password
+      }
+      dispatch(resetPassword(data, () => {
+        console.log('-------------------------')
+        navigate('/login')
+      }))
+    }else{
+      console.log('pasword not matched')
+    }
+  }
+
   return (
     <>
       <div className='auth-section'>
@@ -23,19 +61,38 @@ const ResetPassword = () => {
                   <div className='mb-40'>
                     <label className='label-text'>Enter New Password <span className='highlight-req'>*</span></label>
                     <div className='position-relative'>
-                      <input type="password" name='password' className='form-control form-field shadow-none' />
-                      <button className='password-eye-btn'><FontAwesomeIcon icon={faEye}/></button>
+                      <input 
+                        type={showPassword ? 'text' : 'password'}
+                        name='password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className='form-control form-field shadow-none' />
+                      <span 
+                        className='password-eye-btn'
+                        onClick={() => togglePasswordVisibility('password')}>
+                          <FontAwesomeIcon icon={faEye}/>
+                      </span>
                     </div>
                   </div>
                   <div className='mb-40'>
                     <label className='label-text'>Confirm New Password <span className='highlight-req'>*</span></label>
                     <div className='position-relative'>
-                      <input type="password" name='password' className='form-control form-field shadow-none' />
-                      <button className='password-eye-btn'><FontAwesomeIcon icon={faEye}/></button>
+                      <input 
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        name='password'
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className='form-control form-field shadow-none' 
+                      />
+                      <span 
+                        className='password-eye-btn'
+                        onClick={() => togglePasswordVisibility('confirmPassword')}>
+                          <FontAwesomeIcon icon={faEye}/>
+                        </span>
                     </div>
                   </div>
                   <div className='text-center'>
-                    <button className='common-btn'>Reset Password</button>
+                    <span className='common-btn' onClick={handleSubmit}>Reset Password</span>
                   </div>
                 </form>
               </div>

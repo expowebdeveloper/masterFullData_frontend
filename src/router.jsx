@@ -20,7 +20,7 @@ const UserDetails = lazy(() => import("./views/adminDashboard/allUsers/userDetai
 
 export const route = [
   {
-    path: "/reset-password",
+    path: "/reset-password/:userId",
     element: <ResetPassword />,
     private: false,
   },
@@ -30,7 +30,7 @@ export const route = [
     private: false,
   },
   {
-    path: "/opt-verify",
+    path: "/opt-verify/:userId",
     element: <OtpVerify />,
     private: false,
   },

@@ -9,20 +9,41 @@ import { useNavigate } from "react-router-dom";
 import { getUserList, deleteUser } from '../../../store/slices/adminDashboardSlice';
 import { useDispatch, useSelector } from "react-redux";
 import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
+import ReactPaginate from 'react-paginate';
+
+
 
 const AllUsers = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [userId, setUserId] = useState('')
     const [show, setShow] = useState(false);
-    const {allUser} =useSelector(state=>state.adminDashboardData)
+    const {totalUser, pageNumber ,allUser} =useSelector(state=>state.adminDashboardData)
+    
+
+
+
+
+    const itemsPerPage = 10
+    const [itemOffset, setItemOffset] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const endOffset = itemOffset + itemsPerPage;
+    const pageCount = Math.ceil(totalUser / itemsPerPage);
+
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % totalUser;        
+        dispatch(getUserList(event.selected + 1, itemsPerPage))
+        setCurrentPage(event.selected + 1)
+        setItemOffset(newOffset);
+    };
 
     const handleUserDetails = () =>{
         navigate("/user-details/22") 
     }
 
     useEffect(()=>{
-        dispatch(getUserList())
+        dispatch(getUserList(currentPage, itemsPerPage))
     }, [])
 
     const deleteModal = (userId) => {
@@ -39,6 +60,26 @@ const AllUsers = () => {
         setShow(false)
         setUserId("")
     }
+
+    const customPreviousLabel = (
+        <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
+            <img src={previousIcon} className='pagination-icon' alt="" />
+        </div>
+    );
+    
+    const customNextLabel = (
+        <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
+            <img src={nextIcon} className='pagination-icon' alt="" />
+        </div>
+    );
+
+    const customPageLabel = (page) => (
+        <div className={currentPage === page ? 'pagination-card  d-flex justify-content-center align-items-center col-auto mx-1' : 'pagination-card-inactive d-flex justify-content-center align-items-center col-auto mx-1'}>
+            <h3 className='pagination-icon text-center'>{page}</h3>
+        </div>
+    );
+    
+
   return (
     <>
         <section className='main-wrapper dashboard-wrapper'>
@@ -89,9 +130,22 @@ const AllUsers = () => {
 
             <div className='d-flex justify-content-between align-items-center mb-4 mt-2'>
                 <div className='pagination-message'>
-                    <h3 className='mb-0'>Showing 10 of 100 results</h3>
+                    <h3 className='mb-0'>Showing {allUser.length} of {totalUser} results</h3>
                 </div>
-                <div className='row'>
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel={customNextLabel}
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={10}
+                    pageCount={pageCount}
+                    previousLabel={customPreviousLabel}
+                    renderOnZeroPageCount={null}
+                    pageLabelBuilder={customPageLabel}
+                    className='pagination-section'
+                />
+                {/* <div className='row'>
+                
+
                     <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
                         <img src={previousIcon} className='pagination-icon' alt="" />
                     </div>
@@ -111,7 +165,7 @@ const AllUsers = () => {
                     <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
                         <img src={nextIcon} className='pagination-icon' alt="" />
                     </div>
-                </div>
+                </div> */}
             </div>
         </Container>
         <DeletePropertyModal
