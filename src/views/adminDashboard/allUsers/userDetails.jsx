@@ -72,21 +72,21 @@ const UserDetails = () => {
 
                 <Container fluid className='profile-section'>
                     <Row>
-                        <Col lg={5}>
+                        <Col lg={4}>
                             <div className='user-profile-card'>
                                 <div className='text-center'>
                                     <img className='user-profile-img' src={userProfileImage} alt="" />
-                                    <h4 className='user-name mt-5'>{singleUser.first_name} {singleUser.last_name}</h4>
+                                    <h4 className='user-name mt-5 mb-3'>{singleUser.first_name} {singleUser.last_name}</h4>
                                 </div>
-                                <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1'>
+                                <div className='d-flex justify-content-between align-items-center user-heading-border py-2'>
                                     <h3 className='user-card-headings mb-0'>Email</h3>
                                     <p className='user-card-para mb-0'>{singleUser.email}</p>
                                 </div>
-                                <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1'>
+                                <div className='d-flex justify-content-between align-items-center user-heading-border py-2'>
                                     <h3 className='user-card-headings mb-0'>Phone No</h3>
                                     <p className='user-card-para mb-0'>123456789</p>
                                 </div>
-                                <div className='d-flex justify-content-between align-items-center user-heading-border pt-2 pb-1 border-0'>
+                                <div className='d-flex justify-content-between align-items-center user-heading-border py-2 border-0'>
                                     <h3 className='user-card-headings mb-0'>Email</h3>
                                     <a className={`user-btn role-pill ${singleUser.roles?.name.toLowerCase()}`}>{singleUser.roles?.name}</a>
                                     <p className='user-card-para mb-0'><a className='edit-role' onClick={handleShow}>Edit Role</a></p>
@@ -94,7 +94,7 @@ const UserDetails = () => {
                                 <Link className='deleteBtn' onClick={() => deleteModal(singleUser.id)}>Delete User</Link>
                             </div>
                         </Col>
-                        <Col lg={7}>
+                        <Col lg={8}>
                             <div className='user-profile-dimension-card'>
                                 <div className="dimensionTable userDimension">
                                     <h4 className="dimension-head">Total Dimensions : 15</h4>

@@ -20,6 +20,8 @@ import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
+
 
 
 const SingleDimension = () => {
@@ -161,7 +163,7 @@ const SingleDimension = () => {
               <div className="topName">
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="titleName">
-                    <h2 className="property_added-toggle" onClick={()=>setIsPropertyAdded(false) }>{currentDimension} <span>{hierarchyList.length} Total Nodes</span></h2>
+                    <h2 className="property_added-toggle" onClick={()=>setIsPropertyAdded(false) }>{currentDimension} <MdOutlinePlaylistAdd /><span>{hierarchyList.length} Total Nodes</span></h2>
                   </div>
                   <div className="btnList">
                     <button>
