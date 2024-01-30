@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addProperty,
   editPropertyDefinition,
   getPropertyList,
 } from "../../store/slices/dimensionsSlice";
+import SmallSpinner from "../common/atomic/SmallSpinner";
 
 const AddPropertyModal = ({
   propshow,
@@ -22,6 +23,8 @@ const AddPropertyModal = ({
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
+  const {loading}=useSelector(state=>state.dimensionData)
+
   useEffect(() => {
     setValue("name", isEditProperty.name?.name);
     setValue("type", isEditProperty.name?.type);
@@ -29,7 +32,6 @@ const AddPropertyModal = ({
     setValue("defaultValues", isEditProperty.name?.defaultValue);
   }, [isEditProperty]);
 
-  console.log(isEditProperty,"isEditProperty")
 
   const onSubmit = (data) => {
     if (isEditProperty.edit) {
@@ -42,9 +44,11 @@ const AddPropertyModal = ({
 
         new_data_type: data.dataType,
       };
-      dispatch(editPropertyDefinition(newData));
+      dispatch(editPropertyDefinition(newData,()=>{
+        handlepropClose()
+        dispatch(getPropertyList(currentDimension))
+      }));
     } else {
-      console.log(data);
       let propertyData = {
         name: data.name,
         type: data.type,
@@ -146,10 +150,6 @@ const AddPropertyModal = ({
                       className="common-field"
                       name="defaultValues"
                       {...register("defaultValues", {
-                        required: {
-                          value: true,
-                          message: "Default Values is required",
-                        },
                       })}
                     />
                   </Form.Group>
@@ -159,7 +159,7 @@ const AddPropertyModal = ({
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">
-              {isEditProperty.isEdit ? "Edit" : "Add"} Property
+              {loading?<SmallSpinner/>: isEditProperty.isEdit ? "Edit Property" : "Add Property"} 
             </Button>
           </Modal.Footer>
         </form>

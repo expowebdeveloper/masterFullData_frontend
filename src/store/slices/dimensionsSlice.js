@@ -17,6 +17,9 @@ export const dimensionsSlice = createSlice({
         dimensionDataLoading: (state, action) => {
             state.loading = true;
         },
+        dimensionDataLoadingSuccess: (state, action) => {
+            state.loading = false;
+        },
         dimensionsDataSuccess: (state, action) => {
             state.loading = false;
 
@@ -46,7 +49,7 @@ export const dimensionsSlice = createSlice({
 
 })
 
-export const { dimensionDataLoading, dimensionsDataSuccess, dimensionDataError, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
+export const { dimensionDataLoading, dimensionsDataSuccess, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
@@ -202,10 +205,10 @@ export function getPropertyNode(payload) {
 
 export function addProperty(payload,callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`define_property`, { ...payload })
-            console.log(result, "lll")
+            dispatch(dimensionDataLoadingSuccess());
          toast.success(result.data.status)
          return callback()
         } catch (error) {
@@ -254,10 +257,11 @@ export function deleteProperty(payload,callback) {
 
 export function editPropertyDefinition(payload) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`edit_property_definition`,{...payload})
-              console.log(result,"lll")
+            toast.success("Property is updated successfully")
+              dispatch(dimensionDataLoadingSuccess());
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -267,3 +271,21 @@ export function editPropertyDefinition(payload) {
         }
     };
 }
+
+export function deleteDimensionAPI(payload,callback) {
+    return async (dispatch) => {
+        // dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.post(`delete_dimension`,{...payload})   
+            toast.success("Dimension is Deleted")           
+              return callback()
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
+

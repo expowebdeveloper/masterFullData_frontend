@@ -73,7 +73,7 @@ const CreateDimensions = () => {
               <div className="text-center">
                 {/* <button className="common-btn shadow-none">
               </button> */}
-                <MdButton text="Create Dimension" isLoading={loading} />
+                <MdButton text="Create Dimension" />
               </div>
             </form>
           </div>

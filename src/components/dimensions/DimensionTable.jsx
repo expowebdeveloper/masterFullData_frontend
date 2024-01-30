@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getHierarchy } from "../../store/slices/dimensionsSlice";
+import { deleteDimensionAPI, getAllDimensionsList, getHierarchy } from "../../store/slices/dimensionsSlice";
+import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
 
 const DimensionTable = () => {
   const navigate=useNavigate() 
   const dispatch =useDispatch()
+  const [deleteDimensionNode,setDeleteDimensionNode]=useState({
+    isDelete:false,
+    value:''
+  })
  
   const { dimensionsList } = useSelector((state) => state.dimensionData);
   console.log(dimensionsList,"dimensionsList")
@@ -15,7 +20,32 @@ const DimensionTable = () => {
     window.location.href=`/single-dimension?dimension=${item}`
   }
 
-  const deleteDimension=()=>{
+  const deleteDimension=(item)=>{
+    setDeleteDimensionNode({
+      isDelete:true,
+      value:item
+    })
+  }
+
+  const handleClose=()=>{
+    setDeleteDimensionNode({
+      isDelete:false,
+      value:""
+    })
+  }
+
+  const confirmDelete=()=>{
+    let data={
+      dimension_name:deleteDimensionNode?.value
+    }
+
+    dispatch(deleteDimensionAPI(data,()=>{
+      dispatch(getAllDimensionsList())
+      setDeleteDimensionNode({
+        isDelete:false,
+        value:""
+      })
+    }))
 
   }
   return (
@@ -39,7 +69,7 @@ const DimensionTable = () => {
                     <td>{item}</td>
                     <td>
                       <span className="edit text-black me-2" onClick={()=>editDimension(item)}>Edit</span>
-                      <span className="delete text-danger" onClick={deleteDimension}>Delete</span>
+                      <span className="delete text-danger" onClick={()=>deleteDimension(item)}>Delete</span>
                     </td>
                   </tr>
                 </>
@@ -48,6 +78,13 @@ const DimensionTable = () => {
           </tbody>
         </Table>
       </div>
+      <DeletePropertyModal 
+       show={deleteDimensionNode.isDelete}
+       handleClose={handleClose}
+       heading={"Dimension"}
+       message={"Are you sure, you want to delete the Dimension?"}
+       confirmDelete={confirmDelete}
+      />
     </>
   );
 };
