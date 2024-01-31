@@ -2,7 +2,7 @@ import React , {useState} from "react";
 import { Row, Col } from "react-bootstrap";
 import authimg from "../../assets/img/auth-img.png";
 import logo from "../../assets/img/logo.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     verifyOtp
 } from "../../store/slices/authenticationSlice";
@@ -22,7 +22,9 @@ const OtpVerify = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid, isSubmitting },
+    
   } = useForm({});
+  const {loading}=useSelector(state=>state.authData)
 
   const onSubmit = (data) => {
     if (otp.length === 6){
@@ -76,7 +78,7 @@ const OtpVerify = () => {
                     {/* <p className="error-message">{errors.email?.message}</p> */}
                   </div>
                   <div className="text-center">
-                    <MdButton text="Verify OTP" />
+                    <MdButton text="Verify OTP" isLoading={loading} />
                   </div>
                 </form>
               </div>

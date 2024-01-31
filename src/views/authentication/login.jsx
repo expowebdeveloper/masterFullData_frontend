@@ -7,14 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import MdButton from "../../components/common/atomic/MdButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../store/slices/authenticationSlice";
 const Login = () => {
   const dispatch =useDispatch()
   const {register,handleSubmit, formState: { errors ,isDirty,isValid,isSubmitting}}=useForm({});
+  const {loading}=useSelector(state=>state.authData)
 
   const onSubmit=(data)=>{
-    console.log(data,"jjjj")
     dispatch(userLogin(data))
 
   }
@@ -82,7 +82,7 @@ const Login = () => {
                     </Link>
                   </div>
                   <div className="text-center">
-                    <MdButton text="Login"/>
+                    <MdButton text="Login" isLoading={loading}/>
                   </div>
                 </form>
               </div>

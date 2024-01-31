@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import authimg from "../../assets/img/auth-img.png";
 import logo from "../../assets/img/logo.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   forGotPassword,
   userRegister,
@@ -20,8 +20,9 @@ const ForgotPassword = () => {
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
+  const {loading}=useSelector(state=>state.authData)
+
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(forGotPassword(data, (userId)=>{
       navigate(`/opt-verify/${userId}`) 
     }));
@@ -65,7 +66,7 @@ const ForgotPassword = () => {
                     <p className="error-message">{errors.email?.message}</p>
                   </div>
                   <div className="text-center">
-                    <MdButton text="Forgot Password" />
+                    <MdButton text="Forgot Password" isLoading={loading} />
                   </div>
                 </form>
               </div>

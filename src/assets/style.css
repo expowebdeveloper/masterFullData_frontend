@@ -585,6 +585,21 @@ svg {
   font-weight: 500;
 }
 
+.otpInput {
+  padding: 10px;
+  margin: 5px 3px 20px;
+  width: 55px !important;
+  border-radius: 8px;
+  border: 1px solid gray;
+  height: 55px;
+  text-align: center;
+}
+
+.OTPInputContainer {
+  justify-content: center;
+  gap: 3px;
+}
+
 .role-field{
   width: 100%;
   height: 42px;

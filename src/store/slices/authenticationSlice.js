@@ -43,7 +43,7 @@ export function userRegister(payload, callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             if(error.response.status==400){
-                dispatch(authDataError(false))
+                dispatch(authDataError())
                 toast.error("Please Enter valid credentials")
             }
         }
@@ -61,9 +61,10 @@ export function userLogin(payload, callback) {
                 window.location.href="/"
             }
         } catch (error) {
+            dispatch(authDataError())
             const message = error.message || "Something went wrong";
             if(error.response.status==400){
-                dispatch(authDataError(false))
+                dispatch(authDataError())
                 toast.error("Please Enter valid credentials")
             }
 
@@ -78,15 +79,17 @@ export function forGotPassword(payload, callback) {
             let result = await instance.post('forget-pass', { ...payload })
             if (result.status == 200) {
                 toast.success("OTP send successfully")
+                dispatch(authDataSuccess())
                 return callback(result.data?.user_id)
             } else {
                 toast.error("Something went wrong")
             }
         } catch (error) {
             console.log(error)
-            const message = error.message || "Something went wrong";
+            const message = error.response.data.detail || "Something went wrong";
+            toast.error(message)
             if(error.response?.status==400){
-                dispatch(authDataError(false))
+                dispatch(authDataError())
                
             }
 
@@ -106,14 +109,13 @@ export function verifyOtp(payload, callback) {
                 toast.error("Something went wrong----")
             }
         } catch (error) {
+            dispatch(authDataError())
             const message = error.message || "Something went wrong";
             if(error.response.status==404){
                 toast.error("OTP not matched!")
+                dispatch(authDataError())
             }
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-               
-            // }
+            
 
         }
     };
