@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import Settings from "./views/adminDashboard/settings/settings";
+import Properties from "./views/dashboard/properties/properties";
+import Integrations from "./views/integrations/Integrations";
 const Register = lazy(() => import("./views/authentication/register"));
 const Login = lazy(() => import("./views/authentication/login"));
 const ForgotPassword = lazy(() => import("./views/authentication/forgotPassword"));
@@ -62,6 +64,16 @@ export const route = [
   {
     path: "/dashboard",
     element: <AdminDashboard />,
+    private: true,
+  },
+  {
+    path: "/properties",
+    element: <Properties />,
+    private: true,
+  },
+  {
+    path: "/integrations",
+    element: <Integrations />,
     private: true,
   },
   {

@@ -19,7 +19,6 @@ const Sidebar = ({ sidebarActive }) => {
         window.location.href="/"
     };
 
-    console.log(location.pathname,'-------------------------')
     return (
         <>
             <div className={sidebarActive ? "sidebar sideactive" : 'sidebar'}>
@@ -43,7 +42,7 @@ const Sidebar = ({ sidebarActive }) => {
                                 <Link to="/dashboard" className={`sidebar-link ${location.pathname=="/dashboard" ?"active":""}`}> <img src={dashboard} alt="" className="dashboard-icon" /><span>Dashboard</span></Link>
                             </li>
                             <li className="sidebar-ite">
-                                <Link to="/all-users" className={`sidebar-link ${location.pathname=="/all-users" || `/user-details/${params.userId}` ?"active":""}`}> <img src={allUserIcon} alt="" className="dashboard-icon" /> <span>All Users</span></Link>
+                                <Link to="/all-users" className={`sidebar-link ${location.pathname=="/all-users" || location.pathname==`/user-details/${params.userId}` ?"active":""}`}> <img src={allUserIcon} alt="" className="dashboard-icon" /> <span>All Users</span></Link>
                             </li>
                         </ul>
                     </div>

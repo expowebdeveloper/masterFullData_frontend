@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
 
 const Properties = () => {
   return (
-    <div>Properties</div>
-  )
-}
+    <>
+      <section className="main-wrapper dashboard-wrapper">
+        <div className="text-center">
+          <h1>Coming Soon</h1>
+          <p>We're working on something awesome. Stay tuned!</p>
+        </div>
+      </section>
+    </>
+  );
+};
 
-export default Properties
+export default Properties;

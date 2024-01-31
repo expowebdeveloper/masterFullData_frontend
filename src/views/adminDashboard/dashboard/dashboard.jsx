@@ -142,7 +142,7 @@ const Dashboard = () => {
             confirmDelete={confirmDelete}
             btnText={"Delete User"}
         />
-        <Register show={showAddUser} handleClose={handleClose}/>
+        {showAddUser?<Register show={showAddUser} handleClose={handleClose}/>:""}
       </section>
     
     </>
