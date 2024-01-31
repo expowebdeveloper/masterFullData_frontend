@@ -87,69 +87,72 @@ const AddProperty = ({
     { isPropertyAdded? <div className="propertyListing p-4 mt-4">
         <Button
           variant="primary"
-          onClick={() => setIsAssignProperty(true)}
+          onClick={() => setIsAssignProperty(prev=>!prev)}
           className="PropertyBtn"
         >
           Assign Property
         </Button>
 
-        {isAssignProperty?<div className="w-100 my-4">
-          <label>Select Property</label>
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={labelValueList}
-                value={dropdownSelectedFields}
-                onChange={(selectedOption, action) => {
-                  setDropdownSelectedFields(selectedOption);
-                  if (action.action === "remove-value") {
-                    let filter = allNodeProperties.filter(
-                      (item) => item.name !== action.removedValue.label
-                    );
-                    setAllNodeProperties([...filter]);
-                  } else {
-                  let findObj= listProperties.find((item)=>item.name==action.option.value);
-                    setAllNodeProperties([...allNodeProperties, findObj]);
-                  }
-                }}
-              />
-            </div>:""}
-        {allNodeProperties.length > 0 ? (
-          <form className="mt-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-            {allNodeProperties?.map((item, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <Row>
-                    <Col>
-                      <Form.Group className="mb-3" controlId={`formBasic${item.name}`}>
-                        <Form.Label>{item.name}</Form.Label>
-                        <input
-                          type={item?.type||'text'}
-                          className="common-field"
-                          name={item.name}
-                          placeholder=""
-                          {...register(item?.name, {
-                            required: {
-                              value: true,
-                              message: `${item?.name} is required`,
-                            },
-                          })}
-                        />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                </React.Fragment>
-              );
-            })}
+        {loading?<div className="text-center"><SmallSpinner/></div>:
+        <> {isAssignProperty?<div className="w-100 my-4">
+        <label>Select Property</label>
+            <Select
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              options={labelValueList}
+              value={dropdownSelectedFields}
+              onChange={(selectedOption, action) => {
+                setDropdownSelectedFields(selectedOption);
+                if (action.action === "remove-value") {
+                  let filter = allNodeProperties.filter(
+                    (item) => item.name !== action.removedValue.label
+                  );
+                  setAllNodeProperties([...filter]);
+                } else {
+                let findObj= listProperties.find((item)=>item.name==action.option.value);
+                  setAllNodeProperties([...allNodeProperties, findObj]);
+                }
+              }}
+            />
+          </div>:""}
+      {allNodeProperties.length > 0 ? (
+        <form className="mt-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+          {allNodeProperties?.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <Row>
+                  <Col>
+                    <Form.Group className="mb-3" controlId={`formBasic${item.name}`}>
+                      <Form.Label>{item.name}</Form.Label>
+                      <input
+                        type={item?.type||'text'}
+                        className="common-field"
+                        name={item.name}
+                        placeholder=""
+                        {...register(item?.name, {
+                          required: {
+                            value: true,
+                            message: `${item?.name} is required`,
+                          },
+                        })}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </React.Fragment>
+            );
+          })}
 
-            <Button variant="primary" type="submit">
-              {smallLoader?<SmallSpinner/>: "Submit"}
-            </Button>
-          </form>
-        ) : (
-          <NoDataFound/>
-        )}
+          <Button variant="primary" type="submit">
+            {smallLoader?<SmallSpinner/>: "Submit"}
+          </Button>
+        </form>
+      ) : (
+        <NoDataFound/>
+      )}</>
+
+      }
       </div>
       :
       <>

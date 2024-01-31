@@ -133,6 +133,7 @@ const SingleDimension = () => {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
         };
+        setIsAssignProperty(prev=>!prev)
         setSelectedNode(data.node_name);
         dispatch(getPropertyNode(data));
         setIsPropertyAdded(true);
@@ -218,7 +219,7 @@ console.log(loading,"load")
           {/* {loading?<div className="text-center"><SmallSpinner/></div> :""} */}
 
           <div className="col-md-9">
-            {loading?<div className="text-center"><SmallSpinner/></div>:listProperties.length > 0 ? (
+            {listProperties.length > 0 ? (
               <AddProperty
                 handleShow={handleShow}
                 handlepropShow={handlepropShow}
