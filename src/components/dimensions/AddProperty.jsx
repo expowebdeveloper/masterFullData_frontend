@@ -40,34 +40,28 @@ const AddProperty = ({
   const {loading}=useSelector(state=>state.dimensionData)
 
   
-  useEffect(()=>{
-    allNodeProperties.forEach((item)=>{
-      setValue(item.name, item.value?item?.value:item?.defaultValue)
-    })
-
-  },[allNodeProperties])
+  useEffect(() => {
+    allNodeProperties.forEach((item) => {
+      setValue(item.name, item.value || item.defaultValue || "");
+    });
+  }, [allNodeProperties, setValue]);
 
  
-  const onSubmit = (data) => {
-  
+  const onSubmit = (value) => {
+  let filteredObj = {};
+  allNodeProperties.forEach(property => {
+    // Check if the property name exists in the obj
+    if (value.hasOwnProperty(property.name)) {
+        // Add the property to the filteredObj
+        filteredObj[property.name] = value[property.name];
+    }
+});
     let propertiesValue = {};
-    for (let key in data) {
+    for (let key in filteredObj) {
       console.log(key, "ll");
-      if(Object.keys(data).length>1){
-        if (data[key]) {
-          propertiesValue = {
-            ...propertiesValue,
-            [key]: data[key],
-          };
-        }
-      }else{
-        if (data[key]) {
-          propertiesValue = {
-            [key]: data[key],
-          };
-        }
+      if (filteredObj[key]) {
+        propertiesValue[key] = filteredObj[key];
       }
-      
     }
     let payloadData = {
       dimension: currentDimension,
@@ -118,14 +112,9 @@ const AddProperty = ({
                     let filter = allNodeProperties.filter(
                       (item) => item.name !== action.removedValue.label
                     );
-                    console.log(filter, "del");
                     setAllNodeProperties([...filter]);
                   } else {
-                    dropdownSelectedFields;
-                    console.log(listProperties,"inside")
                   let findObj= listProperties.find((item)=>item.name==action.option.value);
-                  console.log(findObj,"find")
-                
                     setAllNodeProperties([...allNodeProperties, findObj]);
                   }
                 }}
@@ -138,10 +127,10 @@ const AddProperty = ({
                 <React.Fragment key={index}>
                   <Row>
                     <Col md>
-                      <Form.Group className="mb-3" controlId="formBasicFName">
+                      <Form.Group className="mb-3" controlId={`formBasic${item.name}`}>
                         <Form.Label>{item.name}</Form.Label>
                         <input
-                          type={item?.type}
+                          type={item?.type||'text'}
                           className="common-field"
                           name={item.name}
                           placeholder=""
