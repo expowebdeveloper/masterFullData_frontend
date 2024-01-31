@@ -176,7 +176,7 @@ svg {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 450px;
+  width: 300px;
   padding-top: 33px;
   border-radius: 0px 16px 16px 0px;
   background: #f4f7ff;
@@ -186,7 +186,7 @@ svg {
   max-width: 280px;
 }
 .sidebar-listing li {
-  padding: 0 30px;
+  padding: 0 15px;
 }
 .sidebar-link {
   display: block;
@@ -216,7 +216,7 @@ svg {
   position: fixed;
   top: 0;
   right: 0;
-  width: calc(100% - 450px);
+  width: calc(100% - 300px);
   border-bottom: 1px solid #e3e3e3;
   background: white;
   z-index: 999;
@@ -245,6 +245,7 @@ svg {
   font-size: 25px;
   color: #000;
   font-weight: 400;
+  text-transform: capitalize;
 }
 .menu-btn {
   width: 49px;
@@ -264,7 +265,7 @@ svg {
   color: #5864ff;
 }
 .main-wrapper {
-  width: calc(100% - 450px);
+  width: calc(100% - 300px);
   margin-left: auto;
   transition: .3s;
 }
@@ -358,6 +359,10 @@ svg {
   color: #fff;
   text-align: center;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .dashboard-card-active-user {
   padding: 32px 20px;
@@ -371,6 +376,10 @@ svg {
   color: #fff;
   text-align: center;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .dashboard-card-desibled-user {
   padding: 32px 20px;
@@ -384,6 +393,10 @@ svg {
   color: #fff;
   text-align: center;
   font-weight: 400;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 .view-all-btn {
   width: 152px;
@@ -449,6 +462,7 @@ svg {
     width: 27px !important;
     height: 27px !important;
     border-radius: 6px;
+    text-align: center;
 }
 .action-span:hover{
     cursor: pointer;
@@ -522,7 +536,8 @@ svg {
 }
 .user-profile-card{
   width: 100%;
-  height: 497px;
+  min-height: 520px;
+  max-height: 520px;
   border-radius: 40px;
   border: 1px;
   border: 1px solid #D3D3D3;
@@ -534,7 +549,8 @@ svg {
 }
 .user-profile-dimension-card{
   width: 100%;
-  min-height: 500px;
+  min-height: 520px;
+  max-height: 520px;
   border-radius: 40px;
   border: 1px solid #D3D3D3
 }
@@ -554,6 +570,7 @@ svg {
   font-size: 16px;
   font-weight: 400;
   color: #000;
+  cursor: pointer;
 }
 .user-heading-border {
   border-bottom: 1px dashed #C1C1C1;
@@ -566,6 +583,23 @@ svg {
 .user-profile-dimension-card h3{
   font-size: 20px;
   font-weight: 500;
+}
+
+.no-data {
+  background: #ffe0e0;
+  padding: 10px 20px;
+  color: #f00;
+  border-left: 4px solid #f00;
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.no-data img {
+  width: 40px;
 }
 
 
@@ -587,6 +621,8 @@ svg {
     width: calc(100% - 300px);
   }
 }
+
+
 /*tree-vew*/
 .hidden {
     display: none;
@@ -673,9 +709,15 @@ svg {
 /* Single Dimension */
 
 .dimensionSingle {
-    width: calc(100% - 450px);
-    margin-left: 450px;
+    width: calc(100% - 300px);
+    margin-left: auto;
     margin-top: 86px;
+    transition: 0.4s ease-in-out;
+}
+
+.dimensionSingle.sideactive {
+  width: calc(100% - 100px);
+  margin-left: 100px;
 }
 
 .dimensionSingle .heading {
@@ -1189,7 +1231,7 @@ button.PropertyBtn:hover {
   border-left: 3px solid #fff;
   border-radius: 0px;
 }
-.sidebar.sideactive + .main-wrapper
+.sidebar.sideactive + .main-wrapper, .sidebar.sideactive + .dimensionSingle
 {
   width: calc(100% - 100px);
 }
@@ -1240,12 +1282,9 @@ button.PropertyBtn:hover {
       font-size: 17px;
       gap: 19px;
     }
-<<<<<<< HEAD
-  }
 
-=======
 }
->>>>>>> 9f3a7d16d4c8cf0d6c5dab21e46d955194aad391
+
 ul.gtree_root span.title {
   text-transform: capitalize;
   margin-left: 5px;
@@ -1372,3 +1411,123 @@ ul.gtree_root li ul li {
 ul.gtree_root li ul li:last-child {
   border-color: transparent;
 }
+<<<<<<< HEAD
+
+span.edit.text-black.me-2 {
+  cursor: pointer;
+}
+
+span.delete.text-danger {
+  cursor: pointer;
+}
+
+ul.gtree_root {
+  max-width: 320px;
+  overflow: auto;
+}
+
+ul.gtree_root::-webkit-scrollbar {
+  height: 6px;
+  border-radius: 10px;
+}
+ 
+ul.gtree_root::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+ 
+ul.gtree_root::-webkit-scrollbar-thumb {
+  background-color:#5864ff;
+  border-radius: 10px;
+}
+
+.propertyDetails {
+  padding: 20px;
+  border: 1px solid #E3E3E3;
+  border-radius: 24px;
+  margin-top: 20px;
+}
+
+.propertyDetails .property-edit-delete {
+  width: 100%;
+  padding: 10px;
+  min-height: 48px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #f7f7f7;
+  border-radius: 13px;
+}
+
+.propertyDetails .property-edit-delete span {
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+  color: #666;
+}
+
+.propertyDetails .property-edit-delete span:hover {
+  color: #000;
+}
+
+h2.property_added-toggle {
+  text-transform: capitalize;
+}
+
+h2.property_added-toggle span {
+  margin-top: 5px;
+}
+
+.sidebar a.sidebar-link {
+  gap: 10px;
+  padding: 10px 20px;
+}
+
+.logout-btn {
+  gap: 10px;
+  padding: 10px;
+}
+
+.sidebar a.sidebar-link span, .logout-btn span {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.sidebar a.sidebar-link svg {
+  max-width: 20px;
+}
+
+.dashboardCardTitle {
+  font-size: 24px;
+}
+
+.user-table-content table th, .user-table-content table td {
+  font-size: 18px;
+  text-align: left;
+  padding: 14px !important;
+}
+
+.user-table-content table tr img.action-image {
+  width: auto;
+  height: auto;
+}
+
+.user-details-username h3 {
+  text-transform: capitalize;
+}
+
+.EditRole .edit-permission .css-13cymwt-control {
+  background: transparent;
+  border: none;
+}
+
+.pagination-icon {
+  font-size: 18px;
+  margin: 0;
+  width: 14px;
+  height: 18px;
+}
+
+.user-table-content table tr td:last-child {
+  border: none;
+}
+

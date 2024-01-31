@@ -34,7 +34,7 @@ const EditDeleteProperty = ({
   };
   return (
     <>
-      <Container>
+      <div className="propertyDetails">
         <Row>
           {listProperties.map((item) => {
             return (
@@ -67,7 +67,7 @@ const EditDeleteProperty = ({
             );
           })}
         </Row>
-      </Container>
+      </div>
       <DeletePropertyModal
         show={show}
         handleClose={handleClose}

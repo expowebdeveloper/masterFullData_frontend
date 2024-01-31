@@ -20,6 +20,7 @@ import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
 
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
@@ -157,7 +158,7 @@ const SingleDimension = () => {
                       className="property_added-toggle"
                       onClick={() => setIsPropertyAdded(false)}
                     >
-                      {currentDimension}{" "}
+                      {currentDimension} <MdOutlinePlaylistAdd />
                       <span>{hierarchyList.length} Total Nodes</span>
                     </h2>
                   </div>
@@ -241,7 +242,7 @@ const SingleDimension = () => {
             )}
 
             {listProperties.length == 0 ? (
-              <p className="text-center noPropertyaddition">
+              <p className="text-center noPropertyaddition mt-5">
                 No Property Added{" "}
                 <span onClick={handlepropShow}>Add Property</span> to dimension
               </p>

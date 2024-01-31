@@ -54,19 +54,19 @@ const Dashboard = () => {
               <Col lg={4}>
                 <div className='dashboard-card-total-user'>
                     <p className='total-dimensions'>{totalUser}</p>
-                    <p className='mb-0'>Total User</p>
+                    <p className='mb-0 dashboardCardTitle'>Total User</p>
                 </div>
               </Col>
               <Col lg={4}>
                 <div className='dashboard-card-active-user'>
                     <p className='total-dimensions'>{activeUser}</p>
-                    <p className='mb-0'>Active User</p>
+                    <p className='mb-0 dashboardCardTitle'>Active User</p>
                 </div>
               </Col>
               <Col lg={4}>
                 <div className='dashboard-card-desibled-user'>
                     <p className='total-dimensions'>{inActiveUser}</p>
-                    <p className='mb-0'>Desibled Users</p>
+                    <p className='mb-0 dashboardCardTitle'>Desibled Users</p>
                 </div>
               </Col>
             </Row>
