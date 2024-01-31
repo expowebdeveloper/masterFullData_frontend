@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import trash from '../../assets/img/trash-solid.png';
+import eye from '../../assets/img/eye.png';
 import { deleteDimensionAPI, getAllDimensionsList, getHierarchy } from "../../store/slices/dimensionsSlice";
 import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
 import SmallSpinner from "../common/atomic/SmallSpinner";
@@ -68,9 +70,13 @@ const DimensionTable = () => {
                   <tr>
                     <td>{item}</td>
                     <td>{item}</td>
-                    <td>
-                      <span className="edit text-black me-2" onClick={()=>editDimension(item)}>Edit</span>
-                      <span className="delete text-danger" onClick={()=>deleteDimension(item)}>Delete</span>
+                    <td className='d-flex'>
+                         <span>
+                          <div className='action-span eye me-2' onClick={()=>editDimension(item)}><img src={eye} alt="" className='action-image'/></div>
+                            </span>
+                            <span>
+                            <div className='action-span trash'onClick={()=>deleteDimension(item)} ><img src={trash} alt="" className='action-image' /></div>
+                            </span>
                     </td>
                   </tr>
                 </>
