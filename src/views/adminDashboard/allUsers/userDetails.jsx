@@ -11,6 +11,8 @@ import userProfileImage from '../../../assets/img/user-profile.png'
 import { getUser, deleteUser, getRoles, getPermissions, updateUser } from '../../../store/slices/adminDashboardSlice';
 import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
 import Select from 'react-select';
+import { MdModeEdit } from "react-icons/md";
+
 
 
 const UserDetails = () => {
@@ -73,7 +75,7 @@ const UserDetails = () => {
                 <Container fluid className='profile-section'>
                     <Row>
                         <Col lg={4}>
-                            <div className='user-profile-card'>
+                            <div className='user-profile-card mb-2'>
                                 <div className='text-center'>
                                     <img className='user-profile-img' src={userProfileImage} alt="" />
                                     <h4 className='user-name mt-5 mb-3'>{singleUser.first_name} {singleUser.last_name}</h4>
@@ -87,15 +89,15 @@ const UserDetails = () => {
                                     <p className='user-card-para mb-0'>123456789</p>
                                 </div>
                                 <div className='d-flex justify-content-between align-items-center user-heading-border py-2 border-0'>
-                                    <h3 className='user-card-headings mb-0'>Email</h3>
+                                    <h3 className='user-card-headings mb-0'>Role</h3>
                                     <a className={`user-btn role-pill ${singleUser.roles?.name.toLowerCase()}`}>{singleUser.roles?.name}</a>
-                                    <p className='user-card-para mb-0'><a className='edit-role' onClick={handleShow}>Edit Role</a></p>
+                                    <p className='user-card-para mb-0'><a className='edit-role' onClick={handleShow}><MdModeEdit /></a></p>
                                 </div>
                                 <Link className='deleteBtn' onClick={() => deleteModal(singleUser.id)}>Delete User</Link>
                             </div>
                         </Col>
                         <Col lg={8}>
-                            <div className='user-profile-dimension-card'>
+                            <div className='user-profile-dimension-card mb-2'>
                                 <div className="dimensionTable userDimension">
                                     <h4 className="dimension-head">Total Dimensions : 15</h4>
                                     <Table striped bordered hover>

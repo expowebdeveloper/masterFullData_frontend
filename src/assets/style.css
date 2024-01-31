@@ -91,15 +91,16 @@ img {
 .password-eye-btn {
   position: absolute;
   top: 50%;
-  right: 30px;
+  right: 15px;
   transform: translateY(-50%);
   background-color: transparent;
   border: none;
   font-size: 23px;
   color: #5864ff;
+  display: flex;
 }
 .auth-content {
-  padding: 18px 50px 40px;
+  padding: 18px 30px;
 }
 .auth-heading {
   font-size: 30px;
@@ -220,7 +221,7 @@ svg {
   border-bottom: 1px solid #e3e3e3;
   background: white;
   z-index: 999;
-  transition: .3s;
+  transition: 0.4s;
 }
 .logout-btn {
   padding: 18px;
@@ -714,7 +715,7 @@ svg {
 
 .dimensionTable table tbody tr td:first-child, .dimensionTable table thead tr th:first-child {
     border-radius: 8px 0 0 8px;
-    border: none;
+    /* border: none; */
 }
 
 .dimensionTable table tbody tr td:last-child, .dimensionTable table thead tr th:last-child {
@@ -724,6 +725,7 @@ svg {
 .dimensionTable table {
     border-spacing: 0px 10px;
     border-collapse: separate;
+    margin: 0;
 }
 
 /* Single Dimension */
@@ -732,7 +734,7 @@ svg {
     width: calc(100% - 300px);
     margin-left: auto;
     margin-top: 86px;
-    transition: 0.4s ease-in-out;
+    transition: 0.4s;
 }
 
 .dimensionSingle.sideactive {
@@ -842,14 +844,14 @@ svg {
 .deleteModal .modal-dialog .modal-header {
     border: none;
     text-align: center;
-    padding-bottom: 0;
+    padding: 0;
 }
 
 .deleteModal .modal-dialog .modal-header .modal-title {
     width: 100%;
     text-align: center;
     color: #F00000;
-    font-size: 33px;
+    font-size: 28px;
     font-weight: 700;
 }
 
@@ -863,13 +865,15 @@ svg {
 }
 
 .deleteModal .modal-dialog  .modal-body {
-    font-size: 25px;
+    font-size: 22px;
     text-align: center;
+    padding-top: 0;
 }
 
 .deleteModal .modal-dialog .modal-footer {
     justify-content: center;
     border: none;
+    padding-bottom: 0;
 }
 
 .deleteModal .modal-dialog .modal-footer button.btn.btn-secondary {
@@ -1190,7 +1194,7 @@ button.PropertyBtn:hover {
   width: 100%;
   border-radius: 12px;
   background: #F7F7F7;
-  padding: 11px;
+  /* padding: 11px; */
   border: none;
   font-size: 20px; 
 }
@@ -1415,7 +1419,7 @@ ul.gtree_root li ul li:before {
     width: 27px;
     height: 20px;
     position: absolute;
-    left: -1px;
+    left: -2px;
     background: transparent;
     top: -7px;
     border-radius: 0px 0px 0px 17px;
@@ -1442,12 +1446,14 @@ span.delete.text-danger {
 }
 
 ul.gtree_root {
-  max-width: 320px;
+  max-width: 400px;
   overflow: auto;
+  max-height: 60vh;
 }
 
 ul.gtree_root::-webkit-scrollbar {
   height: 6px;
+  width: 6px;
   border-radius: 10px;
 }
  
@@ -1551,3 +1557,108 @@ h2.property_added-toggle span {
   border: none;
 }
 
+.sidebar a.sidebar-link svg.mdDash path:first-child {
+  fill: none;
+}
+
+ul.gtree_root li svg.icon {
+  color: #777 !important;
+  transition: .2s ease-in-out;
+}
+
+ul.gtree_root li svg.icon:hover {
+  color: #5864ff !important;
+}
+
+.auth-content input.form-control {
+  width: 100%;
+  border-radius: 12px;
+  background: #F7F7F7;
+  padding: 11px;
+  border: none;
+  font-size: 20px;
+}
+
+.EditRole .modal-dialog .authHeader button.btn-close {
+  display: block;
+  position: absolute;
+  top: 40px;
+  right: 30px;
+  background-color: #fff;
+  border-radius: 50px;
+}
+
+.EditRole .modal-dialog .authHeader .modal-title.h4 {
+  font-size: 32px;
+}
+
+.EditRole .modal-dialog .authHeader p.auth-text {
+  font-size: 18px;
+  margin: 0;
+}
+
+select:focus {
+  outline: none;
+}
+
+
+/* Media Query */
+
+
+@media only screen and (max-width: 767px) {
+
+.user-profile-dimension-card {
+    min-height: auto;
+}
+
+.user-profile-card {
+    min-height: auto;
+}
+
+.dimensionTable, .create-dimension-card {
+  padding: 20px;
+}
+
+.dimension-head {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+
+.label-form {
+  font-size: 18px;
+}
+
+.common-field {padding: 10px;}
+
+.page-name {
+  padding: 20px;
+  font-size: 24px;
+}
+
+.secondBar h2 {
+  font-size: 24px;
+}
+
+.dimensionSingle .heading h2 {
+  font-size: 22px;
+}
+
+.uploadFileCSV b {
+  font-size: 18px;
+}
+
+.propertyListing.p-4.mt-4 {
+  padding: 0 !important;
+  padding-bottom: 20px !important;
+}
+
+button.PropertyBtn {
+  font-size: 18px;
+}
+
+.secondBar {
+  min-height: calc(30vh - 50px);
+}
+
+}

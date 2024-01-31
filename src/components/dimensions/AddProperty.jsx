@@ -116,13 +116,15 @@ const AddProperty = ({
               }}
             />
           </div>:""}
+          
+          
       {allNodeProperties.length > 0 ? (
         <form className="mt-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Row className="d-flex align-items-center">
           {allNodeProperties?.map((item, index) => {
             return (
               <React.Fragment key={index}>
-                <Row>
-                  <Col>
+                  <Col md={6}>
                     <Form.Group className="mb-3" controlId={`formBasic${item.name}`}>
                       <Form.Label>{item.name}</Form.Label>
                       <input
@@ -139,14 +141,16 @@ const AddProperty = ({
                       />
                     </Form.Group>
                   </Col>
-                </Row>
+                
               </React.Fragment>
             );
           })}
-
-          <Button variant="primary" type="submit">
-            {smallLoader?<SmallSpinner/>: "Submit"}
-          </Button>
+            <Col md={4}>
+              <Button variant="primary" type="submit">
+                {smallLoader?<SmallSpinner/>: "Submit"}
+              </Button>
+            </Col>
+          </Row>
         </form>
       ) : (
         <NoDataFound/>

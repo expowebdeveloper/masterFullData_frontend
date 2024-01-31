@@ -66,19 +66,19 @@ const Dashboard = () => {
             <h3 className='welcome-text mb-4'>Welcome Back, <span className='name-login'>{localStorage.getItem("user")}</span></h3>
             <Row>
               <Col lg={4}>
-                <div className='dashboard-card-total-user'>
+                <div className='dashboard-card-total-user mb-2'>
                     <p className='total-dimensions'>{totalUser}</p>
                     <p className='mb-0 dashboardCardTitle'>Total User</p>
                 </div>
               </Col>
               <Col lg={4}>
-                <div className='dashboard-card-active-user'>
+                <div className='dashboard-card-active-user mb-2'>
                     <p className='total-dimensions'>{activeUser}</p>
                     <p className='mb-0 dashboardCardTitle'>Active User</p>
                 </div>
               </Col>
               <Col lg={4}>
-                <div className='dashboard-card-desibled-user'>
+                <div className='dashboard-card-desibled-user mb-2'>
                     <p className='total-dimensions'>{inActiveUser}</p>
                     <p className='mb-0 dashboardCardTitle'>Desibled Users</p>
                 </div>
@@ -90,11 +90,11 @@ const Dashboard = () => {
         <Container fluid className='user-table'>
             <div className='d-flex justify-content-between align-items-center mb-4'>
                 <div className='all-user'>
-                    <h3 className='mb-0'>All Users</h3>
+                    <h3 className='mb-2'>All Users</h3>
                 </div>
                 <div>
-                    <button className='btn btn-success me-4' onClick={handleAddUser}>Add User</button>
-                    <button className='btn btn-primary' onClick={handleAllUserClick}>View All</button>
+                    <button className='btn btn-success me-4 mb-2' onClick={handleAddUser}>Add User</button>
+                    <button className='btn btn-primary  mb-2' onClick={handleAllUserClick}>View All</button>
                 </div>
             </div>
 

@@ -9,6 +9,8 @@ import logoimg from '../assets/img/logo-wide.png';
 import dashboard from '../assets/img/round-dashboard.png';
 import allUserIcon from '../assets/img/users-fill.png';
 import logoSmall from '../assets/img/logo-small.svg';
+import { MdDashboard } from "react-icons/md";
+import { PiUsersFill } from "react-icons/pi";
 
 const Sidebar = ({ sidebarActive }) => {
     const location=useLocation();
@@ -39,10 +41,10 @@ const Sidebar = ({ sidebarActive }) => {
                                 <Link to="/integrations" className={`sidebar-link ${location.pathname=="/integrations" ?"active":""}`}><FontAwesomeIcon icon={faForward} className="dimension-icon" /> <span>Integrations</span></Link>
                             </li>
                             <li className="sidebar-ite">
-                                <Link to="/dashboard" className={`sidebar-link ${location.pathname=="/dashboard" ?"active":""}`}> <img src={dashboard} alt="" className="dashboard-icon" /><span>Dashboard</span></Link>
+                                <Link to="/dashboard" className={`sidebar-link ${location.pathname=="/dashboard" ?"active":""}`}> <MdDashboard className="mdDash"/><span>Dashboard</span></Link>
                             </li>
                             <li className="sidebar-ite">
-                                <Link to="/all-users" className={`sidebar-link ${location.pathname=="/all-users" || location.pathname==`/user-details/${params.userId}` ?"active":""}`}> <img src={allUserIcon} alt="" className="dashboard-icon" /> <span>All Users</span></Link>
+                                <Link to="/all-users" className={`sidebar-link ${location.pathname=="/all-users" || location.pathname==`/user-details/${params.userId}` ?"active":""}`}> <PiUsersFill /> <span>All Users</span></Link>
                             </li>
                         </ul>
                     </div>

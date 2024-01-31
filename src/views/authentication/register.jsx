@@ -43,16 +43,15 @@ const Register = ({ show, handleClose }) => {
         <div className="inner-auth-wrapper"></div>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton></Modal.Header>
+      <Modal show={show} onHide={handleClose} className="EditRole">
+        <Modal.Header closeButton className="flex-column authHeader">
+          <Modal.Title>Create an Account</Modal.Title>
+          <p className="auth-text text-white">Please create your account</p>
+        </Modal.Header>
         <Modal.Body>
           <Row className="mx-0">
             <Col md={12} className="px-0">
               <div className="auth-content">
-                <div className="mb-4">
-                  <h2 className="auth-heading">Create an Account</h2>
-                  <p className="auth-text">Please create your account</p>
-                </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                   <Row>
                     <Col md={6}>
@@ -136,13 +135,13 @@ const Register = ({ show, handleClose }) => {
                           },
                         })}
                       />
-                      <p className="error-message">
-                        {errors.password?.message}
-                      </p>
                       <button className="password-eye-btn">
                         <FontAwesomeIcon icon={faEye} />
                       </button>
                     </div>
+                    <p className="error-message">
+                        {errors.password?.message}
+                      </p>
                   </div>
                   <div className="mb-23">
                     <label className="label-text">
@@ -160,13 +159,13 @@ const Register = ({ show, handleClose }) => {
                           },
                         })}
                       />
-                      <p className="error-message">
-                        {errors.reEnterPassword?.message}
-                      </p>
                       <button className="password-eye-btn">
                         <FontAwesomeIcon icon={faEye} />
                       </button>
                     </div>
+                      <p className="error-message">
+                        {errors.reEnterPassword?.message}
+                      </p>
                   </div>
                   <div className="mb-23">
                     <label className="label-text">
