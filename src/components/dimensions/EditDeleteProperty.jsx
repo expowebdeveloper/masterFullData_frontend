@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { MdEdit, MdDelete } from "react-icons/md";
 import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProperty, getPropertyList } from "../../store/slices/dimensionsSlice";
 
 const EditDeleteProperty = ({
@@ -13,6 +13,7 @@ const EditDeleteProperty = ({
 }) => {
   const [show, setShow] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState("");
+  const {smallLoader}=useSelector(state=>state.dimensionData)
   const dispatch = useDispatch();
   const deleteModal = (item) => {
     setShow(true);
@@ -39,7 +40,7 @@ const EditDeleteProperty = ({
           {listProperties.map((item) => {
             return (
               <>
-                <Col>
+                <Col md={4}>
                   <div className="property-edit-delete">
                     {item.name}
                     <div>
@@ -74,6 +75,7 @@ const EditDeleteProperty = ({
         heading={"Property"}
         message={"Are you sure, you want to delete the Property?"}
         confirmDelete={confirmDelete}
+        isLoading={smallLoader}
       />
     </>
   );

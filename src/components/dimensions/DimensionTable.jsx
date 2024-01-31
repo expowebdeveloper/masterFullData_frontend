@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteDimensionAPI, getAllDimensionsList, getHierarchy } from "../../store/slices/dimensionsSlice";
 import DeletePropertyModal from "../singleDimensions/DeletePropertyModal";
+import SmallSpinner from "../common/atomic/SmallSpinner";
 
 const DimensionTable = () => {
   const navigate=useNavigate() 
@@ -12,9 +13,7 @@ const DimensionTable = () => {
     isDelete:false,
     value:''
   })
- 
-  const { dimensionsList } = useSelector((state) => state.dimensionData);
-  console.log(dimensionsList,"dimensionsList")
+  const { dimensionsList,loading,smallLoader} = useSelector((state) => state.dimensionData);
   const editDimension=(item)=>{
     // dispatch(getHierarchy(item));
     window.location.href=`/single-dimension?dimension=${item}`
@@ -52,7 +51,9 @@ const DimensionTable = () => {
     <>
       <div className="dimensionTable">
         <h4 className="dimension-head">Dimensions</h4>
-        <Table hover>
+       { loading?
+       <div className="text-center"><SmallSpinner/></div>
+       : <Table hover>
           <thead>
             <tr>
               <th>Dimension Name</th>
@@ -76,7 +77,7 @@ const DimensionTable = () => {
               );
             })}
           </tbody>
-        </Table>
+        </Table>}
       </div>
       <DeletePropertyModal 
        show={deleteDimensionNode.isDelete}
@@ -84,6 +85,7 @@ const DimensionTable = () => {
        heading={"Dimension"}
        message={"Are you sure, you want to delete the Dimension?"}
        confirmDelete={confirmDelete}
+       isLoading={smallLoader}
       />
     </>
   );

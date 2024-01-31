@@ -31,11 +31,14 @@ export function userRegister(payload, callback) {
     return async (dispatch) => {
         dispatch(authDataLoading())
         try {
-            let result = await instance.post('login/', { ...payload })
+            let result = await instance.post('user', { ...payload })
             if (result.status == 200) {
+                console.log(result)
                 localStorage.setItem("token", result.data.access_token);
                 localStorage.setItem("refreshToken", result.data.refresh_token)
-                localStorage.setItem("subscribed",result.data.subscribed)
+                 toast.success("New User is created");
+                 dispatch(authDataSuccess())
+                 return callback()
             }
         } catch (error) {
             const message = error.message || "Something went wrong";

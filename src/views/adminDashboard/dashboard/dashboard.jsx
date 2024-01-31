@@ -4,8 +4,9 @@ import trash from '../../../assets/img/trash-solid.png';
 import eye from '../../../assets/img/eye.png';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserList, deleteUser } from '../../../store/slices/adminDashboardSlice';
+import { getUserList, deleteUser, getRoles } from '../../../store/slices/adminDashboardSlice';
 import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
+import Register from '../../authentication/register';
 
 
 const Dashboard = () => {
@@ -14,7 +15,13 @@ const Dashboard = () => {
     const dispatch = useDispatch()
     const [userId, setUserId] = useState('')
     const [show, setShow] = useState(false);
+    const [showAddUser,setShowAddUser]=useState(false)
     const {allUser, activeUser, inActiveUser, totalUser} = useSelector(state=>state.adminDashboardData)
+   
+
+    useEffect(()=>{
+        dispatch(getRoles())
+    },[])
 
     const handleAllUserClick = () =>{
         navigate("/all-users")
@@ -25,7 +32,7 @@ const Dashboard = () => {
     }
 
     useEffect(()=>{
-        dispatch(getUserList())
+        dispatch(getUserList(1,10))
     }, [])
 
     const deleteModal = (userId) => {
@@ -35,6 +42,8 @@ const Dashboard = () => {
 
     const handleClose = () => {
         setShow(false);
+        setShowAddUser(false)
+        
       };
 
     const confirmDelete=()=>{
@@ -42,6 +51,11 @@ const Dashboard = () => {
         setShow(false)
         setUserId("")
     }
+
+    const handleAddUser=()=>{
+        setShowAddUser(true)
+    }
+    
 
 
   return (
@@ -79,6 +93,7 @@ const Dashboard = () => {
                     <h3 className='mb-0'>All Users</h3>
                 </div>
                 <div>
+                    <button className='btn btn-success me-4' onClick={handleAddUser}>Add User</button>
                     <button className='btn btn-primary' onClick={handleAllUserClick}>View All</button>
                 </div>
             </div>
@@ -127,6 +142,7 @@ const Dashboard = () => {
             confirmDelete={confirmDelete}
             btnText={"Delete User"}
         />
+        <Register show={showAddUser} handleClose={handleClose}/>
       </section>
     
     </>

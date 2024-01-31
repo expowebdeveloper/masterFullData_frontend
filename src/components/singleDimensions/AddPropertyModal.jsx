@@ -23,7 +23,7 @@ const AddPropertyModal = ({
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
-  const {loading}=useSelector(state=>state.dimensionData)
+  const {loading,smallLoader}=useSelector(state=>state.dimensionData)
 
   useEffect(() => {
     setValue("name", isEditProperty.name?.name);
@@ -159,7 +159,7 @@ const AddPropertyModal = ({
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" type="submit">
-              {loading?<SmallSpinner/>: isEditProperty.isEdit ? "Edit Property" : "Add Property"} 
+              {smallLoader?<SmallSpinner/>: isEditProperty.isEdit ? "Edit Property" : "Add Property"} 
             </Button>
           </Modal.Footer>
         </form>

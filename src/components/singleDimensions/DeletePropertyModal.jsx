@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import SmallSpinner from '../common/atomic/SmallSpinner'
 
-const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete, btnText = "Delete Node"}) => {
+const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete, btnText = "Delete Node",isLoading}) => {
   return (
     <>
      <Modal show={show} className="deleteModal" onHide={handleClose}>
@@ -14,7 +15,7 @@ const DeletePropertyModal = ({show,handleClose,message,heading,confirmDelete, bt
             Cancel
           </Button>
           <Button variant="primary" onClick={confirmDelete}>
-            {btnText}
+            {isLoading?<SmallSpinner/> : btnText}
           </Button>
         </Modal.Footer>
     </Modal> 

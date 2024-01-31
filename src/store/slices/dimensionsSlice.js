@@ -7,7 +7,8 @@ const initialDimensionData = {
     dimensionsList: [],
     hierarchyList: [],
     listProperties: [],
-    nodeProperties:[]
+    nodeProperties:[],
+    smallLoader:false
 }
 
 export const dimensionsSlice = createSlice({
@@ -19,17 +20,24 @@ export const dimensionsSlice = createSlice({
         },
         dimensionDataLoadingSuccess: (state, action) => {
             state.loading = false;
+            state.smallLoader=false
         },
         dimensionsDataSuccess: (state, action) => {
             state.loading = false;
+            state.smallLoader=false
 
         },
         dimensionsDataListSuccess: (state, action) => {
             state.loading = false;
             state.dimensionsList = action.payload
         },
+
+        smallLoaderData:(state,action)=>{
+            state.smallLoader=true
+        },
         dimensionDataError: (state, action) => {
             state.loading = false;
+            state.smallLoader=false
         },
         dimensionHierarchy: (state, action) => {
             state.loading = false,
@@ -49,14 +57,14 @@ export const dimensionsSlice = createSlice({
 
 })
 
-export const { dimensionDataLoading, dimensionsDataSuccess, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
+export const { dimensionDataLoading, dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
 export function createDimensions(payload, callback) {
     return async (dispatch) => {
         
-        dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post('create_dimension', { ...payload })
             dispatch(dimensionsDataSuccess())
@@ -73,10 +81,9 @@ export function createDimensions(payload, callback) {
 
 export function getAllDimensionsList(payload, callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.get('list_dimensions', { ...payload })
-            console.log(result, "lll")
             dispatch(dimensionsDataListSuccess(result.data))
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -90,10 +97,9 @@ export function getAllDimensionsList(payload, callback) {
 
 export function getHierarchy(payload) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.get(`get_hierarchy?name=${payload}`)
-            console.log(result, "lll")
             dispatch(dimensionHierarchy(result.data.hierarchy))
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -106,12 +112,11 @@ export function getHierarchy(payload) {
 
 export function getPropertyList(payload) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`list_properties`, {
                 "dimension": payload
             })
-            console.log(result, "lll")
             dispatch(allListProperties(result.data))
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -127,7 +132,6 @@ export function addNode(payload) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`add_node`, { ...payload })
-            console.log(result, "lll")
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -143,7 +147,6 @@ export function deleteNode(payload) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`delete_node`, { ...payload })
-            console.log(result, "lll")
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -159,7 +162,6 @@ export function moveNode(payload) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`move_node`, { ...payload })
-            console.log(result, "lll")
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -175,7 +177,6 @@ export function renameNode(payload) {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`rename_node`, { ...payload })
-            console.log(result, "lll")
 
         } catch (error) {
             const message = error.message || "Something went wrong";
@@ -188,10 +189,9 @@ export function renameNode(payload) {
 
 export function getPropertyNode(payload) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`get_node_properties`, { ...payload })
-            console.log(result, "lll")
             dispatch(singleNodeProperties(result.data.properties))
 
         } catch (error) {
@@ -205,7 +205,7 @@ export function getPropertyNode(payload) {
 
 export function addProperty(payload,callback) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post(`define_property`, { ...payload })
             dispatch(dimensionDataLoadingSuccess());
@@ -222,7 +222,7 @@ export function addProperty(payload,callback) {
 
 export function assignProperty(payload,callback) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post(`assign_property_value`,{...payload})
               toast.success(result.data.status)
@@ -241,10 +241,11 @@ export function assignProperty(payload,callback) {
 
 export function deleteProperty(payload,callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.delete(`delete_property?property_name=${payload.property_name}&dimension=${payload.dimension}`)
               toast.success("Property is deleted")
+              dispatch(dimensionDataLoadingSuccess());
               return callback()
 
         } catch (error) {
@@ -258,7 +259,7 @@ export function deleteProperty(payload,callback) {
 
 export function editPropertyDefinition(payload) {
     return async (dispatch) => {
-        dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post(`edit_property_definition`,{...payload})
             toast.success("Property is updated successfully")
@@ -275,11 +276,13 @@ export function editPropertyDefinition(payload) {
 
 export function deleteDimensionAPI(payload,callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post(`delete_dimension`,{...payload})   
-            toast.success("Dimension is Deleted")           
+            toast.success("Dimension is Deleted")    
+            dispatch(dimensionDataLoadingSuccess());       
               return callback()
+
 
         } catch (error) {
             const message = error.message || "Something went wrong";

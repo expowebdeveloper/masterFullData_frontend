@@ -37,7 +37,7 @@ const AddProperty = ({
     setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
-  const {loading}=useSelector(state=>state.dimensionData)
+  const {loading,smallLoader}=useSelector(state=>state.dimensionData)
 
   
   useEffect(() => {
@@ -50,15 +50,12 @@ const AddProperty = ({
   const onSubmit = (value) => {
   let filteredObj = {};
   allNodeProperties.forEach(property => {
-    // Check if the property name exists in the obj
     if (value.hasOwnProperty(property.name)) {
-        // Add the property to the filteredObj
         filteredObj[property.name] = value[property.name];
     }
 });
     let propertiesValue = {};
     for (let key in filteredObj) {
-      console.log(key, "ll");
       if (filteredObj[key]) {
         propertiesValue[key] = filteredObj[key];
       }
@@ -78,7 +75,6 @@ const AddProperty = ({
     }));
   };
 
-  console.log(allNodeProperties,"allNodeProperties")
   return (
     <div className="PropertyAddon">
       <div className="heading p-3">
@@ -106,7 +102,6 @@ const AddProperty = ({
                 options={labelValueList}
                 value={dropdownSelectedFields}
                 onChange={(selectedOption, action) => {
-                  console.log(action,"act")
                   setDropdownSelectedFields(selectedOption);
                   if (action.action === "remove-value") {
                     let filter = allNodeProperties.filter(
@@ -126,7 +121,7 @@ const AddProperty = ({
               return (
                 <React.Fragment key={index}>
                   <Row>
-                    <Col md>
+                    <Col>
                       <Form.Group className="mb-3" controlId={`formBasic${item.name}`}>
                         <Form.Label>{item.name}</Form.Label>
                         <input
@@ -149,7 +144,7 @@ const AddProperty = ({
             })}
 
             <Button variant="primary" type="submit">
-              {loading?<SmallSpinner/>: "Submit"}
+              {smallLoader?<SmallSpinner/>: "Submit"}
             </Button>
           </form>
         ) : (

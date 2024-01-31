@@ -17,7 +17,7 @@ const CreateDimensions = () => {
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
-  const {loading}=useSelector(state=>state.dimensionData)
+  const {loading,smallLoader}=useSelector(state=>state.dimensionData)
 
   const onSubmit = (data) => {
     dispatch(createDimensions(data,()=>{
@@ -78,7 +78,7 @@ const CreateDimensions = () => {
               <div className="text-center">
                 {/* <button className="common-btn shadow-none">
               </button> */}
-                <MdButton text="Create Dimension" />
+                <MdButton text="Create Dimension" isLoading={smallLoader}/>
               </div>
             </form>
           </div>

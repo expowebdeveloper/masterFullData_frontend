@@ -47,7 +47,7 @@ const Sidebar = ({ sidebarActive }) => {
                             </li>
                         </ul>
                     </div>
-                    <Link onClick={logoutBtn} className="logout-btn"><FontAwesomeIcon icon={faRightFromBracket} /> <span>Logout</span></Link>
+                    <Link onClick={logoutBtn} className="logout-btn">{sidebarActive?<FontAwesomeIcon icon={faRightFromBracket} />:<><FontAwesomeIcon icon={faRightFromBracket} /> <span>Logout</span></>}</Link>
                 </div>
             </div>
         </>

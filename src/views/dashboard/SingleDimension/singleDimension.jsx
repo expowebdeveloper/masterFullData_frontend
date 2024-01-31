@@ -21,6 +21,7 @@ import { Modal } from "react-bootstrap";
 import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
+import SmallSpinner from "../../../components/common/atomic/SmallSpinner";
 
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
@@ -51,7 +52,7 @@ const SingleDimension = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const currentDimension = location.search.split("=")[1];
-  const { hierarchyList, listProperties, nodeProperties } = useSelector(
+  const { hierarchyList, listProperties, nodeProperties,loading } = useSelector(
     (state) => state.dimensionData
   );
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
@@ -64,7 +65,6 @@ const SingleDimension = () => {
         value: matchedItem.name,
       }));
     setDropdownSelectedFields(matchedPairs);
-    console.log(matchedPairs, "matchedPairs");
   }, [nodeProperties]);
 
   let labelValueList = listProperties.map((item) => {
@@ -86,7 +86,6 @@ const SingleDimension = () => {
   }, [nodeProperties]);
 
   const onAction = (v) => {
-    console.log("onAction", v);
     let data = {};
     switch (v.type) {
       case "add-dir":
@@ -96,7 +95,6 @@ const SingleDimension = () => {
           dimension: currentDimension,
           position: 0,
         };
-        console.log(data, "hhh");
         dispatch(addNode(data));
         break;
 
@@ -143,8 +141,7 @@ const SingleDimension = () => {
         break;
     }
   };
-
-  console.log(hierarchyList, newData, "hierarchyList");
+console.log(loading,"load")
   return (
     <>
       <div className="dimensionSingle">
@@ -204,7 +201,7 @@ const SingleDimension = () => {
                   </div>
                 </div>
               </div>
-              <div className="text-center" style={{ marginTop: "30px" }}>
+             {loading?<div className="text-center"><SmallSpinner/></div> : <div className="text-center" style={{ marginTop: "30px" }}>
                 {newData.length > 0 ? (
                   <GTree
                     initialData={newData}
@@ -214,12 +211,14 @@ const SingleDimension = () => {
                 ) : (
                   ""
                 )}
-              </div>
+              </div>}
             </div>
           </div>
 
+          {/* {loading?<div className="text-center"><SmallSpinner/></div> :""} */}
+
           <div className="col-md-9">
-            {listProperties.length > 0 ? (
+            {loading?<div className="text-center"><SmallSpinner/></div>:listProperties.length > 0 ? (
               <AddProperty
                 handleShow={handleShow}
                 handlepropShow={handlepropShow}
@@ -241,7 +240,7 @@ const SingleDimension = () => {
               ""
             )}
 
-            {listProperties.length == 0 ? (
+            {!loading && listProperties.length == 0 ? (
               <p className="text-center noPropertyaddition mt-5">
                 No Property Added{" "}
                 <span onClick={handlepropShow}>Add Property</span> to dimension

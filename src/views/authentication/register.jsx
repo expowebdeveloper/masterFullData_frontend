@@ -1,37 +1,54 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import authimg from "../../assets/img/auth-img.png";
-import logo from "../../assets/img/logo.svg";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Row, Col, Modal, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import MdButton from "../../components/common/atomic/MdButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../../store/slices/authenticationSlice";
+import { getUserList } from "../../store/slices/adminDashboardSlice";
 
-const Register = () => {
-  const dispatch =useDispatch()
+const Register = ({ show, handleClose }) => {
+  const dispatch = useDispatch();
+  const [selectedRole, setSelectedRole] = useState(null);
+  const { singleUser, allRoles, allPermissions } = useSelector(
+    (state) => state.adminDashboardData
+  );
+  const {loading}=useSelector(state=>state.authData)
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
 
+  const onSubmit = (data) => {
+    let newData = {
+      email: data.email,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      password: data.password,
+      is_active: true,
+      roles: selectedRole,
+    };
 
-  const onSubmit=(data)=>{
-    dispatch(userRegister(data))
-  }
+
+    dispatch(userRegister(newData,()=>{
+      handleClose()
+      dispatch(getUserList(1,10))
+    }))
+  };
   return (
     <>
       <div className="auth-section">
-        <div className="inner-auth-wrapper">
+        <div className="inner-auth-wrapper"></div>
+      </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
           <Row className="mx-0">
-            <Col md={6} className="px-0">
+            <Col md={12} className="px-0">
               <div className="auth-content">
-                <div className="text-center">
-                  <img src={logo} className="auth-logo" />
-                </div>
                 <div className="mb-4">
                   <h2 className="auth-heading">Create an Account</h2>
                   <p className="auth-text">Please create your account</p>
@@ -47,14 +64,16 @@ const Register = () => {
                           type="text"
                           name="firstName"
                           className="form-control form-field shadow-none"
-                          {...register("firstName",{
-                            required:{
-                                value:true,
-                                message:"First Name is required"
-                            }
+                          {...register("firstName", {
+                            required: {
+                              value: true,
+                              message: "First Name is required",
+                            },
                           })}
                         />
-                        <p className="error-message">{errors.firstName?.message}</p>
+                        <p className="error-message">
+                          {errors.firstName?.message}
+                        </p>
                       </div>
                     </Col>
                     <Col md={6}>
@@ -66,14 +85,16 @@ const Register = () => {
                           type="text"
                           name="lastName"
                           className="form-control form-field shadow-none"
-                          {...register("lastName",{
-                            required:{
-                                value:true,
-                                message:"Last Name is required"
-                            }
+                          {...register("lastName", {
+                            required: {
+                              value: true,
+                              message: "Last Name is required",
+                            },
                           })}
                         />
-                        <p className="error-message">{errors.lastName?.message}</p>
+                        <p className="error-message">
+                          {errors.lastName?.message}
+                        </p>
                       </div>
                     </Col>
                   </Row>
@@ -85,18 +106,19 @@ const Register = () => {
                       type="email"
                       name="email"
                       className="form-control form-field shadow-none"
-                      {...register("email",{
-                        required:{
-                          value:true,
-                          message:"Email is required"
-                      },
-                        pattern:{
-                            value:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-                            message:"Please Enter valid email"
-                        }
+                      {...register("email", {
+                        required: {
+                          value: true,
+                          message: "Email is required",
+                        },
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+                          message: "Please Enter valid email",
+                        },
                       })}
                     />
-                     <p className="error-message">{errors.email?.message}</p>
+                    <p className="error-message">{errors.email?.message}</p>
                   </div>
                   <div className="mb-23">
                     <label className="label-text">
@@ -107,14 +129,16 @@ const Register = () => {
                         type="password"
                         name="password"
                         className="form-control form-field shadow-none"
-                        {...register("password",{
-                          required:{
-                              value:true,
-                              message:"Password is required"
-                          }
+                        {...register("password", {
+                          required: {
+                            value: true,
+                            message: "Password is required",
+                          },
                         })}
                       />
-                       <p className="error-message">{errors.password?.message}</p>
+                      <p className="error-message">
+                        {errors.password?.message}
+                      </p>
                       <button className="password-eye-btn">
                         <FontAwesomeIcon icon={faEye} />
                       </button>
@@ -129,34 +153,53 @@ const Register = () => {
                         type="password"
                         name="reEnterPassword"
                         className="form-control form-field shadow-none"
-                        {...register("reEnterPassword",{
-                          required:{
-                              value:true,
-                              message:"Confirm Password is required"
-                          }
+                        {...register("reEnterPassword", {
+                          required: {
+                            value: true,
+                            message: "Confirm Password is required",
+                          },
                         })}
                       />
-                       <p className="error-message">{errors.reEnterPassword?.message}</p>
+                      <p className="error-message">
+                        {errors.reEnterPassword?.message}
+                      </p>
                       <button className="password-eye-btn">
                         <FontAwesomeIcon icon={faEye} />
                       </button>
                     </div>
                   </div>
+                  <div className="mb-23">
+                    <label className="label-text">
+                      Select Role <span className="highlight-req">*</span>
+                    </label>
+                    <div className="position-relative ">
+                      <select className="role-field"  onChange={(e) => setSelectedRole(e.target.value)}>
+                        <option>Select Role</option>
+                        {allRoles.map((role, index) => (
+                          <option
+                            selected={
+                              singleUser.roles?.name === role.name
+                                ? true
+                                : false
+                            }
+                            key={index}
+                            value={role.id}
+                          >
+                            {role.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                   <div className="text-center">
-                    <MdButton text="Create an account"/>
+                    <MdButton text="Create an account" isLoading={loading} />
                   </div>
                 </form>
               </div>
             </Col>
-            <Col md={6} className="px-0">
-              <div className="auth-img-wrapper text-center position-relative h-100">
-                <div className="box-blur"></div>
-                <img src={authimg} className="auth-img" />
-              </div>
-            </Col>
           </Row>
-        </div>
-      </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
