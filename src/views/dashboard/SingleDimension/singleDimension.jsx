@@ -133,7 +133,7 @@ const SingleDimension = () => {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
         };
-        setIsAssignProperty(prev=>!prev)
+        setIsAssignProperty(false)
         setSelectedNode(data.node_name);
         dispatch(getPropertyNode(data));
         setIsPropertyAdded(true);
