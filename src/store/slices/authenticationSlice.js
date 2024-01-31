@@ -58,6 +58,8 @@ export function userLogin(payload, callback) {
             if (result.status == 200) {
                 localStorage.setItem("token", result.data.access_token);
                 localStorage.setItem("refreshToken", result.data.refresh_token)
+                console.log(result,"ppp")
+                localStorage.setItem("user",result.data.first_name)
                 window.location.href="/"
             }
         } catch (error) {

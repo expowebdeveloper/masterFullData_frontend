@@ -26,8 +26,8 @@ const Sidebar = ({ sidebarActive }) => {
                 <div className="inner-sidebar h-100 d-flex justify-content-between flex-column">
                     <div>
                         <div className="text-center mb-xxl-5 pb-4">
-                            <img src={logoimg} className="sidebar-logo" />
-                            <img src={logoSmall} className="sidebar-logo-small" />
+                            <Link to="/"> <img src={logoimg} className="sidebar-logo" /></Link>
+                           <Link to="/"><img src={logoSmall} className="sidebar-logo-small" /></Link>  
                         </div>
                         <ul className="sidebar-listing ps-0">
                             <li className="sidebar-ite">

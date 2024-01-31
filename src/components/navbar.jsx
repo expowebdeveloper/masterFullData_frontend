@@ -14,7 +14,7 @@ const Navbar = ({ collapseSidebar, navbarActive }) => {
                 </div>
                 <div className="d-flex gap-4 align-items-center">
                     <img src={userimg} className="userbx-img"/>
-                    <span className="user-name">Lorem</span>
+                    <span className="user-name">{localStorage.getItem("user")}</span>
                 </div>
             </div>
         </>
