@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,8 +22,8 @@ const ForgotPassword = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(forGotPassword(data, ()=>{
-      navigate("/opt-verify") 
+    dispatch(forGotPassword(data, (userId)=>{
+      navigate(`/opt-verify/${userId}`) 
     }));
   };
 

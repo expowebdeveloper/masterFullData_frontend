@@ -4,16 +4,20 @@ import authimg from "../../assets/img/auth-img.png";
 import logo from "../../assets/img/logo.svg";
 import { useDispatch } from "react-redux";
 import {
-  forGotPassword,
-  userRegister,
+    verifyOtp
 } from "../../store/slices/authenticationSlice";
 import MdButton from "../../components/common/atomic/MdButton";
 import { useForm } from "react-hook-form";
 import OTPInput from "react-otp-input";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const OtpVerify = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [otp, setOtp] = useState('');
+  const { userId } = useParams();
   const {
     register,
     handleSubmit,
@@ -21,8 +25,15 @@ const OtpVerify = () => {
   } = useForm({});
 
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(forGotPassword(data));
+    if (otp.length === 6){
+        var data = {
+            otp: otp,
+            user_id: userId
+        }
+        dispatch(verifyOtp(data, () => {
+            navigate(`/reset-password/${userId}`) 
+        }))
+    }
   };
 
   const handleOtpInputChange = (otp) => {
@@ -62,7 +73,7 @@ const OtpVerify = () => {
                       isInputNum={true}
                       containerStyle="OTPInputContainer"
                     />
-                    <p className="error-message">{errors.email?.message}</p>
+                    {/* <p className="error-message">{errors.email?.message}</p> */}
                   </div>
                   <div className="text-center">
                     <MdButton text="Verify OTP" />

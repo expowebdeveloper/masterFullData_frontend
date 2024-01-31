@@ -1239,6 +1239,13 @@ button.PropertyBtn:hover {
 {
   width: calc(100% - 100px);
 }
+.pagination-section{
+  display: flex;
+}
+.pagination-section li{
+  width: 50px;
+}
+
 @media only screen and (max-width: 1440px)
 {
     .auth-img
@@ -1404,7 +1411,7 @@ ul.gtree_root li ul li {
 ul.gtree_root li ul li:last-child {
   border-color: transparent;
 }
-<<<<<<< HEAD
+
 
 span.edit.text-black.me-2 {
   cursor: pointer;

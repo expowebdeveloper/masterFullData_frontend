@@ -8,6 +8,7 @@ const initialAuthData = {
     activeUser: 0,
     inActiveUser: 0,
     totalUser: 0,
+    pageNumber:1,
     singleUser: {},
     allRoles: [],
     allPermissions: [],
@@ -31,6 +32,7 @@ export const adminDashboardSlice = createSlice({
             state.activeUser = action.payload.total_active
             state.inActiveUser = action.payload.total_inactive
             state.totalUser = action.payload.total_user
+            state.pageNumber = action.payload.page_number
         },
         removeDeletedUserFromList: (state, action) =>{
             let userId = action.payload
@@ -54,21 +56,17 @@ export const adminDashboardSlice = createSlice({
 export const {authDataLoading,authDataSuccess,authDataError, saveUserDetail, removeDeletedUserFromList, singleUserDetail, allRoles, allPermissions}= adminDashboardSlice.actions
 export default adminDashboardSlice.reducer
 
-export function getUserList(callback) {
+export function getUserList(page, page_size) {
     return async (dispatch) => {
         dispatch(authDataLoading())
         try {
-            let result = await instance.get('get-users', {})
+            let result = await instance.get(`get-users?page=${page}&page_size=${page_size}`, {})
             if (result.status == 200) {
                 dispatch(saveUserDetail(result.data))
             }
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
         }
     };
 }
@@ -84,10 +82,6 @@ export function deleteUser(userID, callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
         }
     };
 }
@@ -103,10 +97,6 @@ export function getUser(userID, callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
         }
     };
 }
@@ -123,10 +113,6 @@ export function getRoles(callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
         }
     };
 }
@@ -143,10 +129,7 @@ export function getPermissions(callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
+
         }
     };
 }
@@ -163,10 +146,7 @@ export function updateUser(userId, payload, callback) {
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log(message)
-            // if(error.response.status==400){
-            //     dispatch(authDataError(false))
-            //     toast.error("Please Enter valid credentials")
-            // }
+
         }
     };
 }

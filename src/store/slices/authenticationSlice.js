@@ -73,19 +73,69 @@ export function forGotPassword(payload, callback) {
         dispatch(authDataLoading())
         try {
             let result = await instance.post('forget-pass', { ...payload })
-            console.log(result, '--------------------')
             if (result.status == 200) {
                 toast.success("OTP send successfully")
-                return callback()
+                return callback(result.data?.user_id)
             } else {
                 toast.error("Something went wrong")
             }
         } catch (error) {
+            console.log(error)
             const message = error.message || "Something went wrong";
-            if(error.response.status==400){
+            if(error.response?.status==400){
                 dispatch(authDataError(false))
                
             }
+
+        }
+    };
+}
+
+export function verifyOtp(payload, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.post('verify-otp', { ...payload })
+            if (result.status == 200) {
+                toast.success("OTP Matched!")
+                return callback()
+            } else {
+                toast.error("Something went wrong----")
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==404){
+                toast.error("OTP not matched!")
+            }
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+               
+            // }
+
+        }
+    };
+}
+
+export function resetPassword(payload, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.post('reset-pass', { ...payload })
+            if (result.status == 200) {
+                toast.success("Reset Password Successfully")
+                return callback()
+            } else {
+                toast.error("Something went wrong----")
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response?.status==404){
+                toast.error("Otp not verified!")
+            }
+            // if(error.response.status==400){
+            //     dispatch(authDataError(false))
+               
+            // }
 
         }
     };
