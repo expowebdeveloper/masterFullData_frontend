@@ -201,7 +201,7 @@ console.log(loading,"load")
                   </div>
                 </div>
               </div>
-             {loading?<div className="text-center"><SmallSpinner/></div> : <div className="text-center" style={{ marginTop: "30px" }}>
+              <div className="text-center" style={{ marginTop: "30px" }}>
                 {newData.length > 0 ? (
                   <GTree
                     initialData={newData}
@@ -211,7 +211,7 @@ console.log(loading,"load")
                 ) : (
                   ""
                 )}
-              </div>}
+              </div>
             </div>
           </div>
 
