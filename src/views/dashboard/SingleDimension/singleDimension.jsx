@@ -22,11 +22,18 @@ import AddProperty from "../../../components/dimensions/AddProperty";
 import AddPropertyModal from "../../../components/singleDimensions/AddPropertyModal";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 import SmallSpinner from "../../../components/common/atomic/SmallSpinner";
+import ImportExportModal from "../../../components/common/atomic/ImportExportModal";
+import ImportModalContent from "../../../components/common/atomic/importModalContent";
+import ExportModalContent from "../../../components/common/atomic/ExportModalContent";
 
 const SingleDimension = () => {
   const [show, setShow] = useState(false);
   const [selectedNode, setSelectedNode] = useState("");
   const [selectedPropertyField, setSelectedPropertyFiled] = useState("");
+  const [importExport, setImportExport] = useState({
+    isModal: false,
+    whichOneModal: null,
+  });
   const [allNodeProperties, setAllNodeProperties] = useState([]);
   const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
   const [isPropertyAdded, setIsPropertyAdded] = useState(true);
@@ -51,10 +58,10 @@ const SingleDimension = () => {
   const handlepropShow = () => setpropShow(true);
   const dispatch = useDispatch();
   const location = useLocation();
-  const currentDimension = location.search.split("=")[1];
-  const { hierarchyList, listProperties, nodeProperties,loading } = useSelector(
-    (state) => state.dimensionData
-  );
+  const currentDimensions = location.search.split("=")[1];
+  const currentDimension=currentDimensions.replace(/%20/g, ' ');
+  const { hierarchyList, listProperties, nodeProperties, loading } =
+    useSelector((state) => state.dimensionData);
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
 
   useEffect(() => {
@@ -84,6 +91,18 @@ const SingleDimension = () => {
   useEffect(() => {
     setAllNodeProperties(nodeProperties);
   }, [nodeProperties]);
+
+  const importExportClick = (currentModal) => {
+    setImportExport({
+      isModal: true,
+      whichOneModal: currentModal,
+    });
+  };
+  console.log(importExport, "importExport");
+
+  const importExportClickClose = () => {
+    setImportExport({ isModal: false, whichOneModal: null });
+  };
 
   const onAction = (v) => {
     let data = {};
@@ -133,7 +152,7 @@ const SingleDimension = () => {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
         };
-        setIsAssignProperty(false)
+        setIsAssignProperty(false);
         setSelectedNode(data.node_name);
         dispatch(getPropertyNode(data));
         setIsPropertyAdded(true);
@@ -142,7 +161,7 @@ const SingleDimension = () => {
         break;
     }
   };
-console.log(loading,"load")
+  console.log(loading, "load");
   return (
     <>
       <div className="dimensionSingle">
@@ -161,7 +180,7 @@ console.log(loading,"load")
                     </h2>
                   </div>
                   <div className="btnList">
-                    <button>
+                    <button onClick={() => importExportClick("import")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -180,7 +199,7 @@ console.log(loading,"load")
                       </svg>
                       Import
                     </button>
-                    <button>
+                    <button onClick={() => importExportClick("export")}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -215,9 +234,6 @@ console.log(loading,"load")
               </div>
             </div>
           </div>
-
-          {/* {loading?<div className="text-center"><SmallSpinner/></div> :""} */}
-
           <div className="col-md-9">
             {listProperties.length > 0 ? (
               <AddProperty
@@ -259,6 +275,21 @@ console.log(loading,"load")
         currentDimension={currentDimension}
         isEditProperty={isEditProperty}
       />
+      <ImportExportModal
+        show={importExport.isModal}
+        importExportClickClose={importExportClickClose}
+        data={
+          importExport.whichOneModal == "import"
+            ? "Import"
+            : "Export"
+        }
+      >
+        {importExport.whichOneModal == "import" ? (
+          <ImportModalContent currentDimension={currentDimension} importExportClickClose={importExportClickClose}/>
+        ) : (
+          <ExportModalContent currentDimension={currentDimension} importExportClickClose={importExportClickClose} />
+        )}
+      </ImportExportModal>
     </>
   );
 };
