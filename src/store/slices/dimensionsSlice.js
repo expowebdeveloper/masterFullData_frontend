@@ -294,3 +294,46 @@ export function deleteDimensionAPI(payload,callback) {
     };
 }
 
+
+
+export function addImportData(payload,callback) {
+    return async (dispatch) => {
+        dispatch(smallLoaderData())
+        try {
+            let result = await instance.post(`import_hierarchy`,payload,{
+                headers: {
+                    "content-type": "multipart/form-data",
+                },
+            })   
+            toast.success("Property is Exported")    
+            dispatch(dimensionDataLoadingSuccess());       
+              return callback()
+
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
+
+
+export function addExportData(payload,callback) {
+    return async (dispatch) => {
+        dispatch(smallLoaderData())
+        try {
+            let result = await instance.post(`extract_hierarchy`,{...payload})   
+            toast.success("Property is Exported")    
+            dispatch(dimensionDataLoadingSuccess());       
+              return callback()
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response.status==400){
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
+
