@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Row, Col } from "react-bootstrap";
 import authimg from "../../assets/img/auth-img.png";
 import logo from "../../assets/img/logo.svg";
@@ -13,6 +13,16 @@ const Login = () => {
   const dispatch =useDispatch()
   const {register,handleSubmit, formState: { errors ,isDirty,isValid,isSubmitting}}=useForm({});
   const {loading}=useSelector(state=>state.authData)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else if (field === 'confirmPassword') {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
 
   const onSubmit=(data)=>{
     dispatch(userLogin(data))
@@ -60,7 +70,7 @@ const Login = () => {
                     </label>
                     <div className="position-relative">
                       <input
-                        type="password"
+                        type={showConfirmPassword ? 'text' : 'password'}
                         name="password"
                         className="form-control form-field shadow-none"
                         {...register("password",{
@@ -71,9 +81,10 @@ const Login = () => {
                         })}
                       />
                        <p className="error-message">{errors.password?.message}</p>
-                      <button className="password-eye-btn">
+                      <span className="password-eye-btn"
+                      onClick={() => togglePasswordVisibility('confirmPassword')}>
                         <FontAwesomeIcon icon={faEye} />
-                      </button>
+                      </span>
                     </div>
                   </div>
                   <div className="text-end mb-40">

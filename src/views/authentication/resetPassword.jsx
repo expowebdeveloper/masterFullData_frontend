@@ -35,7 +35,6 @@ const ResetPassword = () => {
         password: password
       }
       dispatch(resetPassword(data, () => {
-        console.log('-------------------------')
         navigate('/login')
       }))
     }else{

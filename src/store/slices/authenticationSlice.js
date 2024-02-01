@@ -33,9 +33,6 @@ export function userRegister(payload, callback) {
         try {
             let result = await instance.post('user', { ...payload })
             if (result.status == 200) {
-                console.log(result)
-                localStorage.setItem("token", result.data.access_token);
-                localStorage.setItem("refreshToken", result.data.refresh_token)
                  toast.success("New User is created");
                  dispatch(authDataSuccess())
                  return callback()
@@ -68,6 +65,9 @@ export function userLogin(payload, callback) {
             if(error.response.status==400){
                 dispatch(authDataError())
                 toast.error("Please Enter valid credentials")
+            }
+            if(error.response.status==404){
+                toast.error("Email not found!")
             }
 
         }

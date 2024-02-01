@@ -285,6 +285,7 @@ export function deleteDimensionAPI(payload,callback) {
 
 
         } catch (error) {
+            dispatch(dimensionDataError())
             const message = error.message || "Something went wrong";
             if(error.response.status==400){
                 dispatch(dimensionDataError())
