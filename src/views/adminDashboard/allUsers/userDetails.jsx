@@ -35,7 +35,7 @@ const UserDetails = () => {
 
     useEffect(() =>{
         setSelectedOption(singleUser?.permissions)
-        setSelectedRole(singleUser?.roles.id)
+        setSelectedRole(singleUser?.roles?.id)
     },[singleUser?.permissions, singleUser?.roles])
     
     const deleteModal = (userId) => {

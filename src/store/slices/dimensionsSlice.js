@@ -312,7 +312,7 @@ export function addImportData(payload,callback) {
 
         } catch (error) {
             const message = error.message || "Something went wrong";
-            if(error.response.status==400){
+            if(error.response?.status==400){
                 dispatch(dimensionDataError())
             }
         }
@@ -325,12 +325,29 @@ export function addExportData(payload,callback) {
         dispatch(smallLoaderData())
         try {
             let result = await instance.post(`extract_hierarchy`,{...payload})   
-            toast.success("Property is Exported")    
+            toast.success("Property is Exported")
+            console.log(result)
+            console.log(payload.output_format, '================')
+            if (payload.output_format ===  "CSV"){
+                const blob = new Blob([result.data], { type: 'text/csv' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'data.csv';
+                link.click();
+            } else {
+                const jsonString = JSON.stringify(result.data, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'data.json';
+                link.click();
+            }
+            
             dispatch(dimensionDataLoadingSuccess());       
-              return callback()
+            return callback()
         } catch (error) {
             const message = error.message || "Something went wrong";
-            if(error.response.status==400){
+            if(error.response?.status==400){
                 dispatch(dimensionDataError())
             }
         }

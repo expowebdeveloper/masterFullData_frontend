@@ -20,6 +20,16 @@ const Register = ({ show, handleClose }) => {
     handleSubmit,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = (field) => {
+    if (field === 'password') {
+      setShowPassword(!showPassword);
+    } else if (field === 'confirmPassword') {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
 
   const onSubmit = (data) => {
     let newData = {
@@ -30,7 +40,6 @@ const Register = ({ show, handleClose }) => {
       is_active: true,
       roles: selectedRole,
     };
-
 
     dispatch(userRegister(newData,()=>{
       handleClose()
@@ -125,7 +134,7 @@ const Register = ({ show, handleClose }) => {
                     </label>
                     <div className="position-relative">
                       <input
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         name="password"
                         className="form-control form-field shadow-none"
                         {...register("password", {
@@ -135,9 +144,10 @@ const Register = ({ show, handleClose }) => {
                           },
                         })}
                       />
-                      <button className="password-eye-btn">
+                      <span className="password-eye-btn"
+                      onClick={() => togglePasswordVisibility('password')}>
                         <FontAwesomeIcon icon={faEye} />
-                      </button>
+                      </span>
                     </div>
                     <p className="error-message">
                         {errors.password?.message}
@@ -149,7 +159,7 @@ const Register = ({ show, handleClose }) => {
                     </label>
                     <div className="position-relative">
                       <input
-                        type="password"
+                        type={showConfirmPassword ? 'text' : 'password'}
                         name="reEnterPassword"
                         className="form-control form-field shadow-none"
                         {...register("reEnterPassword", {
@@ -159,9 +169,10 @@ const Register = ({ show, handleClose }) => {
                           },
                         })}
                       />
-                      <button className="password-eye-btn">
+                      <span className="password-eye-btn"
+                      onClick={() => togglePasswordVisibility('confirmPassword')}>
                         <FontAwesomeIcon icon={faEye} />
-                      </button>
+                      </span>
                     </div>
                       <p className="error-message">
                         {errors.reEnterPassword?.message}
