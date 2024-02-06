@@ -471,12 +471,25 @@ svg {
 .eye{
     background-color: #5864FF;
 }
+.add{
+  background-color: #27f472;
+}
 .trash{
     background-color: #FF4949;
 }
 .dashboard-icon{
     width: 24px;
     height: 24px;
+}
+.action-btn
+{
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
 }
 .user-search{
     width: 300px;
@@ -1666,4 +1679,8 @@ button.PropertyBtn {
   min-height: calc(30vh - 50px);
 }
 
+}
+.cursor-pointer
+{
+  cursor: pointer;
 }

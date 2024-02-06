@@ -326,8 +326,6 @@ export function addExportData(payload,callback) {
         try {
             let result = await instance.post(`extract_hierarchy`,{...payload})   
             toast.success("Property is Exported")
-            console.log(result)
-            console.log(payload.output_format, '================')
             if (payload.output_format ===  "CSV"){
                 const blob = new Blob([result.data], { type: 'text/csv' });
                 const link = document.createElement('a');

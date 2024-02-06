@@ -47,13 +47,27 @@ export const adminDashboardSlice = createSlice({
         },
         allPermissions: (state, action) => {
             state.allPermissions = action.payload
+        },
+        updateActiveState: (state, action) => {
+            var result = action.payload
+            const userIndex = state.allUser.findIndex(user => user.id === result.user_id);
+            if (userIndex !== -1) {
+                state.allUser[userIndex].is_active = result.is_active
+                state.activeUser = result.total_active
+                state.inActiveUser = result.total_inactive
+                state.totalUser = result.total_user
+            }
         }
 
     }
 
 })
 
-export const {authDataLoading,authDataSuccess,authDataError, saveUserDetail, removeDeletedUserFromList, singleUserDetail, allRoles, allPermissions}= adminDashboardSlice.actions
+export const {
+    authDataLoading,authDataSuccess,authDataError, saveUserDetail,
+    removeDeletedUserFromList, singleUserDetail, allRoles,
+    allPermissions, updateActiveState 
+    } = adminDashboardSlice.actions
 export default adminDashboardSlice.reducer
 
 export function getUserList(page, page_size) {
@@ -147,6 +161,25 @@ export function updateUser(userId, payload, callback) {
             const message = error.message || "Something went wrong";
             console.log(message)
 
+        }
+    };
+}
+
+export function activeUserR(userId, payload, callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.post(`active`, payload)
+            if (result.status == 200) {
+                toast.success(result.data?.message || "User Update Successfully")
+                var output = Object.assign({}, result.data, payload);
+                dispatch(updateActiveState(output))
+            }
+            console.log(result, '====error====')
+        } catch (error) {
+            const message = error || "Something went wrong";
+            toast.error(message || "User Update Successfully")
+            console.log(error)
         }
     };
 }

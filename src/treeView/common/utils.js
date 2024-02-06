@@ -1,7 +1,19 @@
 export function sortFn(a,b) {
-  return (
-    Number(b.droppable) - Number(a.droppable) || a.text.localeCompare(b.text)
-  );
+  // console.log(a, b, 'sortfun------', a.text.localeCompare(b.text))
+  const sortOrderA = parseFloat(a.sortOrder);
+  const sortOrderB = parseFloat(b.sortOrder);
+  // console.log(sortOrderA, sortOrderB, 'bbbbbbbbbbbbbbb')
+  // return (
+  //   Number(b.droppable) - Number(a.droppable) || a.text.localeCompare(b.text)
+  // );
+  // Check if sortOrder values are valid numbers
+  if (!isNaN(sortOrderA) && !isNaN(sortOrderB)) {
+    // Sort based on sortOrder values
+    return sortOrderA - sortOrderB;
+  } else {
+    // If sortOrder values are not valid numbers, sort based on text property
+    return a.text.localeCompare(b.text);
+  }
 }
 
 export function newID() {
@@ -40,12 +52,14 @@ let newArr= objArry.map((item,index)=>{
     return {
         id:item.node.name,
         text:item.node.name,
+        sortOrder: item.sortOrder,
         parent:item.node.name==item.parent?0:item.parent,
         droppable:true,
         data: {
             name: item.node.name,
             id:item.node.name,
             type: "directory",
+            sort: item.node.sort
         }
 
     }
