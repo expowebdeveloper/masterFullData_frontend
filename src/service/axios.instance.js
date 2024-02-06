@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../utils/common";
+import { getToken, getRefreshToken, updateToken } from "../utils/common";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,14 +24,25 @@ instance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     const message = error.response.data.detail || "Something went wrong";
     if (error.response.status === 401) {
       toast.error(message);
     }
     if (error.response.status === 403) {
-      localStorage.clear();
-      window.location.href="/";
+      const originalRequest = error.config;
+      try {
+        let refreshToken = getRefreshToken();
+        const response = await instance.post('/token/refresh/', { refresh: refreshToken });
+        let refreshTokn = updateToken(response.data.access_token)
+        originalRequest.headers["Authorization"] = `Bearer ${refreshTokn}`;
+        return instance(originalRequest);
+      } catch (error) {
+        // Handle refresh token error
+        localStorage.clear();
+        window.location.href="/";
+        console.error("Error refreshing token:", error);
+      }
     }
     return Promise.reject(error);
   }

@@ -6,10 +6,11 @@ import searchIcon from '../../../assets/img/iconamoon_search-thin.png'
 import previousIcon from '../../../assets/img/previous.png'
 import nextIcon from '../../../assets/img/next.png'
 import { useNavigate } from "react-router-dom";
-import { getUserList, deleteUser } from '../../../store/slices/adminDashboardSlice';
+import { getUserList, deleteUser, activeUserR } from '../../../store/slices/adminDashboardSlice';
 import { useDispatch, useSelector } from "react-redux";
 import DeletePropertyModal from '../../../components/singleDimensions/DeletePropertyModal';
 import ReactPaginate from 'react-paginate';
+import ReactSwitch from 'react-switch';
 
 
 
@@ -78,6 +79,14 @@ const AllUsers = () => {
             <h3 className='pagination-icon text-center'>{page}</h3>
         </div>
     );
+
+    const handleActiveSwitchToggle=(userID, value)=>{
+        var data = {
+            user_id: userID,
+            is_active:value
+        }
+        dispatch(activeUserR(userID, data))
+    }
     
 
   return (
@@ -101,7 +110,8 @@ const AllUsers = () => {
                             <th scope="col" className='user-table-header'>Last Name</th>
                             <th scope="col" className='user-table-header'>Email Address</th>
                             <th scope="col" className='user-table-header'>Role</th>
-                            <th scope="col" className='user-table-header'>Total Dimensions</th>
+                            {/* <th scope="col" className='user-table-header'>Total Dimensions</th> */}
+                            <th scope="col" className='user-table-header'>Active</th>
                             <th scope='col' className='user-table-header'>Action</th>
                         </tr>
                     </thead>
@@ -113,7 +123,13 @@ const AllUsers = () => {
                                 <td>{user.last_name}</td>
                                 <td>{user.email}</td>
                                 <td><span className='role-pill user'>{user.roles.name}</span></td>
-                                <td>15</td>
+                                {/* <td>15</td> */}
+                                <td>
+                                    <ReactSwitch
+                                        checked={user.is_active}
+                                        onChange={()=> handleActiveSwitchToggle(user.id, !user.is_active)}
+                                    />
+                                </td>
                                 <td className='d-flex justify-content-around'>
                                     <span>
                                         <div className='action-span eye' onClick={handleUserDetails}><img src={eye} alt="" className='action-image'/></div>

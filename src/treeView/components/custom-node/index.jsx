@@ -20,7 +20,7 @@ function FolderActions(props) {
       {/* <button onClick={addFile} title="Add File">
         <FilePlus className="icon" size={ICON_SIZE_S} />
       </button> */}
-      <button onClick={addFolder} title="Add Directory">
+      <button onClick={addFolder} title="Add Child">
         <FolderPlus className="icon" size={ICON_SIZE_S} />
       </button>
     </>
