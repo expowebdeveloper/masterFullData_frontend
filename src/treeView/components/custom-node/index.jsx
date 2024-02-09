@@ -62,8 +62,8 @@ function CustomNode(props) {
     onAddFile(id);
   };
   const onLocalDelete = () => {
-    dispatch(deletePropertyNode(id))
-    // onDelete(id, text);
+    // dispatch(deletePropertyNode(id))
+    onDelete(id, text);
   };
 
 
