@@ -4,8 +4,6 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import userimg from '../assets/img/user-img.jpg';
 import { useLocation } from "react-router-dom";
 const Navbar = ({ collapseSidebar, navbarActive }) => {
-   console.log(navbarActive,"navbarActive")
-
     return(
         <>
             <div className={navbarActive? "nav-header d-flex justify-content-between align-items-center navactive" : "nav-header d-flex justify-content-between align-items-center"}>

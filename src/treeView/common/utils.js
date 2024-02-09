@@ -2,6 +2,8 @@ export function sortFn(a,b) {
   // console.log(a, b, 'sortfun------', a.text.localeCompare(b.text))
   const sortOrderA = parseFloat(a.sortOrder);
   const sortOrderB = parseFloat(b.sortOrder);
+
+  // console.log(sortOrderA, "000000000000000000000000000000000")
   // console.log(sortOrderA, sortOrderB, 'bbbbbbbbbbbbbbb')
   // return (
   //   Number(b.droppable) - Number(a.droppable) || a.text.localeCompare(b.text)
@@ -24,14 +26,21 @@ export function newID() {
 
 export function defaultConfirmDelete(objName) {
   const text = `Are you sure you want to delete ${objName}?\nThe file will be permanently removed.`;
-  return new Promise((resolve, reject) => {
-    const isConfirmed = window.confirm(text);
-    if (isConfirmed) {
-      resolve();
-    } else {
-      reject(`Not confirmed`);
-    }
-  });
+
+    return new Promise((resolve, reject) => {
+      const isConfirmedw = window.confirm(text);
+      // const isConfirmed = objName=="node"?true:false;
+      if (isConfirmedw) {
+        // console.log(isConfirmed,"yesdele")
+        resolve();
+      } else {
+        // console.log(isConfirmed,"no")
+        reject(`Not confirmed`);
+      }
+    });
+  
+ 
+ 
 }
 
 export function flatTreeObjToNodeModel(

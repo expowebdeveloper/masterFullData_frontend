@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { flatTreeObjToNodeModel } from "../../../treeView/common/utils";
+import { defaultConfirmDelete, flatTreeObjToNodeModel } from "../../../treeView/common/utils";
 import GTree from "../../../treeView/components/gtree";
 import { useDispatch, useSelector } from "react-redux";
 import MdButton from "../../../components/common/atomic/MdButton";
@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import {
   addNode,
   deleteNode,
+  deletePropertyNode,
   getHierarchy,
   getPropertyList,
   getPropertyNode,
@@ -25,8 +26,11 @@ import SmallSpinner from "../../../components/common/atomic/SmallSpinner";
 import ImportExportModal from "../../../components/common/atomic/ImportExportModal";
 import ImportModalContent from "../../../components/common/atomic/importModalContent";
 import ExportModalContent from "../../../components/common/atomic/ExportModalContent";
+import DeletePropertyModal from "../../../components/singleDimensions/DeletePropertyModal";
+import { useOnDeleteTreeObj } from "../../../treeView/components/gtree/hooks";
 
 const SingleDimension = () => {
+  const onDelete = useOnDeleteTreeObj();
   const [show, setShow] = useState(false);
   const [selectedNode, setSelectedNode] = useState("");
   const [selectedPropertyField, setSelectedPropertyFiled] = useState("");
@@ -42,8 +46,11 @@ const SingleDimension = () => {
     isEdit: false,
     name: "",
   });
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    dispatch(deletePropertyNode(null))
+  };
   const handleShow = () => setShow(true);
+ 
 
   const [propshow, setpropShow] = useState(false);
 
@@ -60,9 +67,11 @@ const SingleDimension = () => {
   const location = useLocation();
   const currentDimensions = location.search.split("=")[1];
   const currentDimension=currentDimensions.replace(/%20/g, ' ');
-  const { hierarchyList, listProperties, nodeProperties, loading } =
+  const { hierarchyList, listProperties, nodeProperties, loading,smallLoader,isNodeDelete,deleteNodeText } =
     useSelector((state) => state.dimensionData);
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
+
+  const oldtreeData = JSON.parse(JSON.stringify(newData));
 
   useEffect(() => {
     let matchedPairs = listProperties
@@ -79,14 +88,19 @@ const SingleDimension = () => {
   });
 
   useEffect(() => {
-    let data = {
-      dimension: currentDimension,
-      node_name: currentDimension,
-    };
     dispatch(getHierarchy(currentDimension));
     dispatch(getPropertyList(currentDimension));
-    dispatch(getPropertyNode(data));
   }, []);
+
+  useEffect(() =>{
+    if(hierarchyList.length > 0) {
+      let data = {
+        dimension: currentDimension,
+        node_name: hierarchyList[0]?.node?.name,
+      };
+      dispatch(getPropertyNode(data));
+    }
+  },[hierarchyList])
 
   useEffect(() => {
     setAllNodeProperties(nodeProperties);
@@ -98,14 +112,14 @@ const SingleDimension = () => {
       whichOneModal: currentModal,
     });
   };
-  console.log(importExport, "importExport");
 
   const importExportClickClose = () => {
     setImportExport({ isModal: false, whichOneModal: null });
   };
 
-  const onAction = (v) => {
+  const onAction = (v, position=null) => {
     let data = {};
+    console.log(v,"ll")
     switch (v.type) {
       case "add-dir":
         data = {
@@ -118,12 +132,12 @@ const SingleDimension = () => {
         break;
 
       case "delete-dir":
-        data = {
-          name: v.source[v.source.length - 1],
-          dimension: currentDimension,
-        };
+        // data = {
+        //   name: v.source[v.source.length - 1],
+        //   dimension: currentDimension,
+        // };
 
-        dispatch(deleteNode(data));
+        // dispatch(deleteNode(data));
         break;
 
       case "rename":
@@ -141,7 +155,7 @@ const SingleDimension = () => {
           old_parent: v.source[v.source.length - 2],
           new_parent: v.target[v.target.length - 1],
           dimension: currentDimension,
-          position: 0,
+          position: position,
         };
         dispatch(moveNode(data));
 
@@ -161,7 +175,21 @@ const SingleDimension = () => {
         break;
     }
   };
-  console.log(loading, "load");
+  const confirmDelete = () => {
+    let data = {
+      name:deleteNodeText,
+      dimension: currentDimension,
+    };
+    defaultConfirmDelete("node")
+    onDelete("878","first")
+   
+    dispatch(deleteNode(data,()=>{
+      dispatch(deletePropertyNode(null))
+      dispatch(getHierarchy(currentDimension));
+    }));
+  };
+
+
   return (
     <>
       <div className="dimensionSingle">
@@ -225,6 +253,7 @@ const SingleDimension = () => {
                 {newData.length > 0 ? (
                   <GTree
                     initialData={newData}
+                    oldData={oldtreeData}
                     onAction={onAction}
                     className="treeStructure"
                   />
@@ -274,6 +303,7 @@ const SingleDimension = () => {
         handlepropClose={handlepropClose}
         currentDimension={currentDimension}
         isEditProperty={isEditProperty}
+        hierarchyList={hierarchyList}
       />
       <ImportExportModal
         show={importExport.isModal}
@@ -290,6 +320,15 @@ const SingleDimension = () => {
           <ExportModalContent currentDimension={currentDimension} importExportClickClose={importExportClickClose} />
         )}
       </ImportExportModal>
+
+     {isNodeDelete? <DeletePropertyModal
+        show={true}
+        handleClose={handleClose}
+        heading={"Node"}
+        message={"Are you sure, you want to delete the Node?"}
+        confirmDelete={confirmDelete}
+        isLoading={smallLoader}
+      />:'' }
     </>
   );
 };

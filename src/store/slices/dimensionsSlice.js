@@ -8,7 +8,9 @@ const initialDimensionData = {
     hierarchyList: [],
     listProperties: [],
     nodeProperties:[],
-    smallLoader:false
+    smallLoader:false,
+    isNodeDelete:false,
+    deleteNodeText:null,
 }
 
 export const dimensionsSlice = createSlice({
@@ -50,14 +52,18 @@ export const dimensionsSlice = createSlice({
         singleNodeProperties: (state, action) => {
             state.loading = false,
                 state.nodeProperties = action.payload
-        }
+        },
+        deleteNodeDisp: (state, action) => {
+            state.isNodeDelete = action.payload==null?false:true,
+            state.deleteNodeText=action.payload
+        },
 
 
     }
 
 })
 
-export const { dimensionDataLoading, dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
+export const { dimensionDataLoading, deleteNodeDisp,dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
@@ -142,12 +148,13 @@ export function addNode(payload) {
     };
 }
 
-export function deleteNode(payload) {
+export function deleteNode(payload,callback) {
     return async (dispatch) => {
-        // dispatch(dimensionDataLoading())
+        dispatch(smallLoaderData())
         try {
             let result = await instance.post(`delete_node`, { ...payload })
-
+            dispatch(dimensionDataLoadingSuccess());
+            return callback()
         } catch (error) {
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {
@@ -352,3 +359,8 @@ export function addExportData(payload,callback) {
     };
 }
 
+export function deletePropertyNode(payload){
+    return (dispatch)=>{
+        dispatch(deleteNodeDisp(payload))
+    }
+}

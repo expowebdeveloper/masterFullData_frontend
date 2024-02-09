@@ -10,10 +10,14 @@ import { ICON_SIZE_S, INDENT_UNIT } from "../../common/consts";
 import TypedIcon from "../TypedIcon";
 import Title from "./Title";
 import StyledNode, { MaybeSpan } from "./StyledNode";
+import { useDispatch } from "react-redux";
+import { deletePropertyNode } from "../../../store/slices/dimensionsSlice";
+import styles from "./CustomNode.module.css";
 
 
 function FolderActions(props) {
   const { droppable, addFile, addFolder } = props;
+
   if (!droppable) return null;
   return (
     <>
@@ -44,6 +48,7 @@ function CustomNode(props) {
   const indent = depth * INDENT_UNIT;
   const elId = `node_${id}`;
   const [isEditMode, setIsEditMode] = useState(!!initialEditMode);
+  const dispatch =useDispatch()
   const toggleEdit = () => setIsEditMode((b) => !b);
   const resetEdit = () => {
     setIsEditMode(false);
@@ -57,8 +62,12 @@ function CustomNode(props) {
     onAddFile(id);
   };
   const onLocalDelete = () => {
-    onDelete(id, text);
+    dispatch(deletePropertyNode(id))
+    // onDelete(id, text);
   };
+
+
+
   const onSelect = () => {
     onNodeSelect(id, !!droppable);
   };
