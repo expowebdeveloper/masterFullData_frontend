@@ -54,7 +54,7 @@ function GTree(props) {
         <Tree
           tree={treeData}
           rootId={0}
-          sort={false}
+          sort={sortFn}
           render={(node, options) => (
             <CustomNode
               node={node}

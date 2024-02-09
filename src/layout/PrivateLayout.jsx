@@ -9,7 +9,6 @@ const PrivateLayout = () => {
 const [isSidebarActive, setIsSidebarActive] = useState(false);
 const [isNavbarActive, setIsNavbarActive] = useState(false);
 const location =useLocation()
-console.log(location.pathname,"location")
 
 useEffect(()=>{
   setIsNavbarActive(location.pathname=="/single-dimension"?true:false)

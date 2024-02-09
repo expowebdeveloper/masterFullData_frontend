@@ -17,7 +17,7 @@ import styles from "./CustomNode.module.css";
 
 function FolderActions(props) {
   const { droppable, addFile, addFolder } = props;
-  console.log("kl",droppable)
+
   if (!droppable) return null;
   return (
     <>

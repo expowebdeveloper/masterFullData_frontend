@@ -8,6 +8,7 @@ import {
   addProperty,
   editPropertyDefinition,
   getPropertyList,
+  assignProperty,
 } from "../../store/slices/dimensionsSlice";
 import SmallSpinner from "../common/atomic/SmallSpinner";
 
@@ -16,19 +17,26 @@ const AddPropertyModal = ({
   handlepropClose,
   currentDimension,
   isEditProperty,
+  hierarchyList,
 }) => {
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
+    watch,
     setValue,
     formState: { errors, isDirty, isValid, isSubmitting },
-  } = useForm({});
+  } = useForm({
+    defaultValues:{
+      validValues: ['']
+    }
+  });
+
+  const validValues = watch('validValues');
 
   const { loading, smallLoader } = useSelector(state => state.dimensionData)
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isInheritSwitchOn, setIsInheritSwitchOn] = useState(false);
-  const [validValues, setValidValues] = useState([{ additionalProp: "", value: "" }]);
   const [dataTypeValue, setDataTypeValue] = useState('text')
 
   const handledefaultSwitchToggle = () => {
@@ -38,7 +46,8 @@ const AddPropertyModal = ({
     setIsInheritSwitchOn(!isInheritSwitchOn);
   };
   const handleAddInput = () => {
-    setValidValues([...validValues, { additionalProp: "", value: "" }]);
+    const newValues = [...validValues, ''];
+    setValue('validValues', newValues);
   };
   // const handleChange = (event, index) => {
   //   let { name, value } = event.target;
@@ -47,9 +56,9 @@ const AddPropertyModal = ({
   //   setInputs(onChangeValue);
   // };
   const handleDeleteInput = (index) => {
-    const newArray = [...validValues];
-    newArray.splice(index, 1);
-    setValidValues(newArray);
+    const newValues = validValues.filter((_, i) => i !== index);
+    setValue('validValues', newValues);
+
   };
   useEffect(() => {
     setValue("name", isEditProperty.name?.name);
@@ -57,7 +66,7 @@ const AddPropertyModal = ({
     setValue("dataType", isEditProperty.name?.dataType);
     setValue("defaultValues", isEditProperty.name?.defaultValue);
     setDataTypeValue(isEditProperty.name?.dataType || "text")
-    if (isEditProperty.name?.dataType === "boolean"){
+    if (isEditProperty.name?.dataType === "boolean") {
       setIsSwitchOn(isEditProperty.name?.defaultValue === 'true')
     }
 
@@ -65,7 +74,6 @@ const AddPropertyModal = ({
   }, [isEditProperty]);
 
   const handledataType = (value) => {
-    console.log(value)
     setDataTypeValue(value);
   };
   const onSubmit = (data) => {
@@ -93,8 +101,11 @@ const AddPropertyModal = ({
         default_value: dataTypeValue === "boolean" ? `${isSwitchOn}` : data.defaultValues,
         inherits: isInheritSwitchOn,
         data_type: data.dataType,
+        valid_values: {
+          [currentDimension]: data.validValues
+        }
       };
-      console.log(propertyData, '===========================')
+
       dispatch(addProperty(propertyData, () => {
         handlepropClose()
         setDataTypeValue('text');
@@ -102,7 +113,27 @@ const AddPropertyModal = ({
         setIsInheritSwitchOn(false)
         dispatch(getPropertyList(currentDimension));
       }));
-    
+
+      if (isInheritSwitchOn) {
+        let input_data = {
+          "dimension": currentDimension,
+          "assignments": []
+        }
+
+        hierarchyList.forEach(item => {
+          input_data.assignments.push({
+            "node_name": item.node.name,
+            "properties": {
+              [propertyData.name]: dataTypeValue === "boolean" ? `${isSwitchOn}` : propertyData.default_value,
+            }
+          })
+        });
+
+        dispatch(assignProperty(input_data))
+      }
+
+      setValue('validValues', ['']);
+
     }
   };
   return (
@@ -197,7 +228,7 @@ const AddPropertyModal = ({
                     />
                   </Form.Group>
                 </Col>
-                <Col md>
+                {/* <Col md>
                   <Form.Group className="mb-3" controlId="formBasicLName">
                     <Form.Label className="d-block">Formula</Form.Label>
                     <input
@@ -208,44 +239,35 @@ const AddPropertyModal = ({
                       })}
                     />
                   </Form.Group>
-                </Col>
+                </Col> */}
               </Row>
               <Row>
                 <Form.Label>Valid Values</Form.Label>
                 {validValues.map((item, index) => (
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3" controlId="formBasicLName">
-                        <Form.Label className="d-block">Property</Form.Label>
-                        <input
-                          type="text"
-                          className="common-field"
-                          name="formula"
-                          {...register("formula", {
-                          })}
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                      <Form.Label className="d-block">Value</Form.Label>
+                  <Row key={index}>
+                    <Col md={10}>
                       <div className="d-flex align-items-center">
-                        <Form.Group className="mb-3 w-100" controlId="formBasicLName">
+                        <Form.Group className="mb-3" controlId="formBasicLName">
                           <input
                             type="text"
                             className="common-field"
-                            name="formula"
-                            {...register("formula", {
-                            })}
+                            name="validValues"
+                            // {...register("validValues", {
+                            // })}
+
+                            {...register(`validValues.${index}`)}
+                            defaultValue={item} // Set the default value
+
                           />
                         </Form.Group>
                         <Form.Group className="mb-3 white-norwrap ps-3 d-flex gap-2" controlId="formBasicLName">
-                          {validValues.length > 1 && (
-                            <span className="cursor-pointer action-span trash action-btn" onClick={() => handleDeleteInput(index)}><img src={trash} alt="" className='action-image' /></span>
-                          )}
-                          {index === validValues.length - 1 && (
-                            <span className="cursor-pointer  action-span add action-btn" onClick={() => handleAddInput()}>+</span>
-                          )}
-                        </Form.Group>
+                            {validValues.length > 1 && (
+                              <span className="cursor-pointer action-span trash action-btn" onClick={() => handleDeleteInput(index)}><img src={trash} alt="" className='action-image' /></span>
+                            )}
+                            {index === validValues.length - 1 && (
+                              <span className="cursor-pointer  action-span add action-btn" onClick={() => handleAddInput()}>+</span>
+                            )}
+                          </Form.Group>
                       </div>
                     </Col>
                   </Row>

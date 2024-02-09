@@ -86,16 +86,21 @@ const SingleDimension = () => {
   let labelValueList = listProperties.map((item) => {
     return { label: item.name, value: item.name };
   });
-  console.log(isNodeDelete,"isNodeDelete")
+
   useEffect(() => {
-    let data = {
-      dimension: currentDimension,
-      node_name: currentDimension,
-    };
     dispatch(getHierarchy(currentDimension));
     dispatch(getPropertyList(currentDimension));
-    dispatch(getPropertyNode(data));
   }, []);
+
+  useEffect(() =>{
+    if(hierarchyList.length > 0) {
+      let data = {
+        dimension: currentDimension,
+        node_name: hierarchyList[0]?.node?.name,
+      };
+      dispatch(getPropertyNode(data));
+    }
+  },[hierarchyList])
 
   useEffect(() => {
     setAllNodeProperties(nodeProperties);
@@ -107,7 +112,6 @@ const SingleDimension = () => {
       whichOneModal: currentModal,
     });
   };
-  console.log(importExport, "importExport");
 
   const importExportClickClose = () => {
     setImportExport({ isModal: false, whichOneModal: null });
@@ -299,6 +303,7 @@ const SingleDimension = () => {
         handlepropClose={handlepropClose}
         currentDimension={currentDimension}
         isEditProperty={isEditProperty}
+        hierarchyList={hierarchyList}
       />
       <ImportExportModal
         show={importExport.isModal}

@@ -196,7 +196,7 @@ export function useHandleDrop(
   return useCallback(
     (newTree, options) => {
       const prevPath = getFullPath(options.dragSourceId, treeData);
-      let { sortedData, position } = updateSortOrder(newTree, prevPath[1], prevPath[0])
+      let { sortedData, position } = updateSortOrder(newTree, prevPath[prevPath.length - 1], prevPath[prevPath.length - 2])
       console.log(newTree,'tttt')
       console.log(sortedData, position,'777777777777777777777777777777')
       setTreeData(sortedData);
