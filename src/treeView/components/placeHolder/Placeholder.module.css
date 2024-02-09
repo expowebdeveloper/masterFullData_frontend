@@ -1,0 +1,8 @@
+.root {
+    background-color: #1967d2;
+    height: 6px;
+    position: absolute;
+    left: 0;
+    top: -5px;
+    width: 90%;
+  }

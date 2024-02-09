@@ -154,6 +154,40 @@ export function useOnDeleteTreeObj(
   return callback;
 }
 
+
+
+
+function updateSortOrder(newArray, selector, parent) {
+  const index = newArray.findIndex(item => item.id === selector && parent === parent );
+  if (index === -1) {
+    return newArray;
+  }
+  let upperSortOrder, lowerSortOrder;
+  if (index > 0) {
+    upperSortOrder = newArray[index - 1].sortOrder;
+  }
+  if (index < newArray.length - 1) {
+    lowerSortOrder = newArray[index + 1].sortOrder;
+  }
+
+  console.log(upperSortOrder, lowerSortOrder)
+
+  let newSortOrder;
+  if (upperSortOrder !== undefined && lowerSortOrder !== undefined) {
+    newSortOrder = (upperSortOrder + lowerSortOrder) / 2;
+  } else if (upperSortOrder !== undefined) {
+    newSortOrder = upperSortOrder + 1; 
+  } else if (lowerSortOrder !== undefined) {
+    newSortOrder = lowerSortOrder - 1; 
+  } else {
+    newSortOrder = 0;
+  }
+  newArray[index].sortOrder = newSortOrder;
+  return { sortedData: newArray, position: index };
+}
+
+
+
 export function useHandleDrop(
   setTreeData,
   treeData,
@@ -161,17 +195,21 @@ export function useHandleDrop(
 ) {
   return useCallback(
     (newTree, options) => {
-      setTreeData(newTree);
+      const prevPath = getFullPath(options.dragSourceId, treeData);
+      let { sortedData, position } = updateSortOrder(newTree, prevPath[1], prevPath[0])
+      console.log(newTree,'tttt')
+      console.log(sortedData, position,'777777777777777777777777777777')
+      setTreeData(sortedData);
 
       if (!onAction) return;
-      const prevPath = getFullPath(options.dragSourceId, treeData);
-      const targetPath = getFullPath(options.dropTargetId, newTree);
+      
+      const targetPath = getFullPath(options.dropTargetId, sortedData);
       const action = {
         type: "mv",
         source: prevPath,
         target: targetPath
       };
-      onAction(action);
+      onAction(action, position);
     },
     [treeData, setTreeData, onAction]
   );

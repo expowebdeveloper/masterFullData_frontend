@@ -18,19 +18,23 @@ import {
   useNodeSelect
 } from "./hooks";
 import { IconsContext } from "../../contexts/icons";
+import { Placeholder } from "../placeHolder/PlaceHolder";
 
 function GTree(props) {
   const {
     initialData,
+    oldData,
     onAction,
     askConfirmationFn = defaultConfirmDelete,
     iconDict = EMPTY_OBJ,
-    initialSelectedId
+    initialSelectedId,
   } = props;
-  console.log(initialData,"initialData")
+  
   const [lastSelectedId, setLastSelectedId] = useState(initialSelectedId);
   const [treeData, setTreeData] = useState(initialData);
+  const [selectedNode, setSelectedNode] = useState(null);
   const handleDrop = useHandleDrop(setTreeData, treeData, onAction);
+  // const handleDrop = (newTree) => setTreeData(newTree);
   const onEditItem = useOnEditTreeObj(setTreeData, treeData, onAction);
   const onAddFolder = useOnAddTreeObj(setTreeData, true);
   const onAddFile = useOnAddTreeObj(setTreeData, false);
@@ -41,7 +45,9 @@ function GTree(props) {
     askConfirmationFn,
     onAction
   );
-  console.log(treeData,"tree")
+
+  console.log(treeData,'ccccccccccccccc')
+
   return (
     <IconsContext.Provider value={iconDict}>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
@@ -65,12 +71,23 @@ function GTree(props) {
           dragPreviewRender={(monitorProps) => (
             <CustomDragPreview monitorProps={monitorProps} />
           )}
+          canDrop={(tree, { dragSource, dropTargetId, dropTarget }) => {
+            setSelectedNode(dragSource?.id)
+            if (dragSource?.parent === dropTargetId) {
+              return true;
+            }
+          }}
+          insertDroppableFirst={false}
+        
           onDrop={handleDrop}
           classes={{
             root: "gtree_root",
             dropTarget: "dropTarget"
           }}
           dropTargetOffset={5}
+          placeholderRender={(node, { depth }) => (
+            <Placeholder node={node} depth={depth} />
+          )}
         />
       </DndProvider>
     </IconsContext.Provider>
