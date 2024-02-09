@@ -132,12 +132,12 @@ const SingleDimension = () => {
         break;
 
       case "delete-dir":
-        // data = {
-        //   name: v.source[v.source.length - 1],
-        //   dimension: currentDimension,
-        // };
+        data = {
+          name: v.source[v.source.length - 1],
+          dimension: currentDimension,
+        };
 
-        // dispatch(deleteNode(data));
+        dispatch(deleteNode(data));
         break;
 
       case "rename":
