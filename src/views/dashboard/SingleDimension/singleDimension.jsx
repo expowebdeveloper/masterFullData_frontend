@@ -281,6 +281,7 @@ const SingleDimension = () => {
                 dropdownSelectedFields={dropdownSelectedFields}
                 setAllNodeProperties={setAllNodeProperties}
                 labelValueList={labelValueList}
+                hierarchyList={hierarchyList}
               />
             ) : (
               ""

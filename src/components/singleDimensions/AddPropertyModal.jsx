@@ -28,7 +28,7 @@ const AddPropertyModal = ({
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({
     defaultValues:{
-      validValues: ['']
+      validValues: []
     }
   });
 
@@ -114,25 +114,23 @@ const AddPropertyModal = ({
         dispatch(getPropertyList(currentDimension));
       }));
 
-      if (isInheritSwitchOn) {
-        let input_data = {
-          "dimension": currentDimension,
-          "assignments": []
-        }
 
-        hierarchyList.forEach(item => {
-          input_data.assignments.push({
-            "node_name": item.node.name,
-            "properties": {
-              [propertyData.name]: dataTypeValue === "boolean" ? `${isSwitchOn}` : propertyData.default_value,
-            }
-          })
-        });
-
-        dispatch(assignProperty(input_data))
+      let input_data = {
+        "dimension": currentDimension,
+        "assignments": []
       }
 
-      setValue('validValues', ['']);
+      hierarchyList.forEach(item => {
+        input_data.assignments.push({
+          "node_name": item.node.name,
+          "properties": {
+            [propertyData.name]: dataTypeValue === "boolean" ? `${isSwitchOn}` : propertyData.default_value,
+          }
+        })
+      });
+
+      dispatch(assignProperty(input_data))
+      setValue('validValues', []);
 
     }
   };
