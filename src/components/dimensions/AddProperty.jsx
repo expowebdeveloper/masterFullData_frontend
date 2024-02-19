@@ -29,7 +29,8 @@ const AddProperty = ({
   isAssignProperty,
   labelValueList,
   dropdownSelectedFields,
-  hierarchyList
+  hierarchyList,
+  treeData
 }) => {
   const dispatch = useDispatch();
   const {
@@ -86,14 +87,13 @@ const AddProperty = ({
       ],
     };
 
-    console.log(allNodeProperties, filteredObj, 'eeeeeeeeeeeeeeeeeeeeeeeeeee')
 
 
     dispatch(assignProperty(payloadData, () => {
-      const allChildNodes = findAllDescendants(hierarchyList, selectedNode)
+      const allChildNodes = findAllDescendants(treeData, selectedNode)
 
       let nodeName = allChildNodes.map(item => {
-        return item.node?.name
+        return item.id
       })
 
       let updatedData = {};
@@ -104,22 +104,25 @@ const AddProperty = ({
         }
       });
 
-      let data = {
-        "dimension": currentDimension,
-        "assignments": []
-      }
+      const property = allNodeProperties.filter(item => item.name === Object.keys(updatedData)[0])
+      if (property.length > 0 && property[0].inherit){
 
-      nodeName.forEach(item => {
-        data.assignments.push({
-          "node_name": item,
-          "properties": updatedData
+        let data = {
+          "dimension": currentDimension,
+          "assignments": []
+        }
+
+        nodeName.forEach(item => {
+          data.assignments.push({
+            "node_name": item,
+            "properties": updatedData
+          })
         })
-      })
 
-      dispatch(assignProperty(data, () =>{
-        console.log("Child also updated")
-      }))
-
+        dispatch(assignProperty(data, () =>{
+          console.log("Child also updated")
+        }))
+      }
 
     }));
   };

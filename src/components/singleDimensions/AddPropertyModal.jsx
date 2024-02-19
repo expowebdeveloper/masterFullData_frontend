@@ -28,7 +28,7 @@ const AddPropertyModal = ({
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useForm({
     defaultValues:{
-      validValues: []
+      validValues: ['']
     }
   });
 
@@ -130,7 +130,7 @@ const AddPropertyModal = ({
       });
 
       dispatch(assignProperty(input_data))
-      setValue('validValues', []);
+      setValue('validValues', ['']);
 
     }
   };
