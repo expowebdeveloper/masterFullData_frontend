@@ -282,6 +282,7 @@ const SingleDimension = () => {
                 setAllNodeProperties={setAllNodeProperties}
                 labelValueList={labelValueList}
                 hierarchyList={hierarchyList}
+                treeData={newData}
               />
             ) : (
               ""
