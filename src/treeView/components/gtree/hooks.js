@@ -2,7 +2,8 @@ import React, { useCallback } from "react";
 import {
   getDescendants,
 } from "@minoru/react-dnd-treeview";
-import { getFullPath, newID } from "../../common/utils";
+import { getFullPath, newID, sortFn } from "../../common/utils";
+
 
 function buildNewTreeObj(parent, droppable) {
   const tempName = "";
@@ -158,7 +159,15 @@ export function useOnDeleteTreeObj(
 
 
 function updateSortOrder(newArray, selector, parent) {
-  const index = newArray.findIndex(item => item.id === selector && parent === parent );
+
+  let index;
+  if (parent){
+    index = newArray.findIndex(item => item.id === selector && parent === parent );
+  }else{
+    index = newArray.findIndex(item => item.id === selector);
+  }
+
+  
   if (index === -1) {
     return newArray;
   }
@@ -170,7 +179,6 @@ function updateSortOrder(newArray, selector, parent) {
     lowerSortOrder = newArray[index + 1].sortOrder;
   }
 
-  console.log(upperSortOrder, lowerSortOrder)
 
   let newSortOrder;
   if (upperSortOrder !== undefined && lowerSortOrder !== undefined) {
@@ -197,12 +205,10 @@ export function useHandleDrop(
     (newTree, options) => {
       const prevPath = getFullPath(options.dragSourceId, treeData);
       let { sortedData, position } = updateSortOrder(newTree, prevPath[prevPath.length - 1], prevPath[prevPath.length - 2])
-      console.log(newTree,'tttt')
-      console.log(sortedData, position,'777777777777777777777777777777')
-      setTreeData(sortedData);
+      setTreeData(() => sortFn(sortedData));
 
       if (!onAction) return;
-      
+
       const targetPath = getFullPath(options.dropTargetId, sortedData);
       const action = {
         type: "mv",

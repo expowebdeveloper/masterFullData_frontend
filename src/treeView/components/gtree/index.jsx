@@ -31,7 +31,7 @@ function GTree(props) {
   } = props;
   
   const [lastSelectedId, setLastSelectedId] = useState(initialSelectedId);
-  const [treeData, setTreeData] = useState(initialData);
+  const [treeData, setTreeData] = useState(() => sortFn(initialData));
   const [selectedNode, setSelectedNode] = useState(null);
   const handleDrop = useHandleDrop(setTreeData, treeData, onAction);
   // const handleDrop = (newTree) => setTreeData(newTree);
@@ -46,15 +46,13 @@ function GTree(props) {
     onAction
   );
 
-  console.log(treeData,'ccccccccccccccc')
-
   return (
     <IconsContext.Provider value={iconDict}>
       <DndProvider backend={MultiBackend} options={getBackendOptions()}>
         <Tree
           tree={treeData}
           rootId={0}
-          sort={sortFn}
+          sort={false}
           render={(node, options) => (
             <CustomNode
               node={node}
@@ -80,6 +78,7 @@ function GTree(props) {
           insertDroppableFirst={false}
         
           onDrop={handleDrop}
+          
           classes={{
             root: "gtree_root",
             dropTarget: "dropTarget"
