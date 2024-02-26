@@ -71,6 +71,8 @@ const SingleDimension = () => {
     useSelector((state) => state.dimensionData);
   const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
 
+  console.log(newData,'777779888888888888888888888888888888888888888888888')
+
   const oldtreeData = JSON.parse(JSON.stringify(newData));
 
   useEffect(() => {
