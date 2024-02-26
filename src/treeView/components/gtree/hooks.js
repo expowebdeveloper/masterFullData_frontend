@@ -161,11 +161,13 @@ export function useOnDeleteTreeObj(
 function updateSortOrder(newArray, selector, parent) {
 
   let index;
-  if (parent){
-    index = newArray.findIndex(item => item.id === selector && parent === parent );
-  }else{
-    index = newArray.findIndex(item => item.id === selector);
-  }
+
+  index = newArray.findIndex(item => item.id === selector && parent === parent );
+
+
+  const parentName = newArray.find(item => item.id === selector)?.parent;
+  const siblings = newArray.filter(item => item.parent === parentName);
+  const position = siblings.findIndex(item => item.id === selector);
 
   
   if (index === -1) {
@@ -191,7 +193,8 @@ function updateSortOrder(newArray, selector, parent) {
     newSortOrder = 0;
   }
   newArray[index].sortOrder = newSortOrder;
-  return { sortedData: newArray, position: index };
+
+  return { sortedData: newArray, position: position+1 };
 }
 
 
