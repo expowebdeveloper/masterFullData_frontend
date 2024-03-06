@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCodeFork } from "@fortawesome/free-solid-svg-icons";
+import { faCodeFork, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faForward } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -32,7 +32,10 @@ const Sidebar = ({ sidebarActive }) => {
                         </div>
                         <ul className="sidebar-listing ps-0">
                             <li className="sidebar-ite">
-                                <Link to="/dimensions" className={`sidebar-link ${location.pathname=="/dimensions" ?"active":""}`}><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> <span>Dimensions</span></Link>
+                                <Link to="/" className={`sidebar-link ${location.pathname=="/" ?"active":""}`}><FontAwesomeIcon icon={faHouse} /> <span>Home</span></Link>
+                            </li>
+                            <li className="sidebar-ite">
+                                <Link to="/dimensions" className={`sidebar-link ${location.pathname=="/dimensions" || location.pathname=="/single-dimension" ? "active":""}`}><FontAwesomeIcon icon={faCodeFork} className="dimension-icon" /> <span>Dimension</span></Link>
                             </li>
                             <li className="sidebar-ite">
                                 <Link to="/properties" className={`sidebar-link ${location.pathname=="/properties" ?"active":""}`}><FontAwesomeIcon icon={faShareNodes} /> <span>Properties</span></Link>

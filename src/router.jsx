@@ -17,6 +17,7 @@ const SingleDimension = lazy(() =>
 const AdminDashboard = lazy(() => import("./views/adminDashboard/dashboard/dashboard"));
 const AllUsers = lazy(() => import("./views/adminDashboard/allUsers/allUser"));
 const UserDetails = lazy(() => import("./views/adminDashboard/allUsers/userDetails"));
+const AssignProperty = lazy(() => import("./views/dashboard/properties/assignProperty"));
 
 
 
@@ -69,6 +70,11 @@ export const route = [
   {
     path: "/properties",
     element: <Properties />,
+    private: true,
+  },
+  {
+    path: "/properties/assign-properties/:property-id",
+    element: <AssignProperty />,
     private: true,
   },
   {

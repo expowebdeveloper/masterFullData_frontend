@@ -641,6 +641,45 @@ svg {
   width: 40px;
 }
 
+.property-action-span.assign{
+  color: #5864FF;
+  width: 54px;
+  height: 18px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.add-property-btn{
+  width: 295px;
+  height: 54px;
+  left: 1550.5px;
+  border-radius: 13px;
+  background: #5864FF;
+  box-shadow: 0px 0px 8.699999809265137px 0px #5864FF87;
+  color: #FFFFFF;
+  border: none;
+}
+.assign-property{
+  height: 378.42px;
+  border-radius: 26px;
+  border: 1px;
+}
+.select-dimensions{
+  font-size: 18px;
+  font-weight: 400;
+  color: #000;
+  border-radius: 14px;
+  border: none;
+  display: block;
+  width: 100%;
+  background: #f7f7f7 ;
+}
+/* .select-dimensions div{
+  background: #f7f7f7;
+  color: #818181;
+  border: none;
+  
+} */
 
 @media only screen and (max-width: 1440px) {
   .auth-img {
@@ -658,6 +697,23 @@ svg {
   }
   .main-wrapper {
     width: calc(100% - 300px);
+  }
+
+  .add-property-btn{
+    width: 195px;
+    height: 44px;
+    left: 1550.5px;
+    border-radius: 13px;
+    background: #5864FF;
+    box-shadow: 0px 0px 8.699999809265137px 0px #5864FF87;
+    color: #FFFFFF;
+    border: none;
+  }
+  .assign-property{
+    height: 350px;
+    border-radius: 26px;
+    border: 1px;
+    border: 1px solid #DADADA
   }
 }
 
