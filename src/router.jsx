@@ -18,6 +18,7 @@ const AdminDashboard = lazy(() => import("./views/adminDashboard/dashboard/dashb
 const AllUsers = lazy(() => import("./views/adminDashboard/allUsers/allUser"));
 const UserDetails = lazy(() => import("./views/adminDashboard/allUsers/userDetails"));
 const AssignProperty = lazy(() => import("./views/dashboard/properties/assignProperty"));
+const UserLogs = lazy(() => import("./views/UserLogs/userLogs"));
 
 
 
@@ -96,5 +97,10 @@ export const route = [
     path: "/settings",
     element: <Settings/>,
     private: true,
-  }
+  },
+  {
+    path: "/user-logs",
+    element: <UserLogs />,
+    private: true,
+  },
 ];

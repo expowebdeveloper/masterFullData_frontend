@@ -48,7 +48,7 @@ const AssignProperty = () => {
                     <Row className="mb-4">
                       <Col lg={6}>
                         <div>
-                          <label className="label-form">Property Nname</label>
+                          <label className="label-form">Property Name</label>
                           <input
                             type="text"
                             className="common-field"

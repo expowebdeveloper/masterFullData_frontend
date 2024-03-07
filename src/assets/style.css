@@ -291,6 +291,22 @@ svg {
   text-align: center;
   font-weight: 400;
 }
+.property-card
+{
+  background: radial-gradient(53.15% 249.49% at 50% 50%, #58C3FF 0%, #3A89FF 100%);
+}
+.integration-card
+{
+  background: radial-gradient(53.15% 249.49% at 50% 50%, #CA58FF 0%, #9859FF 100%);
+}
+.property-card .total-dimensions
+{
+  color: #69C0FF;
+}
+.integration-card .total-dimensions
+{
+  color: #AD72FF;
+}
 .total-dimensions {
   min-width: 76px;
   display: inline-block;
@@ -520,10 +536,22 @@ svg {
     height: 42px;
     border-radius: 9px;
     border: 1px;
-    border: 1px solid #5864FF;
-    background: #5864FF;
-    color: white;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #5864FF;
     cursor: pointer;
+}
+.disabled .pagination-card
+{
+  background-color: #ccc;
+  color: #000;
+  border: 1px solid #ccc;
+}
+.selected .pagination-card
+{
+  background-color: #5864FF;
+  border: 1px solid #5864FF;
+  color: #fff;
 }
 .pagination-card-inactive{
     width: 42px;
@@ -1627,9 +1655,9 @@ h2.property_added-toggle span {
   height: 18px;
 }
 
-.user-table-content table tr td:last-child {
+/* .user-table-content table tr td:last-child {
   border: none;
-}
+} */
 
 .sidebar a.sidebar-link svg.mdDash path:first-child {
   fill: none;
@@ -1739,4 +1767,166 @@ button.PropertyBtn {
 .cursor-pointer
 {
   cursor: pointer;
+}
+.activity-table-user .activity-tablehead
+{
+  background-color: #5864FF;
+  color: #fff;
+  padding: 20px 40px;
+  font-size: 17px;
+}
+.activity-table-user .activity-tablehead:first-child
+{
+  border-top-left-radius: 24px;
+}
+.activity-table-user .activity-tablehead:last-child
+{
+  border-top-right-radius: 24px;
+}
+.activity-table-user tbody tr td
+{
+  border: none;
+}
+.activity-table-user tbody tr td
+{
+  padding-top: 0px;
+}
+.activity-table-user tbody tr td:first-child
+{
+  padding-left: 17px;
+  padding-bottom: 7px;
+  padding-right: 0px;
+}
+.activity-table-user tbody tr:first-child td
+{
+  padding-top: 17px;
+}
+.activity-table-user tbody tr td:last-child
+{
+  padding-left: 0px;
+  padding-right: 17px;
+  padding-bottom: 7px;
+}
+.activity-table-user tbody tr td span
+{
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 400;
+  background-color: #F7F7F7;
+  padding: 15px 30px;
+  margin-bottom: 7px;
+}
+.activity-table-user tbody tr td span.inner-acitivity-text
+{
+  font-size: 17px;
+}
+.activity-table-responsive
+{
+  border: 1px solid #DADADA;
+  border-radius: 24px;
+}
+.activity-table-user tbody tr td:first-child span
+{
+  border-top-left-radius: 13px;
+  border-bottom-left-radius: 13px;
+}
+.activity-table-user tbody tr td:last-child span
+{
+  border-top-right-radius: 13px;
+  border-bottom-right-radius: 13px;
+}
+.create-text
+{
+  color: #A400F1;
+}
+.update-text
+{
+  color: #4B00EB;
+}
+.delete-text
+{
+  color: #F90404;
+}
+.inner-card-heading
+{
+  font-size: 27px;
+  color: #000;
+}
+.activity-table-responsive
+{
+  max-height: 400px;
+  overflow-y: auto;
+}
+.activity-table-responsive::-webkit-scrollbar
+{
+  height: 5px;
+  width: 5px;
+}
+.activity-table-responsive::-webkit-scrollbar-track
+{
+  height: 5px;
+  width: 5px;
+  border-radius: 30px;
+  background-color: #ccc;
+}
+.activity-table-responsive::-webkit-scrollbar-thumb
+{
+  height: 5px;
+  width: 5px;
+  border-radius: 30px;
+  background-color: #4B00EB;
+}
+.select-dimensions .css-13cymwt-control,
+.select-dimensions .css-t3ipsp-control
+{
+  border: none;
+  box-shadow: none;
+  background-color: #f7f7f7;
+  color: #000;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 14px;
+}
+.select-dimensions .css-art2ul-ValueContainer2
+{
+  padding: 14px 29px;
+}
+.select-dimensions .css-w9q2zk-Input2
+{
+  padding: 0;
+  margin: 0;
+}
+.common-btn-sm
+{
+  padding: 8px 15px;
+  background-color: #5864FF;
+  color: #fff;
+  display: inline-block;
+  border: 1px solid #5864FF;
+  border-radius: 5px;
+}
+.outline-common-btn-sm
+{
+  padding: 8px 15px;
+  background-color: transparent;
+  color: #5864FF;
+  display: inline-block;
+  border: 1px solid #5864FF;
+  border-radius: 5px;
+}
+.user-log-responsive
+{
+  max-height: calc(100vh - 300px);
+}
+.filter-section
+{
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }

@@ -11,6 +11,7 @@ import allUserIcon from '../assets/img/users-fill.png';
 import logoSmall from '../assets/img/logo-small.svg';
 import { MdDashboard } from "react-icons/md";
 import { PiUsersFill } from "react-icons/pi";
+import { FaClipboardList } from "react-icons/fa";
 
 const Sidebar = ({ sidebarActive }) => {
     const location=useLocation();
@@ -48,6 +49,9 @@ const Sidebar = ({ sidebarActive }) => {
                             </li>
                             <li className="sidebar-ite">
                                 <Link to="/all-users" className={`sidebar-link ${location.pathname=="/all-users" || location.pathname==`/user-details/${params.userId}` ?"active":""}`}> <PiUsersFill /> <span>All Users</span></Link>
+                            </li>
+                            <li className="sidebar-ite">
+                                <Link to="/user-logs" className="sidebar-link"> <FaClipboardList /> <span>User Logs</span></Link>
                             </li>
                         </ul>
                     </div>

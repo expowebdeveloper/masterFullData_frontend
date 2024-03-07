@@ -103,7 +103,7 @@ const AllUsers = () => {
             </div>
 
             <div className='user-table-content table-responsive'>
-                <table className="table table-hover text-center">
+                <table className="table table-hover text-center mb-0">
                     <thead>
                         <tr>
                             <th scope="col" className='user-table-header'>First Name</th>
@@ -130,13 +130,15 @@ const AllUsers = () => {
                                         onChange={()=> handleActiveSwitchToggle(user.id, !user.is_active)}
                                     />
                                 </td>
-                                <td className='d-flex justify-content-around'>
-                                    <span>
-                                        <div className='action-span eye' onClick={handleUserDetails}><img src={eye} alt="" className='action-image'/></div>
-                                    </span>
-                                    <span>
-                                        <div className='action-span trash' onClick={() => deleteModal(user.id)}><img src={trash} alt="" className='action-image' /></div>
-                                    </span>
+                                <td>
+                                    <div className='d-flex gap-3'>
+                                        <span>
+                                            <div className='action-span eye' onClick={handleUserDetails}><img src={eye} alt="" className='action-image'/></div>
+                                        </span>
+                                        <span>
+                                            <div className='action-span trash' onClick={() => deleteModal(user.id)}><img src={trash} alt="" className='action-image' /></div>
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
