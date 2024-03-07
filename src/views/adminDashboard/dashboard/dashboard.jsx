@@ -100,8 +100,8 @@ const Dashboard = () => {
                     <h3 className='mb-2'>All Users</h3>
                 </div>
                 <div>
-                    <button className='btn btn-success me-4 mb-2' onClick={handleAddUser}>Add User</button>
-                    <button className='btn btn-primary  mb-2' onClick={handleAllUserClick}>View All</button>
+                    <button className='common-btn-sm me-4 mb-2' onClick={handleAddUser}>+ Add User</button>
+                    <button className='outline-common-btn-sm  mb-2' onClick={handleAllUserClick}>View All</button>
                 </div>
             </div>
 
@@ -133,13 +133,15 @@ const Dashboard = () => {
                                         onChange={()=> handleActiveSwitchToggle(user.id, !user.is_active)}
                                     />
                                 </td>
-                                <td className='d-flex justify-content-around'>
-                                    <span>
-                                        <div className='action-span eye' onClick={() => handleUserDetails(user.id)}><img src={eye} alt="" className='action-image'/></div>
-                                    </span>
-                                    <span>
-                                        <div className='action-span trash' onClick={() => deleteModal(user.id)}><img src={trash} alt="" className='action-image' /></div>
-                                    </span>
+                                <td>
+                                    <div className='d-flex gap-3'>
+                                        <span>
+                                            <div className='action-span eye' onClick={() => handleUserDetails(user.id)}><img src={eye} alt="" className='action-image'/></div>
+                                        </span>
+                                        <span>
+                                            <div className='action-span trash' onClick={() => deleteModal(user.id)}><img src={trash} alt="" className='action-image' /></div>
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
