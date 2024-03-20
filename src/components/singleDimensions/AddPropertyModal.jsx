@@ -71,7 +71,7 @@ const AddPropertyModal = ({
     if (isEditProperty.name?.dataType === "boolean") {
       setIsSwitchOn(isEditProperty.name?.defaultValue === 'true')
     }
-    setValue('validValues',  isEditProperty.name ? isEditProperty.name?.validValues : ['']);
+    setValue('validValues',  isEditProperty.name && isEditProperty.name?.validValues.length > 0 ? isEditProperty.name?.validValues : ['']);
     setIsInheritSwitchOn(isEditProperty.name?.inherits);
 
   }, [isEditProperty]);
