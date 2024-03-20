@@ -11,6 +11,7 @@ import {
   assignProperty,
 } from "../../store/slices/dimensionsSlice";
 import SmallSpinner from "../common/atomic/SmallSpinner";
+import { createProperty } from "../../store/slices/propertySlice";
 
 const AddPropertyModal = ({
   propshow,
@@ -18,6 +19,7 @@ const AddPropertyModal = ({
   currentDimension,
   isEditProperty,
   hierarchyList,
+  addPropertyOnly
 }) => {
   const dispatch = useDispatch();
   const {
@@ -69,29 +71,35 @@ const AddPropertyModal = ({
     if (isEditProperty.name?.dataType === "boolean") {
       setIsSwitchOn(isEditProperty.name?.defaultValue === 'true')
     }
-
+    setValue('validValues',  isEditProperty.name ? isEditProperty.name?.validValues : []);
+    setIsInheritSwitchOn(isEditProperty.name?.inherits);
 
   }, [isEditProperty]);
 
   const handledataType = (value) => {
     setDataTypeValue(value);
   };
+
   const onSubmit = (data) => {
-    if (isEditProperty.edit) {
+    if (isEditProperty.isEdit) {
       let newData = {
-        name: isEditProperty.name,
+        name: isEditProperty.name.name,
+        new_dimensions: currentDimension,
         new_type: data.type,
-        dimensions: [currentDimension],
         new_default_value: dataTypeValue === "boolean" ? `${isSwitchOn}` : data.defaultValues,
         new_inherits: isInheritSwitchOn,
         new_data_type: data.dataType,
+        new_valid_values: data.validValues,
       };
+
       dispatch(editPropertyDefinition(newData, () => {
         handlepropClose()
         setDataTypeValue('text');
         setIsSwitchOn(false)
         setIsInheritSwitchOn(false)
-        dispatch(getPropertyList(currentDimension))
+        if(addPropertyOnly !== true) {
+          dispatch(getPropertyList(currentDimension))
+        }
       }));
     } else {
       let propertyData = {
@@ -101,36 +109,48 @@ const AddPropertyModal = ({
         default_value: dataTypeValue === "boolean" ? `${isSwitchOn}` : data.defaultValues,
         inherits: isInheritSwitchOn,
         data_type: data.dataType,
-        valid_values: {
-          [currentDimension]: data.validValues
-        }
+        ...(
+          addPropertyOnly === true ? 
+          { valid_values: data.validValues } : 
+          { valid_values: { [currentDimension]: data.validValues } }
+        )
       };
 
-      dispatch(addProperty(propertyData, () => {
-        handlepropClose()
-        setDataTypeValue('text');
-        setIsSwitchOn(false)
-        setIsInheritSwitchOn(false)
-        dispatch(getPropertyList(currentDimension));
-      }));
+      if(addPropertyOnly === true) {
+        dispatch(createProperty(propertyData, () => {
+          handlepropClose()
+          setDataTypeValue('text');
+          setIsSwitchOn(false)
+          setIsInheritSwitchOn(false)
+        }))
+      }else{
+        dispatch(addProperty(propertyData, () => {
+          handlepropClose()
+          setDataTypeValue('text');
+          setIsSwitchOn(false)
+          setIsInheritSwitchOn(false)
+          dispatch(getPropertyList(currentDimension));
+        }));
+      
 
 
-      let input_data = {
-        "dimension": currentDimension,
-        "assignments": []
+        let input_data = {
+          "dimension": currentDimension,
+          "assignments": []
+        }
+
+        hierarchyList.forEach(item => {
+          input_data.assignments.push({
+            "node_name": item.node.name,
+            "properties": {
+              [propertyData.name]: dataTypeValue === "boolean" ? `${isSwitchOn}` : propertyData.default_value,
+            }
+          })
+        });
+
+        dispatch(assignProperty(input_data))
+        setValue('validValues', ['']);
       }
-
-      hierarchyList.forEach(item => {
-        input_data.assignments.push({
-          "node_name": item.node.name,
-          "properties": {
-            [propertyData.name]: dataTypeValue === "boolean" ? `${isSwitchOn}` : propertyData.default_value,
-          }
-        })
-      });
-
-      dispatch(assignProperty(input_data))
-      setValue('validValues', ['']);
 
     }
   };

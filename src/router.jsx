@@ -74,7 +74,7 @@ export const route = [
     private: true,
   },
   {
-    path: "/properties/assign-properties/:property-id",
+    path: "/properties/assign-properties/:propertyId",
     element: <AssignProperty />,
     private: true,
   },

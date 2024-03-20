@@ -16,6 +16,17 @@ li {
 img {
   width: 100%;
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 .mb-50 {
   margin-bottom: 50px;
 }
@@ -676,6 +687,12 @@ svg {
   font-size: 18px;
   font-weight: 500;
 }
+.property-action-span{
+  cursor: pointer;
+}
+.property-action-span{
+  cursor: pointer;
+}
 
 .add-property-btn{
   width: 295px;
@@ -708,6 +725,14 @@ svg {
   border: none;
   
 } */
+
+.assign-dimension{
+  background-color: #359733;
+  margin-left: 2px;
+}
+.no-dimension{
+  background-color: #616461;
+}
 
 @media only screen and (max-width: 1440px) {
   .auth-img {
