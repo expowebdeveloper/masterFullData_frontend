@@ -37,6 +37,9 @@ export const dimensionsSlice = createSlice({
         smallLoaderData:(state,action)=>{
             state.smallLoader=true
         },
+        smallLoaderStop:(state,action)=>{
+            state.smallLoader=false
+        },
         dimensionDataError: (state, action) => {
             state.loading = false;
             state.smallLoader=false
@@ -63,7 +66,7 @@ export const dimensionsSlice = createSlice({
 
 })
 
-export const { dimensionDataLoading, deleteNodeDisp,dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties } = dimensionsSlice.actions
+export const { dimensionDataLoading, deleteNodeDisp,dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties, smallLoaderStop } = dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
@@ -264,13 +267,14 @@ export function deleteProperty(payload,callback) {
     };
 }
 
-export function editPropertyDefinition(payload) {
+export function editPropertyDefinition(payload, callback) {
     return async (dispatch) => {
         dispatch(smallLoaderData())
         try {
             let result = await instance.post(`edit_property_definition`,{...payload})
             toast.success("Property is updated successfully")
               dispatch(dimensionDataLoadingSuccess());
+              callback()
 
         } catch (error) {
             const message = error.message || "Something went wrong";

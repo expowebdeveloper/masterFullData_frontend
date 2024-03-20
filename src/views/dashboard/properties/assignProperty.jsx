@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Form, Button, Col, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import MdButton from '../../../components/common/atomic/MdButton';
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 
-
+import { getAllDimensionsList } from '../../../store/slices/dimensionsSlice';
+import { assignPropertyToDimension } from '../../../store/slices/propertySlice';
 
 const animatedComponents = makeAnimated();
 
@@ -20,18 +22,39 @@ const AssignProperty = () => {
   } = useForm({});
 
 
+  let params = useParams();
+  let dispatch = useDispatch();
+  const navigate=useNavigate() 
+
   const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
 
-  const { listProperties, smallLoader } =
-    useSelector((state) => state.dimensionData);
+  const { dimensionsList, smallLoader } = useSelector((state) => state.dimensionData);
 
-  let labelValueList = listProperties.map((item) => {
-    return { label: item.name, value: item.name };
+  const {loading } = useSelector((state) => state.propertyData);
+
+  let labelValueList = Array.from(new Set(dimensionsList)).map((item) => {
+    return { label: item, value: item };
   });
 
   const onSubmit = (data) => {
-
+    console.log(data, dropdownSelectedFields)
+    const payloadData = {
+      "dimension": dropdownSelectedFields.value,
+      "property_name": data.name,
+    }
+    dispatch(assignPropertyToDimension(payloadData, sucessAssign))
   };
+
+  const sucessAssign = () => {
+    navigate("/properties")
+  }
+
+  useEffect(() =>{
+    console.log(dimensionsList)
+    if (dimensionsList.lenght !== 0){
+      dispatch(getAllDimensionsList())
+    }
+  },[])
 
 
   return (
@@ -53,6 +76,8 @@ const AssignProperty = () => {
                             type="text"
                             className="common-field"
                             name="name"
+                            readOnly
+                            value={params.propertyId}
                             {...register("name", {
                               required: {
                                 value: true,
@@ -70,8 +95,8 @@ const AssignProperty = () => {
                             className="select-dimensions"
                             closeMenuOnSelect={false}
                             components={animatedComponents}
-                            isMulti
-                            options={labelValueList}dropdownSelectedFields
+                            
+                            options={labelValueList} dropdownSelectedFields
                             value={dropdownSelectedFields}
                             onChange={(selectedOption, action) => {
                               setDropdownSelectedFields(selectedOption);
@@ -82,7 +107,7 @@ const AssignProperty = () => {
                       </Col>
                     </Row>
                     <div className="text-center">
-                      <MdButton text="Assign Property" isLoading={false} />
+                      <MdButton text="Assign Property" isLoading={loading} />
                     </div>
                   </form>
                 </div>
