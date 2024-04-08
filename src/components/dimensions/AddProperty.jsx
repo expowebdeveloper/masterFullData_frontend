@@ -133,8 +133,8 @@ const AddProperty = ({
         <h2 className="text-center m-0">{currentDimension}</h2>
       </div>
       <div className="uploadFileCSV">
-        <Form.Control type="file" placeholder="Enter First Name" accept="csv/json" />
-        <b>Upload CSV or JSON File</b>
+        <Form.Control type="file" id="fileUpload" accept="csv/json" />
+        <Form.Label htmlFor="fileUpload">Upload CSV or JSON File</Form.Label>
       </div>
       {isPropertyAdded ? <div className="propertyListing p-4 mt-4">
         <Button

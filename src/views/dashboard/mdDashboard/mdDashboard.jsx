@@ -42,7 +42,7 @@ const MdDashboard = () => {
     <>
       <section className='main-wrapper dashboard-wrapper'>
         <Container fluid>
-          <div className='inner-main-wrapper'>
+          <div className='inner-main-wrapper pt-3'>
             <h3 className='welcome-text mb-4'>Welcome Back, <span className='name-login'>{localStorage.getItem("user")}</span></h3>
             <Row className='mb-5'>
               <Col lg={4}>
