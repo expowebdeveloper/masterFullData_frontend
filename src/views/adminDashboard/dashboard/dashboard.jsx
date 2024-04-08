@@ -97,7 +97,7 @@ const Dashboard = () => {
         <Container fluid className='user-table'>
             <div className='d-flex justify-content-between align-items-center mb-4'>
                 <div className='all-user'>
-                    <h3 className='mb-2'>All Users</h3>
+                    <h3 className='inner-card-heading mb-2'>All Users</h3>
                 </div>
                 <div>
                     <button className='common-btn-sm me-4 mb-2' onClick={handleAddUser}>+ Add User</button>
