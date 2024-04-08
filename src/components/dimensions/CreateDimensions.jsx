@@ -54,7 +54,7 @@ const CreateDimensions = () => {
                         },
                       })}
                     />
-                    <p className="error-message">{errors.name?.message}</p>
+                    {errors.name ? <p className="error-message">{errors.name?.message}</p> : "" }
                   </div>
                 </Col>
                 <Col lg={6}>
@@ -71,7 +71,7 @@ const CreateDimensions = () => {
                         },
                       })}
                     />
-                    <p className="error-message">{errors.top_node?.message}</p>
+                    {errors.top_node ? <p className="error-message">{errors.top_node?.message}</p> : "" }
                   </div>
                 </Col>
               </Row>
