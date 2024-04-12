@@ -44,7 +44,7 @@ const MdDashboard = () => {
         <Container fluid>
           <div className='inner-main-wrapper pt-3'>
             <h3 className='welcome-text mb-4'>Welcome Back, <span className='name-login'>{localStorage.getItem("user")}</span></h3>
-            <Row className='mb-5'>
+            <Row className='bottom-space'>
               <Col lg={4}>
                 <div className='dashboard-card'>
                     <p className='total-dimensions'>15</p>

@@ -126,12 +126,12 @@ const UserLogs = () => {
 
                             {/* <tr>
                                 <td><span className="user-name-text">Lorem Ipsum</span></td>
-                                <td><span className='dash-activity-text inner-activity-text update-text'>Updated Property 1</span></td>
+                                <td className="px-0"><span className='dash-activity-text inner-activity-text update-text'>Updated Property 1</span></td>
                                 <td><span className='dash-activity-text inner-activity-text update-text'>5 minutes ago</span></td>
                             </tr>
                             <tr>
                                 <td><span className="user-name-text">Lorem Ipsum</span></td>
-                                <td><span className='dash-activity-text inner-activity-text delete-text'>Deleted Account Node from Test 2 Dimension</span></td>
+                                <td className="px-0"><span className='dash-activity-text inner-activity-text delete-text'>Deleted Account Node from Test 2 Dimension</span></td>
                                 <td><span className='dash-activity-text inner-activity-text delete-text'>10 minutes ago</span></td>
                             </tr> */}
                         </tbody>

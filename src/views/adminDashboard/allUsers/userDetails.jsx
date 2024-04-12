@@ -136,7 +136,7 @@ const UserDetails = () => {
                     </Row>
                 </Container>
             </section>
-            <Modal show={show} className="EditRole" onHide={() => setShow(false)}>
+            <Modal show={show} className="EditRole" onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Role</Modal.Title>
                 </Modal.Header>

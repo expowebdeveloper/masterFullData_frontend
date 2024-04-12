@@ -1354,10 +1354,6 @@ button.PropertyBtn:hover {
 }
 
 .EditRole .modal-dialog {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) !important;
   max-width: 700px;
   border-radius: 40px;
   overflow: hidden;
@@ -1979,6 +1975,10 @@ select:focus {
 
 /* Media Query */
 @media only screen and (max-width: 1440px) {
+  .bottom-space
+  {
+    margin-bottom: 28px;
+  }
   .auth-img {
     max-width: 300px;
   }
@@ -2014,7 +2014,25 @@ select:focus {
     font-size: 16px;
     padding: 15px 35px;
   }
-
+  .page-name
+  {
+    padding: 30px 10px;
+    font-size: 28px;
+  }
+  .userbx-img
+  {
+    width: 47px;
+    height: 47px;
+  }
+  .user-name
+  {
+    font-size: 20px;
+  }
+  .menu-btn
+  {
+    width: 45px;
+    height: 41px;
+  }
   .add-property-btn {
     width: 195px;
     height: 44px;
@@ -2025,6 +2043,18 @@ select:focus {
     color: #FFFFFF;
     border: none;
   }
+  .sidebar a.sidebar-link span,
+  .logout-btn span {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  .sidebar a.sidebar-link
+  {
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
 
   .assign-property {
     height: 350px;
@@ -2153,6 +2183,50 @@ select:focus {
   .dashboardCardTitle
   {
     font-size: 20px;
+  }
+  .dashboard-card-total-user,
+  .dashboard-card-active-user,
+  .dashboard-card-desibled-user
+  {
+    padding: 27px 20px;
+    gap: 10px;
+  }
+  .dashboardCardTitle
+  {
+    line-height: normal;
+  }
+  .EditRole .modal-dialog .authHeader .modal-title.h4
+  {
+    font-size: 27px;
+  }
+  .EditRole label
+  {
+    font-size: 16px;
+    max-block-size: 8px;
+  }
+  .auth-content input.form-control
+  {
+    font-size: 18px;
+  }
+  .EditRole select
+  {
+    font-size: 18px;
+  }
+  .password-eye-btn
+  {
+    font-size: 20px;
+  }
+  .EditRole .modal-dialog .authHeader .modal-title.h4
+  {
+    font-size: 27px;
+  }
+  .EditRole .modal-dialog .authHeader p.auth-text
+  {
+    font-size: 16px;
+  }
+  .EditRole .modal-dialog .authHeader p.auth-text
+  {
+    font-size: 16px;
   }
 }
 
