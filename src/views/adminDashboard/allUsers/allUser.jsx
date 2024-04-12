@@ -95,7 +95,7 @@ const AllUsers = () => {
         <Container fluid className='user-table'>
             <div className='d-flex justify-content-between align-items-center mb-4'>
                 <div className='all-user'>
-                    <h3 className='mb-0'>All Users</h3>
+                    <h3 className='inner-card-heading mb-0'>All Users</h3>
                 </div>
                 <div>
                     <div className='position-relative'><input type="text" name="" id="" className='user-search border-0 ps-3 pe-5' placeholder='Search' />  <span><img src={searchIcon} alt="" className='search-icon' /></span> </div>

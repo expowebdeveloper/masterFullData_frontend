@@ -77,8 +77,8 @@ const Properties = () => {
         <Container fluid>
           <div className='inner-main-wrapper'>
             <div className="dimensionTable">
-              <div className="d-flex justify-content-between align-items-center">
-                  <h4 className="">All Properties</h4>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h4 className="inner-card-heading mb-0">All Properties</h4>
                   <button className="add-property-btn" onClick={() => setCreatePropertyModal(true)}>Create Property</button>
               </div>
               {loading ?
