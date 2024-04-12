@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { FaFolderOpen, FaFolder } from "react-icons/fa";
 import { FiFileText as FileText } from "react-icons/fi";
+import { RxChevronRight , RxChevronDown } from "react-icons/rx";
 import { EMPTY_OBJ, EMPTY_STR } from "../common/consts";
 
 
@@ -23,7 +24,7 @@ export function useIcon(
   const iconsDict = useIconsContext();
   if (dropable) {
     const Folder =
-      iconsDict[`__folderOpen_${isOpen}`] ?? (isOpen ? FaFolderOpen : FaFolder);
+      iconsDict[`__folderOpen_${isOpen}`] ?? (isOpen ? RxChevronDown : RxChevronRight);
     return Folder;
   }
 

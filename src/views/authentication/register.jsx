@@ -52,7 +52,7 @@ const Register = ({ show, handleClose }) => {
         <div className="inner-auth-wrapper"></div>
       </div>
 
-      <Modal show={show} onHide={handleClose} className="EditRole">
+      <Modal show={show} onHide={handleClose} className="EditRole" centered>
         <Modal.Header closeButton className="flex-column authHeader">
           <Modal.Title>Create an Account</Modal.Title>
           <p className="auth-text text-white">Please create your account</p>
@@ -128,56 +128,62 @@ const Register = ({ show, handleClose }) => {
                     />
                     <p className="error-message">{errors.email?.message}</p>
                   </div>
-                  <div className="mb-23">
-                    <label className="label-text">
-                      Password <span className="highlight-req">*</span>
-                    </label>
-                    <div className="position-relative">
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        className="form-control form-field shadow-none"
-                        {...register("password", {
-                          required: {
-                            value: true,
-                            message: "Password is required",
-                          },
-                        })}
-                      />
-                      <span className="password-eye-btn"
-                      onClick={() => togglePasswordVisibility('password')}>
-                        <FontAwesomeIcon icon={faEye} />
-                      </span>
-                    </div>
-                    <p className="error-message">
-                        {errors.password?.message}
-                      </p>
-                  </div>
-                  <div className="mb-23">
-                    <label className="label-text">
-                      Reenter Password <span className="highlight-req">*</span>
-                    </label>
-                    <div className="position-relative">
-                      <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        name="reEnterPassword"
-                        className="form-control form-field shadow-none"
-                        {...register("reEnterPassword", {
-                          required: {
-                            value: true,
-                            message: "Confirm Password is required",
-                          },
-                        })}
-                      />
-                      <span className="password-eye-btn"
-                      onClick={() => togglePasswordVisibility('confirmPassword')}>
-                        <FontAwesomeIcon icon={faEye} />
-                      </span>
-                    </div>
-                      <p className="error-message">
-                        {errors.reEnterPassword?.message}
-                      </p>
-                  </div>
+                  <Row>
+                    <Col md={6}>
+                      <div className="mb-23">
+                        <label className="label-text">
+                          Password <span className="highlight-req">*</span>
+                        </label>
+                        <div className="position-relative">
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            className="form-control form-field shadow-none"
+                            {...register("password", {
+                              required: {
+                                value: true,
+                                message: "Password is required",
+                              },
+                            })}
+                          />
+                          <span className="password-eye-btn"
+                          onClick={() => togglePasswordVisibility('password')}>
+                            <FontAwesomeIcon icon={faEye} />
+                          </span>
+                        </div>
+                        <p className="error-message">
+                            {errors.password?.message}
+                          </p>
+                      </div>
+                    </Col>
+                    <Col md={6}>
+                      <div className="mb-23">
+                        <label className="label-text">
+                          Reenter Password <span className="highlight-req">*</span>
+                        </label>
+                        <div className="position-relative">
+                          <input
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            name="reEnterPassword"
+                            className="form-control form-field shadow-none"
+                            {...register("reEnterPassword", {
+                              required: {
+                                value: true,
+                                message: "Confirm Password is required",
+                              },
+                            })}
+                          />
+                          <span className="password-eye-btn"
+                          onClick={() => togglePasswordVisibility('confirmPassword')}>
+                            <FontAwesomeIcon icon={faEye} />
+                          </span>
+                        </div>
+                          <p className="error-message">
+                            {errors.reEnterPassword?.message}
+                          </p>
+                      </div>
+                    </Col>
+                  </Row>
                   <div className="mb-23">
                     <label className="label-text">
                       Select Role <span className="highlight-req">*</span>

@@ -219,7 +219,24 @@ svg {
   padding-top: 33px;
   border-radius: 0px 16px 16px 0px;
   background: #f4f7ff;
+  overflow: auto;
   transition: .4s ease;
+}
+.sidebar::-webkit-scrollbar
+{
+  width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb
+{
+  width: 5px;
+  background: #1967d2;
+  border-radius: 5px;
+}
+.sidebar::-webkit-scrollbar-track
+{
+  width: 5px;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .sidebar .sidebar-logo {
@@ -682,7 +699,7 @@ svg {
   height: 161px;
 }
 
-.user-name {
+.user-name-single {
   font-size: 26px;
   font-weight: 600;
 }
@@ -954,21 +971,20 @@ ul.gtree_root ul {
   line-height: normal;
 }
 
-.uploadFileCSV {
+.uploadFileCSV label {
   position: relative;
   border: 1px Dashed #5864FF;
+  color: #5864FF;
   border-radius: 17px;
   margin-top: 20px;
+  display: block;
+  padding: 16px 10px;
+  text-align: center;
+  line-height: normal;
 }
 
 .uploadFileCSV input.form-control {
-  width: 100%;
-  padding: 20px;
-  opacity: 0;
-  position: absolute;
-  z-index: 1;
-  min-height: 70px;
-  right: 0;
+  display: none;
 }
 
 .uploadFileCSV b {
@@ -1116,7 +1132,7 @@ ul.gtree_root ul {
   max-width: 700px;
   background: #fff;
   border-radius: 48px;
-  padding: 40px;
+  padding: 10px 25px;
   min-width: 700px;
 }
 
@@ -1144,7 +1160,7 @@ ul.gtree_root ul {
   width: 100%;
   text-align: center;
   color: #5864FF;
-  font-size: 33px;
+  font-size: 25px;
   font-weight: 700;
 }
 
@@ -1166,8 +1182,8 @@ ul.gtree_root ul {
   background: #5864FF;
   color: #fff;
   border: none;
-  font-size: 20px;
-  padding: 12px 40px;
+  font-size: 15px;
+  padding: 10px 25px;
   border-radius: 13px;
   border: 1px solid #5864ff;
   box-shadow: 0px 0px 8.7px 0px rgba(88, 100, 255, 0.53);
@@ -1177,6 +1193,9 @@ ul.gtree_root ul {
 .addProperty .modal-dialog .modal-footer button.btn.btn-primary:hover {
   color: #5864ff;
   background-color: transparent;
+}
+.modal-dialog{
+  margin: 0 !important;
 }
 
 button.PropertyBtn {
@@ -1335,10 +1354,6 @@ button.PropertyBtn:hover {
 }
 
 .EditRole .modal-dialog {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) !important;
   max-width: 700px;
   border-radius: 40px;
   overflow: hidden;
@@ -1574,15 +1589,15 @@ ul.gtree_root li ul li:before {
   position: absolute;
   left: -2px;
   background: transparent;
-  top: -7px;
-  border-radius: 0px 0px 0px 17px;
+  top: -10px;
+  border-radius: 0px 0px 0px 10px;
   border: 1px solid #ddd;
   border-width: 0px 0px 2px 2px;
 }
 
 ul.gtree_root li ul li {
   border-left: 2px solid #ddd;
-  padding-left: 40px;
+  padding-left: 20px;
 }
 
 ul.gtree_root li ul li:last-child {
@@ -1911,17 +1926,18 @@ select:focus {
 }
 
 .user-log-responsive {
-  max-height: calc(100vh - 300px);
+  max-height: calc(100vh - 240px);
 }
 
 .filter-section {
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   margin-bottom: 30px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  background: #f5f3f3;
 }
 .coming-soon-wrapper
 {
@@ -1936,9 +1952,33 @@ select:focus {
 {
   font-weight: 700;
 }
+.dashboard-card-active-user .total-dimensions
+{
+  color: #089605;
+}
+.dashboard-card-desibled-user .total-dimensions
+{
+  color: #C61010;
+}
+.bottom-space
+{
+  margin-bottom: 48px;
+}
+.min-w-1
+{
+  min-width: 1px !important;
+}
+.font-14
+{
+  font-size: 14px;
+}
 
 /* Media Query */
 @media only screen and (max-width: 1440px) {
+  .bottom-space
+  {
+    margin-bottom: 28px;
+  }
   .auth-img {
     max-width: 300px;
   }
@@ -1959,22 +1999,40 @@ select:focus {
 
   .main-wrapper {
     width: calc(100% - 280px);
-    padding: 78px 0px 29px;
+    padding: 63px 0px 29px;
   }
   .welcome-text
   {
-    font-size: 30px;
+    font-size: 25px;
   }
   .inner-card-heading
   {
-    font-size: 23px;
+    font-size: 20px;
   }
   .activity-table-user .activity-tablehead
   {
     font-size: 16px;
     padding: 15px 35px;
   }
-
+  .page-name
+  {
+    padding: 30px 10px;
+    font-size: 28px;
+  }
+  .userbx-img
+  {
+    width: 47px;
+    height: 47px;
+  }
+  .user-name
+  {
+    font-size: 20px;
+  }
+  .menu-btn
+  {
+    width: 45px;
+    height: 41px;
+  }
   .add-property-btn {
     width: 195px;
     height: 44px;
@@ -1985,6 +2043,18 @@ select:focus {
     color: #FFFFFF;
     border: none;
   }
+  .sidebar a.sidebar-link span,
+  .logout-btn span {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  .sidebar a.sidebar-link
+  {
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
 
   .assign-property {
     height: 350px;
@@ -1994,7 +2064,7 @@ select:focus {
   }
   .total-dimensions
   {
-    min-width: 66px;
+    min-width: 57px;
     font-size: 33px;
     line-height: normal;
     padding: 10px;
@@ -2002,7 +2072,8 @@ select:focus {
   .dashboard-card
   {
     padding: 22px 20px;
-    font-size: 27px;
+    line-height: normal;
+    font-size: 23px;
   }
   .sidebar .sidebar-logo
   {
@@ -2010,12 +2081,19 @@ select:focus {
   }
   .sidebar-link
   {
-    font-size: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 10px;
   }
   .dimension-head
   {
-    margin-bottom: 26px;
-    font-size: 27px;
+    margin-bottom: 20px;
+    font-size: 23px;
+  }
+  .label-form
+  {
+    font-size: 16px;
+    margin-bottom: 5px;
   }
   .create-dimension-card
   {
@@ -2028,7 +2106,127 @@ select:focus {
   .common-btn
   {
     min-width: 230px;
-    font-size: 17px;
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  .sidebar a.sidebar-link span, .logout-btn span
+  {
+    font-size: 16px;
+  }
+  .sidebar.sideactive .sidebar-link
+  {
+    width: 45px;
+    height: 45px;
+  }
+  .menu-btn
+  {
+    width: 40px;
+    height: 36px;
+    font-size: 16px;
+  }
+  .userbx-img
+  {
+    width: 30px;
+    height: 30px;
+  }
+  .user-name
+  {
+    font-size: 18px;
+  }
+  .page-name
+  {
+    padding: 30px 10px;
+    font-size: 27px;
+  }
+  .common-field
+  {
+    font-size: 16px;
+    padding: 10px 25px;
+    border-radius: 10px;
+  }
+  .user-table-content table th, .user-table-content table td
+  {
+    font-size: 16px;
+  }
+  .user-table-content
+  {
+    border-radius: 15px;
+  }
+  .dimensionSingle
+  {
+    margin-top: 63px;
+  }
+  button.PropertyBtn
+  {
+    font-size: 16px;
+  }
+  .secondBar h2
+  {
+    font-size: 22px;
+  }
+  .secondBar span
+  {
+    font-size: 14px;
+  }
+  .dashboard-card-total-user
+  {
+    padding: 22px 20px;
+  }
+  .dashboard-card-active-user
+  {
+    padding: 22px 20px;
+  }
+  .dashboard-card-desibled-user
+  {
+    padding: 22px 20px;
+  }
+  .dashboardCardTitle
+  {
+    font-size: 20px;
+  }
+  .dashboard-card-total-user,
+  .dashboard-card-active-user,
+  .dashboard-card-desibled-user
+  {
+    padding: 27px 20px;
+    gap: 10px;
+  }
+  .dashboardCardTitle
+  {
+    line-height: normal;
+  }
+  .EditRole .modal-dialog .authHeader .modal-title.h4
+  {
+    font-size: 27px;
+  }
+  .EditRole label
+  {
+    font-size: 16px;
+    max-block-size: 8px;
+  }
+  .auth-content input.form-control
+  {
+    font-size: 18px;
+  }
+  .EditRole select
+  {
+    font-size: 18px;
+  }
+  .password-eye-btn
+  {
+    font-size: 20px;
+  }
+  .EditRole .modal-dialog .authHeader .modal-title.h4
+  {
+    font-size: 27px;
+  }
+  .EditRole .modal-dialog .authHeader p.auth-text
+  {
+    font-size: 16px;
+  }
+  .EditRole .modal-dialog .authHeader p.auth-text
+  {
+    font-size: 16px;
   }
 }
 
@@ -2049,7 +2247,7 @@ select:focus {
 
   .dimension-head {
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 18px;
   }
 
 

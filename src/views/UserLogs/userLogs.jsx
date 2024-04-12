@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLogs } from "../../store/slices/userAuditLogsSlice";
 import SmallSpinner from "../../components/common/atomic/SmallSpinner";
+import { GoDownload } from "react-icons/go";
 
 
 
@@ -62,41 +63,46 @@ const UserLogs = () => {
         <>
         <section className='main-wrapper dashboard-wrapper'>
             <div className="px-3 pt-3">
-                <div className="filter-section">
-                    <div className="d-inline-block">
-                        <label>
-                            Filter By Date
-                        </label>
-                        <Form.Control type="date" />
+                <div className="filter-section d-flex justify-content-between align-items-center">
+                    <div className="d-flex gap-2 flex-wrap">
+                        <div className="d-inline-block">
+                            <label className="font-14">
+                                Filter By Date
+                            </label>
+                            <Form.Control type="date" />
+                        </div>
+                        <div className="d-inline-block">
+                            <label className="font-14">
+                                Filter By User
+                            </label>
+                            <Form.Select>
+                                <option value="lorem-ipsum">Lorem Ipsum</option>
+                                <option value="lorem-ipsum">Lorem Ipsum</option>
+                                <option value="lorem-ipsum">Lorem Ipsum</option>
+                                <option value="lorem-ipsum">Lorem Ipsum</option>
+                                <option value="lorem-ipsum">Lorem Ipsum</option>
+                            </Form.Select>
+                        </div>
+                        <div className="d-inline-block">
+                            <label className="font-14">
+                                Filter By Type
+                            </label>
+                            <Form.Select>
+                                <option value="property_create">Property Create</option>
+                                <option value="property_assign">Property Assign</option>
+                                <option value="dimension_create">Dimension Create</option>
+                                <option value="hierarchy_add">Hierarchy Add</option>
+                                <option value="hierarchy_update">Hierarchy Update</option>
+                            </Form.Select>
+                        </div>
                     </div>
-                    <div className="d-inline-block">
-                        <label>
-                            Filter By User
-                        </label>
-                        <Form.Select>
-                            <option value="lorem-ipsum">Lorem Ipsum</option>
-                            <option value="lorem-ipsum">Lorem Ipsum</option>
-                            <option value="lorem-ipsum">Lorem Ipsum</option>
-                            <option value="lorem-ipsum">Lorem Ipsum</option>
-                            <option value="lorem-ipsum">Lorem Ipsum</option>
-                        </Form.Select>
-                    </div>
-                    <div className="d-inline-block">
-                        <label>
-                            Filter By Type
-                        </label>
-                        <Form.Select>
-                            <option value="property_create">Property Create</option>
-                            <option value="property_assign">Property Assign</option>
-                            <option value="dimension_create">Dimension Create</option>
-                            <option value="hierarchy_add">Hierarchy Add</option>
-                            <option value="hierarchy_update">Hierarchy Update</option>
-                        </Form.Select>
+                    <div>
+                        <button className="common-btn min-w-1 d-flex align-items-center justify-content-center gap-2 shadow-none"><GoDownload/> Download Logs</button>
                     </div>
                 </div>
                 <div className='table-responsive activity-table-responsive user-log-responsive'>
                 {loading ? (
-                    <div className="text-center"><SmallSpinner /></div>
+                    <div className="text-center py-3"><SmallSpinner /></div>
                 ) : (
                     <table className='table activity-table-user user-logs-table'>
                         <thead>
@@ -112,7 +118,7 @@ const UserLogs = () => {
                         {UserLogsList.map((item, index) => (
                              <tr key={index}>
                                 <td><span className="user-name-text">{item.user_email}</span></td>
-                                <td><span className={`dash-activity-text inner-activity-text ${item.request_type === "POST" ? "create-text" : item.request_type === "PUT"  ? "update-text" : item.request_type === "DELETE" ? "delete-text" : ""}`}>{activityString(item)}</span>
+                                <td className="px-0"><span className={`dash-activity-text inner-activity-text ${item.request_type === "POST" ? "create-text" : item.request_type === "PUT"  ? "update-text" : item.request_type === "DELETE" ? "delete-text" : ""}`}>{activityString(item)}</span>
                                     </td>
                                 <td><span className='dash-activity-text inner-activity-text create-text'>{getTimeDifference(item.date)}</span></td>
                             </tr>
@@ -120,12 +126,12 @@ const UserLogs = () => {
 
                             {/* <tr>
                                 <td><span className="user-name-text">Lorem Ipsum</span></td>
-                                <td><span className='dash-activity-text inner-activity-text update-text'>Updated Property 1</span></td>
+                                <td className="px-0"><span className='dash-activity-text inner-activity-text update-text'>Updated Property 1</span></td>
                                 <td><span className='dash-activity-text inner-activity-text update-text'>5 minutes ago</span></td>
                             </tr>
                             <tr>
                                 <td><span className="user-name-text">Lorem Ipsum</span></td>
-                                <td><span className='dash-activity-text inner-activity-text delete-text'>Deleted Account Node from Test 2 Dimension</span></td>
+                                <td className="px-0"><span className='dash-activity-text inner-activity-text delete-text'>Deleted Account Node from Test 2 Dimension</span></td>
                                 <td><span className='dash-activity-text inner-activity-text delete-text'>10 minutes ago</span></td>
                             </tr> */}
                         </tbody>

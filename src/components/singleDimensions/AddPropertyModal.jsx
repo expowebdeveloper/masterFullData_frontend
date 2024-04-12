@@ -164,7 +164,7 @@ const AddPropertyModal = ({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form className="mt-4">
+            <Form className="mt-3">
               <Row>
                 <Col md>
                   <Form.Group className="mb-3" controlId="formBasicFName">
@@ -246,6 +246,41 @@ const AddPropertyModal = ({
                     />
                   </Form.Group>
                 </Col>
+                <Col md>
+                  <Form.Group className="mb-3" controlId="formBasicLName">
+                  <Form.Label>Valid Values</Form.Label>
+                    {validValues.map((item, index) => (
+                      <Row key={index}>
+                        <Col md={10}>
+                          <div className="d-flex align-items-center">
+                            <Form.Group className="mb-3" controlId="formBasicLName">
+                              <input
+                                type="text"
+                                className="common-field"
+                                name="validValues"
+                                // {...register("validValues", {
+                                // })}
+
+                                {...register(`validValues.${index}`)}
+                                defaultValue={item} // Set the default value
+
+                              />
+                            </Form.Group>
+                            <Form.Group className="mb-3 white-norwrap ps-3 d-flex gap-2" controlId="formBasicLName">
+                                {validValues.length > 1 && (
+                                  <span className="cursor-pointer action-span trash action-btn" onClick={() => handleDeleteInput(index)}><img src={trash} alt="" className='action-image' /></span>
+                                )}
+                                {index === validValues.length - 1 && (
+                                  <span className="cursor-pointer  action-span add action-btn" onClick={() => handleAddInput()}>+</span>
+                                )}
+                              </Form.Group>
+                          </div>
+                        </Col>
+                      </Row>
+                    ))}
+
+                  </Form.Group>
+                </Col>
                 {/* <Col md>
                   <Form.Group className="mb-3" controlId="formBasicLName">
                     <Form.Label className="d-block">Formula</Form.Label>
@@ -259,7 +294,7 @@ const AddPropertyModal = ({
                   </Form.Group>
                 </Col> */}
               </Row>
-              <Row>
+              {/* <Row>
                 <Form.Label>Valid Values</Form.Label>
                 {validValues.map((item, index) => (
                   <Row key={index}>
@@ -291,7 +326,7 @@ const AddPropertyModal = ({
                   </Row>
                 ))}
 
-              </Row>
+              </Row> */}
             </Form>
           </Modal.Body>
           <Modal.Footer>

@@ -78,7 +78,7 @@ const UserDetails = () => {
                             <div className='user-profile-card mb-2'>
                                 <div className='text-center'>
                                     <img className='user-profile-img' src={userProfileImage} alt="" />
-                                    <h4 className='user-name mt-5 mb-3'>{singleUser.first_name} {singleUser.last_name}</h4>
+                                    <h4 className='user-name-single mt-5 mb-3'>{singleUser.first_name} {singleUser.last_name}</h4>
                                 </div>
                                 <div className='d-flex justify-content-between align-items-center user-heading-border py-2'>
                                     <h3 className='user-card-headings mb-0'>Email</h3>
@@ -136,7 +136,7 @@ const UserDetails = () => {
                     </Row>
                 </Container>
             </section>
-            <Modal show={show} className="EditRole" onHide={() => setShow(false)}>
+            <Modal show={show} className="EditRole" onHide={() => setShow(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Role</Modal.Title>
                 </Modal.Header>
