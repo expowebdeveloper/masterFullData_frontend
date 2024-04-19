@@ -12,6 +12,13 @@ const initialAuthData = {
     singleUser: {},
     allRoles: [],
     allPermissions: [],
+    DashboardHome:{
+        dimension: 0,
+        properties: 0,
+        integration: 0,
+        logs:[],
+        graphlogs:[]
+    }
 }
 
 export const adminDashboardSlice = createSlice({
@@ -57,6 +64,12 @@ export const adminDashboardSlice = createSlice({
                 state.inActiveUser = result.total_inactive
                 state.totalUser = result.total_user
             }
+        },
+        dashboardHomeDataSuccess: (state, action) => {
+            state.DashboardHome.dimension = action.payload.dimension
+            state.DashboardHome.properties = action.payload.property
+            state.DashboardHome.logs = action.payload.logs
+            state.DashboardHome.graphlogs = action.payload.graphlogs
         }
 
     }
@@ -66,7 +79,7 @@ export const adminDashboardSlice = createSlice({
 export const {
     authDataLoading,authDataSuccess,authDataError, saveUserDetail,
     removeDeletedUserFromList, singleUserDetail, allRoles,
-    allPermissions, updateActiveState 
+    allPermissions, updateActiveState, dashboardHomeDataSuccess,
     } = adminDashboardSlice.actions
 export default adminDashboardSlice.reducer
 
@@ -184,3 +197,17 @@ export function activeUserR(userId, payload, callback) {
     };
 }
 
+export function getDashboardHomeDetails(callback) {
+    return async (dispatch) => {
+        dispatch(authDataLoading())
+        try {
+            let result = await instance.get(`home-page-information`)
+            if (result.status == 200) {
+                dispatch(dashboardHomeDataSuccess(result.data))
+            }
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            console.log(message)
+        }
+    };
+}

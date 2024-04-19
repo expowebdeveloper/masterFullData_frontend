@@ -136,12 +136,26 @@ export function getPropertyList(payload) {
     };
 }
 
-export function addNode(payload) {
+export function addNode(payload, callback) {
     return async (dispatch) => {
         // dispatch(dimensionDataLoading())
         try {
             let result = await instance.post(`add_node`, { ...payload })
+            callback(payload)
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if (error.response.status == 400) {
+                dispatch(dimensionDataError())
+            }
+        }
+    };
+}
 
+export function assignAllExistingDimenssionPropertytoNewNode(payload) {
+    return async (dispatch) => {
+        // dispatch(dimensionDataLoading())
+        try {
+            let result = await instance.put(`/assign_all_properties_to_new_node`, payload);
         } catch (error) {
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {

@@ -6,13 +6,13 @@ import { getToken } from "../utils/common";
 
 const PrivateLayout = () => {
   let isToken = getToken();
-const [isSidebarActive, setIsSidebarActive] = useState(false);
+const [isSidebarActive, setIsSidebarActive] = useState(true);
 const [isNavbarActive, setIsNavbarActive] = useState(false);
 const location =useLocation()
 
 useEffect(()=>{
-  setIsNavbarActive(location.pathname=="/single-dimension"?true:false)
-  setIsSidebarActive(location.pathname=="/single-dimension"?true:false)
+  setIsNavbarActive(location.pathname=="/single-dimension"?true:true)
+  setIsSidebarActive(location.pathname=="/single-dimension"?true:true)
 },[])
 
   const handleButtonClick = () => {

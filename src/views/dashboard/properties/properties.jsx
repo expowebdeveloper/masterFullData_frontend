@@ -51,7 +51,6 @@ const Properties = () => {
 
   useEffect(() => {
     if (isEditProperty.isEdit) {
-      console.log(isEditProperty,'================================================================')
       setCreatePropertyModal(true)
     }
   }, [isEditProperty]);

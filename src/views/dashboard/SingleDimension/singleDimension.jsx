@@ -16,6 +16,7 @@ import {
   getPropertyNode,
   moveNode,
   renameNode,
+  assignAllExistingDimenssionPropertytoNewNode,
 } from "../../../store/slices/dimensionsSlice";
 import { useLocation } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -119,6 +120,10 @@ const SingleDimension = () => {
     setImportExport({ isModal: false, whichOneModal: null });
   };
 
+  const assignPropertyToNewNode = (data) =>{
+    dispatch(assignAllExistingDimenssionPropertytoNewNode(data))
+  }
+
   const onAction = (v, position=null) => {
     let data = {};
     console.log(v,"ll")
@@ -130,7 +135,7 @@ const SingleDimension = () => {
           dimension: currentDimension,
           position: 0,
         };
-        dispatch(addNode(data));
+        dispatch(addNode(data, assignPropertyToNewNode));
         break;
 
       case "delete-dir":

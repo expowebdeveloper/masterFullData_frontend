@@ -197,7 +197,7 @@ const AddProperty = ({
                               </select>
                             ) : (
                               <input
-                                type={item?.type || 'text'}
+                                type={item?.data_type || 'text'}
                                 className="common-field"
                                 name={item.name}
                                 placeholder=""
