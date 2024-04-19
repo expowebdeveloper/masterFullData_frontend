@@ -161,29 +161,6 @@ const AllUsers = () => {
                     pageLabelBuilder={customPageLabel}
                     className='pagination-section'
                 />
-                {/* <div className='row'>
-                
-
-                    <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <img src={previousIcon} className='pagination-icon' alt="" />
-                    </div>
-
-                    <div className='pagination-card-inactive d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <h3 className='pagination-icon text-center'>1</h3>
-                    </div>
-                    <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <h3 className='pagination-icon text-center'>2</h3>
-                    </div>
-                    <div className='pagination-card-inactive d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <h3 className='pagination-icon text-center'>3</h3>
-                    </div>
-                    <div className='pagination-card-inactive d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <h3 className='pagination-icon text-center'>4</h3>
-                    </div>
-                    <div className='pagination-card d-flex justify-content-center align-items-center col-auto mx-1'>
-                        <img src={nextIcon} className='pagination-icon' alt="" />
-                    </div>
-                </div> */}
             </div>
         </Container>
         <DeletePropertyModal

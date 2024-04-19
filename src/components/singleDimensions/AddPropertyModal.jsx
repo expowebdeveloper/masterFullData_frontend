@@ -89,7 +89,7 @@ const AddPropertyModal = ({
         new_default_value: dataTypeValue === "boolean" ? `${isSwitchOn}` : data.defaultValues,
         new_inherits: isInheritSwitchOn,
         new_data_type: data.dataType,
-        new_valid_values: data.validValues,
+        new_valid_values: data.validValues[0] === '' ? [] : data.validValues,
       };
 
       dispatch(editPropertyDefinition(newData, () => {
@@ -111,8 +111,8 @@ const AddPropertyModal = ({
         data_type: data.dataType,
         ...(
           addPropertyOnly === true ? 
-          { valid_values: data.validValues } : 
-          { valid_values: { [currentDimension]: data.validValues } }
+          { valid_values: data.validValues[0] === '' ? [] : data.validValues } : 
+          { valid_values: { [currentDimension]: data.validValues[0] === '' ? [] : data.validValues } }
         )
       };
 
