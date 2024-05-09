@@ -68,11 +68,10 @@ const SingleDimension = () => {
   const location = useLocation();
   const currentDimensions = location.search.split("=")[1];
   const currentDimension=currentDimensions.replace(/%20/g, ' ');
-  const { hierarchyList, listProperties, nodeProperties, loading,smallLoader,isNodeDelete,deleteNodeText } =
+  const { hierarchyList, listProperties, nodeProperties, loading,smallLoader,isNodeDelete,deleteNodeText, newShareNodeAdded } =
     useSelector((state) => state.dimensionData);
-  const newData = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
-
-  console.log(newData,'777779888888888888888888888888888888888888888888888')
+  
+  const [newData, setNewData] = useState([])
 
   const oldtreeData = JSON.parse(JSON.stringify(newData));
 
@@ -96,14 +95,24 @@ const SingleDimension = () => {
   }, []);
 
   useEffect(() =>{
-    if(hierarchyList.length > 0) {
+    if(hierarchyList.length > 0 && newShareNodeAdded === false){
       let data = {
         dimension: currentDimension,
         node_name: hierarchyList[0]?.node?.name,
       };
       dispatch(getPropertyNode(data));
+
+      const newDataa = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
+      setNewData(newDataa)
     }
   },[hierarchyList])
+
+  useEffect(() =>{
+    if(newShareNodeAdded){
+      const newDataa = flatTreeObjToNodeModel(hierarchyList, 0, currentDimension);
+      setNewData(newDataa)
+    }
+  },[newShareNodeAdded])
 
   useEffect(() => {
     setAllNodeProperties(nodeProperties);
@@ -259,6 +268,7 @@ const SingleDimension = () => {
               <div className="text-center" style={{ marginTop: "30px" }}>
                 {newData.length > 0 ? (
                   <GTree
+                    key={newData.length}
                     initialData={newData}
                     oldData={oldtreeData}
                     onAction={onAction}

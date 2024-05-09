@@ -33,27 +33,19 @@ export function defaultConfirmDelete(objName) {
 }
 
 export function flatTreeObjToNodeModel(objArry, parent, currentDimension) {
-  //   return [
-  //     {
-  //       id: obj.id,
-  //       parent,
-  //       text: obj.name,
-  //       droppable: obj.type === "directory",
-  //       data: restObj
-  //     },
-  //   ];
   let newArr = objArry.map((item, index) => {
     return {
-      id: item.node.name,
+      id: item.isShared === null ? item.node.name : item.node.name + "-" + "shared" + item.parent,
       text: item.node.name,
       sortOrder: item.sortOrder,
       parent: item.node.name == item.parent ? 0 : item.parent,
       droppable: true,
       data: {
         name: item.node.name,
-        id: item.node.name,
+        id: item.isShared === null ? item.node.name : item.node.name + "-" + "shared" + item.parent,
         type: "directory",
         sort: item.node.sort,
+        isShared: item.isShared
       },
     };
   });
