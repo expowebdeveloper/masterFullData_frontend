@@ -46,9 +46,7 @@ function GTree(props) {
     onAction
   );
 
-  useEffect(() =>{
-    alert("from gtree")
-  },[])
+
 
   return (
     <IconsContext.Provider value={iconDict}>
