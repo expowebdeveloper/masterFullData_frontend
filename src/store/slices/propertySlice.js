@@ -81,7 +81,6 @@ export function getPropertyDetails(property_name, callback) {
             callback(result.data)
         } catch (error) {
             console.log(error)
-            alert()
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {
                 dispatch(propertiesError())
