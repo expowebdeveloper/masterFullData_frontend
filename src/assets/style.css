@@ -1740,6 +1740,14 @@ ul.gtree_root li svg.icon:hover {
   color: #5864ff !important;
 }
 
+.shared-node-title span {
+  color: rgb(12, 170, 36) !important;  /* Change to your desired color */
+}
+
+.parent_name{
+  color:  #5864ff !important; 
+}
+
 .auth-content input.form-control {
   width: 100%;
   border-radius: 12px;

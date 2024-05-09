@@ -11,6 +11,7 @@ const initialDimensionData = {
     smallLoader:false,
     isNodeDelete:false,
     deleteNodeText:null,
+    newShareNodeAdded: false,
 }
 
 export const dimensionsSlice = createSlice({
@@ -60,13 +61,32 @@ export const dimensionsSlice = createSlice({
             state.isNodeDelete = action.payload==null?false:true,
             state.deleteNodeText=action.payload
         },
+        createShareNodeSuccess: (state, action) => {
+            state.newShareNodeAdded = true
+            state.smallLoader=false
+        },
+        createShareNodeFailure: (state, action) => {
+
+        }
 
 
     }
 
 })
 
-export const { dimensionDataLoading, deleteNodeDisp,dimensionsDataSuccess,smallLoaderData, dimensionDataError,dimensionDataLoadingSuccess, dimensionHierarchy, dimensionsDataListSuccess, allListProperties, singleNodeProperties, smallLoaderStop } = dimensionsSlice.actions
+export const { dimensionDataLoading, 
+    deleteNodeDisp,
+    dimensionsDataSuccess,
+    smallLoaderData, 
+    dimensionDataError,
+    dimensionDataLoadingSuccess, 
+    dimensionHierarchy, 
+    dimensionsDataListSuccess, 
+    allListProperties, 
+    singleNodeProperties, 
+    smallLoaderStop, 
+    createShareNodeSuccess,
+    createShareNodeFailure } = dimensionsSlice.actions
 export default dimensionsSlice.reducer
 
 
@@ -104,12 +124,16 @@ export function getAllDimensionsList(payload, callback) {
 }
 
 
-export function getHierarchy(payload) {
+export function getHierarchy(payload, callback, comeFromSharedNodeAction=false) {
     return async (dispatch) => {
         dispatch(dimensionDataLoading())
         try {
             let result = await instance.get(`get_hierarchy?name=${payload}`)
             dispatch(dimensionHierarchy(result.data.hierarchy))
+            if(comeFromSharedNodeAction){
+                dispatch(createShareNodeSuccess());  
+                callback()
+            }
         } catch (error) {
             const message = error.message || "Something went wrong";
             if (error.response.status == 400) {
@@ -381,4 +405,23 @@ export function deletePropertyNode(payload){
     return (dispatch)=>{
         dispatch(deleteNodeDisp(payload))
     }
+}
+
+export function createShareNode(payload, callback) {
+    return async (dispatch) => {
+        dispatch(smallLoaderData())
+        try {
+            await instance.post(`add_shared_node`, payload) 
+
+            toast.success("Property is Exported")  
+            dispatch(getHierarchy(payload.dimension, callback, true))  
+                 
+
+        } catch (error) {
+            const message = error.message || "Something went wrong";
+            if(error.response?.status==400){
+                dispatch(createShareNodeFailure())
+            }
+        }
+    };
 }
