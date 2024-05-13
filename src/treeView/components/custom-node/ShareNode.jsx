@@ -16,7 +16,9 @@ const ShareNode = ({ handleClose, handleShow, setShow, show, parent, CreateShare
     const { hierarchyList, smallLoader } = useSelector((state) => state.dimensionData);
 
     useEffect(() => {
+        console.log(smallLoader, "smallLoader")
         if (hierarchyList) {
+            console.log(hierarchyList, "hierarchyList")
             let data = []
             hierarchyList.forEach((item) => {
                 if (item.node.name !== parent && item.isShared === null) {
@@ -65,9 +67,12 @@ const ShareNode = ({ handleClose, handleShow, setShow, show, parent, CreateShare
                     {/* <Button variant="primary" onClick={() => CreateShareNode(selectedOption)}>
                         Add Shared Node
                     </Button> */}
-
-                    <Button variant="primary" onClick={() => CreateShareNode(selectedOption)}>
-                      {true ? <SmallSpinner /> : "Add Shared Node"}
+                    <Button variant="primary" onClick={() => {
+                        if (!smallLoader) {  // Prevent multiple clicks while loading
+                            CreateShareNode(selectedOption);
+                        }
+                    }}>
+                        {smallLoader ? <SmallSpinner /> : "Add Shared Node"}
                     </Button>
 
                 </Modal.Footer>
