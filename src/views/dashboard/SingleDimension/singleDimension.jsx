@@ -99,6 +99,7 @@ const SingleDimension = () => {
       let data = {
         dimension: currentDimension,
         node_name: hierarchyList[0]?.node?.name,
+        parent: hierarchyList[0]?.parent
       };
       dispatch(getPropertyNode(data));
 
@@ -181,6 +182,7 @@ const SingleDimension = () => {
         data = {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
+          parent: v.source[v.source.length - 2]
         };
         setIsAssignProperty(false);
         setSelectedNode(data.node_name);
