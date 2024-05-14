@@ -42,7 +42,7 @@ const AddProperty = ({
   const { loading, smallLoader } = useSelector(state => state.dimensionData)
 
 
-  console.log(allNodeProperties, 'fffffffffffffffffffffffffffff')
+  console.log(hierarchyList, selectedNode,'fffffffffffffffffffffffffffff')
 
   useEffect(() => {
     allNodeProperties.forEach((item) => {
@@ -130,7 +130,7 @@ const AddProperty = ({
   return (
     <div className="PropertyAddon">
       <div className="heading p-3">
-        <h2 className="text-center m-0">{currentDimension}</h2>
+        <h2 className="text-center m-0">{selectedNode}</h2>
       </div>
       <div className="uploadFileCSV">
         <Form.Control type="file" id="fileUpload" accept="csv/json" />
