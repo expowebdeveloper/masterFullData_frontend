@@ -9,6 +9,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { getAllDimensionsList } from '../../../store/slices/dimensionsSlice';
 import { assignPropertyToDimension } from '../../../store/slices/propertySlice';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const animatedComponents = makeAnimated();
 
@@ -37,24 +39,33 @@ const AssignProperty = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data, dropdownSelectedFields)
+    if (!dropdownSelectedFields?.value) {
+      toast.error("Please select any Dimensions", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+  
     const payloadData = {
       "dimension": dropdownSelectedFields.value,
       "property_name": data.name,
-    }
-    dispatch(assignPropertyToDimension(payloadData, sucessAssign))
+    };
+  
+    dispatch(assignPropertyToDimension(payloadData, () => navigate("/properties")));
   };
-
-  const sucessAssign = () => {
-    navigate("/properties")
-  }
-
+  
   useEffect(() =>{
-    console.log(dimensionsList)
-    if (dimensionsList.lenght !== 0){
-      dispatch(getAllDimensionsList())
+    if (dimensionsList.length === 0){
+      dispatch(getAllDimensionsList());
     }
-  },[])
+  }, []);
+  
 
 
   return (
@@ -107,7 +118,7 @@ const AssignProperty = () => {
                       </Col>
                     </Row>
                     <div className="text-center">
-                      <MdButton text="Assign Property" isLoading={loading} />
+                      <MdButton text="Assign Property" isLoading={loading && dropdownSelectedFields.value} />
                     </div>
                   </form>
                 </div>
