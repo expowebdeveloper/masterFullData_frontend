@@ -182,7 +182,7 @@ const SingleDimension = () => {
         data = {
           dimension: currentDimension,
           node_name: v.source[v.source.length - 1],
-          parent: v.source[v.source.length - 2]
+          parent: v.source.length > 1 ? v.source[v.source.length - 2] : v.source[v.source.length - 1]
         };
         setIsAssignProperty(false);
         setSelectedNode(data.node_name);

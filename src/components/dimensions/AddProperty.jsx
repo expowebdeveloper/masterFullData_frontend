@@ -41,9 +41,6 @@ const AddProperty = ({
   } = useForm({});
   const { loading, smallLoader } = useSelector(state => state.dimensionData)
 
-
-  console.log(hierarchyList, selectedNode,'fffffffffffffffffffffffffffff')
-
   useEffect(() => {
     allNodeProperties.forEach((item) => {
       setValue(item.name, item.value || item.defaultValue || "");

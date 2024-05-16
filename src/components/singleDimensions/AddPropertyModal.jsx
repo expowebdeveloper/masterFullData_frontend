@@ -108,7 +108,6 @@ const AddPropertyModal = ({
         }
       }));
     } else {
-      alert()
       let propertyData = {
         name: data.name,
         type: data.type,
@@ -147,7 +146,6 @@ const AddPropertyModal = ({
   };
 
   const assignPropertyOnNodes = (propertyData) =>{
-    alert('called')
     let input_data = {
       "dimension": currentDimension,
       "assignments": []
