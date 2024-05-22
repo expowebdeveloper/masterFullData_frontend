@@ -111,6 +111,9 @@ function CustomNode(props) {
     onNodeSelect(id, !!droppable);
   };
   const dragOverProps = useDragOver(id, isOpen, onToggle);
+  console.log(data, "data")
+  console.log("data?.isShared === null", data?.isShared === null)
+
   return (
     <>
       <div className="container w-25">
@@ -139,8 +142,27 @@ function CustomNode(props) {
               isShared={data?.isShared ? data?.isShared : null}
             />
           </label>
+          {/* <MaybeSpan className="actions" visible={!isEditMode}>
+              <button onClick={toggleEdit} title="Rename">
+                <Edit className="icon" size={ICON_SIZE_S} />
+              </button>
+              <FolderActions
+                droppable={!!droppable}
+                addFile={addFile}
+                addFolder={addFolder}
+              />
+              <button onClick={onShareNodeHandle} title="Share Node">
+                <ShareIcon className="icon" size={ICON_SIZE_S} />
+              </button>
+              <button onClick={onLocalDelete} title="Delete">
+                <Trash className="icon" size={ICON_SIZE_S} />
+              </button>
+            </MaybeSpan> */}
+          
 
-          {data?.isShared === null && (
+          {data?.isShared === true ? (
+            <></>
+          ):(
             <MaybeSpan className="actions" visible={!isEditMode}>
               <button onClick={toggleEdit} title="Rename">
                 <Edit className="icon" size={ICON_SIZE_S} />
@@ -158,6 +180,26 @@ function CustomNode(props) {
               </button>
             </MaybeSpan>
           )}
+
+
+          {/* {data?.isShared === null && (
+            <MaybeSpan className="actions" visible={!isEditMode}>
+              <button onClick={toggleEdit} title="Rename">
+                <Edit className="icon" size={ICON_SIZE_S} />
+              </button>
+              <FolderActions
+                droppable={!!droppable}
+                addFile={addFile}
+                addFolder={addFolder}
+              />
+              <button onClick={onShareNodeHandle} title="Share Node">
+                <ShareIcon className="icon" size={ICON_SIZE_S} />
+              </button>
+              <button onClick={onLocalDelete} title="Delete">
+                <Trash className="icon" size={ICON_SIZE_S} />
+              </button>
+            </MaybeSpan>
+          )} */}
         </StyledNode>
       </div>
 
