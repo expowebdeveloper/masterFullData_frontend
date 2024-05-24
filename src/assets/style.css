@@ -2377,3 +2377,65 @@ select:focus {
   font-size: 14px;
   line-height: 31px;
 }
+
+.property_details .heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.property_details .editionbtn {
+  display: flex;
+  gap: 12px;
+}
+
+.property_details .editionbtn a {
+  display: inline-block;
+}
+
+.property_details .editionbtn a.delete {
+  color: red;
+}
+
+.property_details .editionbtn a.edit {
+  color: gray;
+}
+
+.property_details .editionbtn a {
+  display: inline-block;
+}
+
+.property_details .editionbtn a.delete {
+  color: red;
+}
+
+.property_details .editionbtn a.edit {
+  color: gray;
+}
+
+.property_details ul li {
+  display: inline-block;
+  width: 100%;
+}
+
+.property_details .belowButtons button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.property_details .belowButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.property_details .belowButtons button:hover {
+  background: #0056b3;
+}

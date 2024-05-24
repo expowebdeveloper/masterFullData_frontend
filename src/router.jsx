@@ -2,6 +2,7 @@ import { lazy } from "react";
 import Settings from "./views/adminDashboard/settings/settings";
 import Properties from "./views/dashboard/properties/properties";
 import Integrations from "./views/integrations/Integrations";
+import ExportIntegration from "./views/integrations/ExportIntegration";
 const Register = lazy(() => import("./views/authentication/register"));
 const Login = lazy(() => import("./views/authentication/login"));
 const ForgotPassword = lazy(() => import("./views/authentication/forgotPassword"));
@@ -101,6 +102,11 @@ export const route = [
   {
     path: "/user-logs",
     element: <UserLogs />,
+    private: true,
+  },
+  {
+    path: "/export/:connectionId",
+    element: <ExportIntegration />,
     private: true,
   },
 ];
