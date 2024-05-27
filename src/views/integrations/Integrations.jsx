@@ -15,7 +15,6 @@ Modal.setAppElement('#root'); // For accessibility
 const ExportConnections = () => {
   const dispatch = useDispatch();
   const { connections, loading, mainLoading } = useSelector((state) => state.integrationData);
-  console.log("mainLoading", mainLoading)
 
   useEffect(() => {
     dispatch(getAllConnectionList());
@@ -28,7 +27,7 @@ const ExportConnections = () => {
   const navigate = useNavigate()
 
   const gotToExportPage=(connectionId)=>{
-      navigate(`/export/${connectionId}`)
+      navigate(`/integration/export/${connectionId}`)
   }
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -78,7 +77,7 @@ const ExportConnections = () => {
       <section className='main-wrapper dimensions-wrapper'>
         <h3 className='page-name mb-4'>Create Property</h3>
         {mainLoading && (
-          <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <div className="d-flex justify-content-center align-items-center mb-3" >
             <div className="loader">
               <Spinner animation="border" style={{ width: '30px' }} />
             </div>

@@ -105,7 +105,7 @@ export const route = [
     private: true,
   },
   {
-    path: "/export/:connectionId",
+    path: "integration/export/:connectionId",
     element: <ExportIntegration />,
     private: true,
   },

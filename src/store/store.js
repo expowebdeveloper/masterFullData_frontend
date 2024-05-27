@@ -5,6 +5,7 @@ import adminDashboardSlice from './slices/adminDashboardSlice'
 import propertySlice from './slices/propertySlice'
 import userLogsSlice from './slices/userAuditLogsSlice'
 import integrationSlice from './slices/integrationSlice'
+import exportConnectionSlice from './slices/exportConnectionSlice'
 
 const combinedReducer = {
     authData: authenticationSlice,
@@ -13,6 +14,7 @@ const combinedReducer = {
     propertyData: propertySlice,
     userLogsData: userLogsSlice,
     integrationData: integrationSlice,
+    exportConnectionData: exportConnectionSlice,
 }
 
 export default configureStore({

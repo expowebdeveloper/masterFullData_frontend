@@ -2439,3 +2439,19 @@ select:focus {
 .property_details .belowButtons button:hover {
   background: #0056b3;
 }
+.export-btn-group
+{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.export-btn-group .export-btn
+{
+  font-size: 23px;
+  padding: 0;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  margin-right: 0;
+}

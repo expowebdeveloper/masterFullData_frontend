@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { route } from "./router";
 import PublicLayout from './layout/PublicLayout';
-import './assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/style.css'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateLayout from './layout/PrivateLayout';
