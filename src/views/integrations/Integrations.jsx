@@ -29,6 +29,9 @@ const ExportConnections = () => {
   const gotToExportPage=(connectionId)=>{
       navigate(`/integration/export/${connectionId}`)
   }
+  const gotToImportPage=(connectionId)=>{
+    navigate(`/integration/import/${connectionId}`)
+  }
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editItem, setEditItem] = useState({});
@@ -111,7 +114,7 @@ const ExportConnections = () => {
                         <li><span>Metadata Job Name :  </span><b>{item.importMetadataJobName}</b></li>
                       </ul>
                       <div className="belowButtons">
-                        <button>Import</button>
+                        <button onClick={()=>gotToImportPage(item.id)}>Import</button>
                         <button onClick={()=>gotToExportPage(item.id)}>Export</button>
                       </div>
                     </div>
