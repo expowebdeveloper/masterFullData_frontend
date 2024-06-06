@@ -7,8 +7,8 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
 const initialDIntegrationData = {
     loading: false,
     mainLoading: false,
-    exportConnections: []
-    
+    exportConnections: [],
+    errorMessage: null    
 }
 
 export const exportConnectionSlice = createSlice({
@@ -35,14 +35,18 @@ export const exportConnectionSlice = createSlice({
         exportConnectionCreatedSuccess: (state, action) =>{
             state.loading = false;
         },
-      
+        errorMessage: (state, message) =>{
+            state.errorMessage =  message;
+            state.loading = false
+            state.mainLoading = false
+        }
     
     }
 
 })
 
 
-export const {exportConnectionListSuccess, exportConnectionCreatedSuccess, stopLoader, startLoader } = exportConnectionSlice.actions
+export const {exportConnectionListSuccess, exportConnectionCreatedSuccess, stopLoader, startLoader, errorMessage } = exportConnectionSlice.actions
 export default exportConnectionSlice.reducer
 
 
@@ -55,6 +59,7 @@ export function getAllExportList(connection_id) {
             dispatch(exportConnectionListSuccess(result.data))
         } catch (error) {
             const message = error.message || "Something went wrong";
+            dispatch(errorMessage(message))
             dispatch(stopLoader())
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
@@ -76,6 +81,7 @@ export function AddExportConnection(payload, callback) {
             const message = error.message || "Something went wrong";
             console.log("message", message)
             dispatch(stopLoader())
+            dispatch(errorMessage(message))
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
             }
@@ -98,6 +104,7 @@ export function RunExportConnection(export_item, callback) {
             const message = error.message || "Something went wrong";
             console.log("message", message)
             dispatch(stopLoader())
+            dispatch(errorMessage(message))
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
             }

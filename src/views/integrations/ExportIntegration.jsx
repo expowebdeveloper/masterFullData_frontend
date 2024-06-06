@@ -4,9 +4,15 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { ButtonGroup, Container, Form, Button, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import styled from 'styled-components';
-import { BiExport } from "react-icons/bi";
+import { BiImport } from "react-icons/bi";
 import { getAllExportList, AddExportConnection, RunExportConnection } from '../../store/slices/exportConnectionSlice';
 import { toast } from 'react-toastify';
+import makeAnimated from "react-select/animated";
+import { getAllDimensionsList, getPropertyList } from '../../store/slices/dimensionsSlice';
+
+import Select from "react-select";
+import { getAllImportList, AddImportConnection, RunimportConnection } from '../../store/slices/importConnectionSlice';
+
 
 const StyledContainer = styled(Container)`
   padding: 20px;
@@ -18,20 +24,48 @@ const StyledButton = styled(Button)`
   margin-right: 10px;
 `;
 
-
+const animatedComponents = makeAnimated();
 const ExportIntegration = ({ closeModal }) => {
   const connectionIdCurrent = window.location.pathname.split('/').pop();
   const dispatch = useDispatch();
-  const { exportConnections, loading, mainLoading } = useSelector((state) => state.exportConnectionData);
+  const { importConnections, loading, mainLoading, errorMessage } = useSelector((state) => state.importConnectionData);
+  const { dimensionsList, smallLoader , listProperties} = useSelector((state) => state.dimensionData);
 
   useEffect(() => {
-    dispatch(getAllExportList(connectionIdCurrent));
+    dispatch(getAllImportList(connectionIdCurrent));
+    if (dimensionsList.length === 0) {
+      dispatch(getAllDimensionsList());
+    }
+    
   }, [dispatch, connectionIdCurrent]);
 
   const [filename, setFilename] = useState('');
   const [jobType, setJobType] = useState('');
   const [jobName, setJobName] = useState('');
   const [loadingButton, setLoadingButton] = useState(null); // Track the loading button
+  const [refreshJobName, setRefreshJobName] = useState('');
+  const [selectedDimension, setSelectedDimension] = useState('');
+  
+  const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
+  let labelValueList = listProperties.map((item) => {
+    return { label: item.name, value: item.name };
+  })
+
+
+  useEffect(() => {
+    
+  }, []);
+
+  useEffect(() =>{
+    if (selectedDimension){
+      dispatch(getPropertyList(selectedDimension));
+    }
+  }, [selectedDimension])
+
+
+  const handleDimensionChange = (e) => {
+    setSelectedDimension(e.target.value)
+  };
 
   const handleBlur = useCallback(() => {
     if (!filename.endsWith('.zip')) {
@@ -59,17 +93,26 @@ const ExportIntegration = ({ closeModal }) => {
   }, []);
 
   const onSaveClick = () => {
-    if (!jobType || !jobName || !filename) {
+    if (!jobName || !filename || !selectedDimension || !refreshJobName )  {
       toast('All fields are required.');
       return;
     }
+
     const data = {
       "jobType": jobType,
       "jobName": jobName,
       "Filename": filename,
-      "connection_id": connectionIdCurrent
+      "connection_id": connectionIdCurrent,
+      "dimension" : selectedDimension,
+      "properties": dropdownSelectedFields.map((item) => item.value),
+      "delimiter": ",",
+      "output_format": "CSV",
+      "refreshJobName": refreshJobName,
+      "refreshJobType": 'CUBE_REFRESH',
+
     };
-    dispatch(AddExportConnection(data, mainLoading));
+    console.log("data", data)
+    dispatch(AddImportConnection(data, mainLoading));
   };
 
   const onRunClick = useCallback((item) => {
@@ -78,28 +121,31 @@ const ExportIntegration = ({ closeModal }) => {
       return;
     }
     setLoadingButton(item._is); // Set the loading button
-    dispatch(RunExportConnection(item, mainLoading)).finally(() => {
+    dispatch(RunimportConnection(item, mainLoading)).finally(() => {
       setLoadingButton(null); // Reset the loading button
     });
   }, [dispatch, mainLoading]);
-
-  const exportTooltip = (e) =>(
-    <Tooltip id="exportTooltip">{e}</Tooltip>
+ 
+  if(errorMessage){
+    toast("Something went wrong Please check credentials")
+  }
+  const ImportTooltip = (e) => (
+    <Tooltip id="ImportTooltip">{e}</Tooltip>
   )
-
+  console.log("importConnections", importConnections)
   return (
     <section className='main-wrapper dimensions-wrapper'>
-      <h3 className='page-name mb-4'>Export Data</h3>
+      <h3 className='page-name mb-4'>Import Data</h3>
       <StyledContainer fluid>
         <div className="inner-main-wrapper">
           <div className="dimensionTable">
-            <h4 className="inner-card-heading mb-3">New Export</h4>
+            <h4 className="inner-card-heading mb-3">New Import</h4>
             <Form>
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Job Type</Form.Label>
-                    <Form.Control type="text" value={jobType} onChange={handleJobTypeChange} />
+                    <Form.Control type="text" value="IMPORT_METADATA" disabled onChange={handleJobTypeChange} />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -123,14 +169,63 @@ const ExportIntegration = ({ closeModal }) => {
                     />
                   </Form.Group>
                 </Col>
+                <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Dimension</Form.Label>
+                      <Form.Control as="select" value={selectedDimension || ''} onChange={handleDimensionChange}>
+                        <option value="" disabled>
+                          Select a dimension
+                        </option>
+                        {dimensionsList.map((dimension) => (
+                          <option key={dimension} value={dimension}>
+                            {dimension}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+              </Row>
+              <Row>
+              
+                <Col md={12}>
+                  <Form.Group className="mb-3" controlId="formBasicLName">
+                    <Form.Label>Properties</Form.Label>
+                      <Select
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
+                      isMulti
+                      options={labelValueList}
+                      value={dropdownSelectedFields}
+                      onChange={(selectedOption, action) => {
+                        setDropdownSelectedFields(selectedOption);
+                      }}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                {/* <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Cube Refresh Job Type</Form.Label>
+                    <Form.Control type="text" value={refreshJobType} onChange={(e) => setRefreshJobType(e.target.value)} />
+                  </Form.Group>
+                </Col> */}
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Cube Refresh Job Name</Form.Label>
+                    <Form.Control type="text" value={refreshJobName} onChange={(e) => setRefreshJobName(e.target.value)} />
+                  </Form.Group>
+                </Col>
               </Row>
               <ButtonGroup className="mb-3 d-block text-center">
                 <StyledButton variant="primary" className='w-auto d-inline-block' type="button" onClick={onSaveClick} disabled={loading}>
                   {loading ? (
                     <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                  ) : 'Save Export'}
+                  ) : 'Save Import'}
                 </StyledButton>
               </ButtonGroup>
+
             </Form>
           </div>
           {mainLoading ? (
@@ -141,9 +236,9 @@ const ExportIntegration = ({ closeModal }) => {
             </div>
           ) : (
             <div className='dimensionTable mt-3'>
-              <h4 className="inner-card-heading mb-3">Listing of Export Connection</h4>
+              <h4 className="inner-card-heading mb-3">Listing of Import Connection</h4>
               <Row>
-                {exportConnections.map((item, index) => (
+                {importConnections.map((item, index) => (
                   <Col lg={4} key={index}>
                     <div className='property_details mb-2 position-relative'>
                       <div className="heading">
@@ -155,12 +250,12 @@ const ExportIntegration = ({ closeModal }) => {
                         <li><span>Filename: </span><b>{item.Filename}</b></li>
                         <li><span>Status: </span><b>{item.Status}</b></li>
                       </ul>
-                      <OverlayTrigger placement='bottom' overlay={exportTooltip(item.Status == "Completed" ? 'Already Export' : 'Run Export')}>
+                      <OverlayTrigger placement='bottom' overlay={ImportTooltip(item.Status == "Completed" ? 'Already Import' : 'Run Import')}>
                         <ButtonGroup className="export-btn-group">
                           <StyledButton variant="primary" type="button" className='export-btn' onClick={() => onRunClick(item)} disabled={loadingButton === item._id}>
                             {loadingButton === item._id ? (
                               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                            ) : <BiExport />}
+                            ) : <BiImport />}
                           </StyledButton>
                         </ButtonGroup>
                       </OverlayTrigger>
