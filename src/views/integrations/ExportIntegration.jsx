@@ -28,7 +28,7 @@ const animatedComponents = makeAnimated();
 const ExportIntegration = ({ closeModal }) => {
   const connectionIdCurrent = window.location.pathname.split('/').pop();
   const dispatch = useDispatch();
-  const { importConnections, loading, mainLoading, errorMessage } = useSelector((state) => state.importConnectionData);
+  const { importConnections, loading, mainLoading, errorMessage, importbackroundTask } = useSelector((state) => state.importConnectionData);
   const { dimensionsList, smallLoader , listProperties} = useSelector((state) => state.dimensionData);
 
   useEffect(() => {
@@ -128,6 +128,9 @@ const ExportIntegration = ({ closeModal }) => {
  
   if(errorMessage){
     toast("Something went wrong Please check credentials")
+  }
+  if(importbackroundTask){
+    toast(importbackroundTask)
   }
   const ImportTooltip = (e) => (
     <Tooltip id="ImportTooltip">{e}</Tooltip>

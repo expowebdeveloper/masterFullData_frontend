@@ -22,7 +22,7 @@ const StyledButton = styled(Button)`
 const ImportIntegration = ({ closeModal }) => {
   const connectionIdCurrent = window.location.pathname.split('/').pop();
   const dispatch = useDispatch();
-  const { exportConnections, loading, mainLoading, errorMessage } = useSelector((state) => state.exportConnectionData);
+  const { exportConnections, loading, mainLoading, errorMessage, exportbackroundTask } = useSelector((state) => state.exportConnectionData);
 
   useEffect(() => {
     dispatch(getAllExportList(connectionIdCurrent));
@@ -94,6 +94,9 @@ const ImportIntegration = ({ closeModal }) => {
     }else{
       toast("Something went wrong Please check credentials")
     }
+  }
+  if(exportbackroundTask){
+    toast(exportbackroundTask)
   }
 
   return (

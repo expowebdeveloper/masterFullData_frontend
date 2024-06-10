@@ -9,6 +9,7 @@ const initialDIntegrationData = {
     mainLoading: false,
     importConnections: [],
     errorMessage: null,
+    backroundTask:"",
     
 }
 
@@ -40,7 +41,12 @@ export const importConnectionSlice = createSlice({
             state.errorMessage =  message;
             state.loading = false
             state.mainLoading = false
-        }
+        },
+        importbackroundTask: (state, message) =>{
+            state.backroundTask =  message;
+            state.loading = false
+            state.mainLoading = false
+        },
       
     
     }
@@ -48,7 +54,7 @@ export const importConnectionSlice = createSlice({
 })
 
 
-export const {importConnectionListSuccess, importConnectionCreatedSuccess, stopLoader, startLoader,importConnectionError } = importConnectionSlice.actions
+export const {importConnectionListSuccess, importConnectionCreatedSuccess, stopLoader, startLoader,importConnectionError, importbackroundTask } = importConnectionSlice.actions
 export default importConnectionSlice.reducer
 
 
@@ -100,6 +106,11 @@ export function RunimportConnection(import_item, callback) {
             dispatch(startLoader())
             let result = await instance.post(`import-run/${import_item._id}`)
             dispatch(importConnectionCreatedSuccess(result))
+            if (result?.payload?.status == "completed"){
+                dispatch(importbackroundTask("Job is completed"))
+            }else{
+                dispatch(importbackroundTask("Task is already running Please wait"))
+            }  
             dispatch(getAllimportList(import_item.connection_id))
         } catch (error) {
             const message = error.message || "Something went wrong";

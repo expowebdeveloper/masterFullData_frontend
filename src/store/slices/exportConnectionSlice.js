@@ -8,7 +8,8 @@ const initialDIntegrationData = {
     loading: false,
     mainLoading: false,
     exportConnections: [],
-    errorMessage: null    
+    errorMessage: null,
+    backroundTask: ''    
 }
 
 export const exportConnectionSlice = createSlice({
@@ -39,14 +40,19 @@ export const exportConnectionSlice = createSlice({
             state.errorMessage =  message;
             state.loading = false
             state.mainLoading = false
-        }
+        },
+        exportbackroundTask: (state, message) =>{
+            state.backroundTask =  message;
+            state.loading = false
+            state.mainLoading = false
+        },
     
     }
 
 })
 
 
-export const {exportConnectionListSuccess, exportConnectionCreatedSuccess, stopLoader, startLoader, errorMessage } = exportConnectionSlice.actions
+export const {exportConnectionListSuccess, exportConnectionCreatedSuccess, stopLoader, startLoader, errorMessage, exportbackroundTask } = exportConnectionSlice.actions
 export default exportConnectionSlice.reducer
 
 
@@ -100,6 +106,12 @@ export function RunExportConnection(export_item, callback) {
             let result = await instance.post(`run_export/${export_item._id}`)
             dispatch(exportConnectionCreatedSuccess(result))
             dispatch(getAllExportList(export_item.connection_id))
+            if (result?.payload?.status == "completed"){
+                dispatch(exportbackroundTask("Job is completed"))
+            }else{
+                dispatch(exportbackroundTask("Task is already running Please wait"))
+            }
+            
         } catch (error) {
             const message = error.message || "Something went wrong";
             console.log("message", message)
