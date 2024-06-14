@@ -1,18 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { ButtonGroup, Container, Form, Button, Row, Col, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import styled from 'styled-components';
 import { BiImport } from "react-icons/bi";
-import { getAllExportList, AddExportConnection, RunExportConnection } from '../../store/slices/exportConnectionSlice';
 import { toast } from 'react-toastify';
 import makeAnimated from "react-select/animated";
-import { getAllDimensionsList, getPropertyList } from '../../store/slices/dimensionsSlice';
-
 import Select from "react-select";
-import { getAllImportList, AddImportConnection, RunimportConnection } from '../../store/slices/importConnectionSlice';
-
+import {
+  getAllExportList,
+  AddExportConnection,
+  RunExportConnection,
+} from '../../store/slices/exportConnectionSlice';
+import {
+  getAllImportList,
+  AddImportConnection,
+  RunimportConnection,
+} from '../../store/slices/importConnectionSlice';
+import {
+  getAllDimensionsList,
+  getPropertyList,
+} from '../../store/slices/dimensionsSlice';
 
 const StyledContainer = styled(Container)`
   padding: 20px;
@@ -25,56 +34,62 @@ const StyledButton = styled(Button)`
 `;
 
 const animatedComponents = makeAnimated();
+
 const ExportIntegration = ({ closeModal }) => {
-  const connectionIdCurrent = window.location.pathname.split('/').pop();
+  const connectionIdCurrent = useMemo(() => window.location.pathname.split('/').pop(), []);
   const dispatch = useDispatch();
-  const { importConnections, loading, mainLoading, errorMessage, importbackroundTask } = useSelector((state) => state.importConnectionData);
-  const { dimensionsList, smallLoader , listProperties} = useSelector((state) => state.dimensionData);
+  const {
+    importConnections,
+    loading,
+    mainLoading,
+    errorMessage,
+    importbackroundTask,
+  } = useSelector((state) => state.importConnectionData);
+  const {
+    dimensionsList,
+    mainLoadingData,
+    listProperties,
+  } = useSelector((state) => state.dimensionData);
+
+  const [filename, setFilename] = useState('');
+  const [jobType, setJobType] = useState('IMPORT_METADATA');
+  const [jobName, setJobName] = useState('');
+  const [loadingButton, setLoadingButton] = useState(null);
+  const [refreshJobName, setRefreshJobName] = useState('');
+  const [selectedDimension, setSelectedDimension] = useState('');
+  const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
+
+  const labelValueList = useMemo(() => listProperties.map((item) => ({
+    label: item.name,
+    value: item.name,
+  })), [listProperties]);
 
   useEffect(() => {
     dispatch(getAllImportList(connectionIdCurrent));
     if (dimensionsList.length === 0) {
       dispatch(getAllDimensionsList());
     }
-    
-  }, [dispatch, connectionIdCurrent]);
-
-  const [filename, setFilename] = useState('');
-  const [jobType, setJobType] = useState('');
-  const [jobName, setJobName] = useState('');
-  const [loadingButton, setLoadingButton] = useState(null); // Track the loading button
-  const [refreshJobName, setRefreshJobName] = useState('');
-  const [selectedDimension, setSelectedDimension] = useState('');
-  
-  const [dropdownSelectedFields, setDropdownSelectedFields] = useState([]);
-  let labelValueList = listProperties.map((item) => {
-    return { label: item.name, value: item.name };
-  })
-
+  }, [dispatch, connectionIdCurrent, dimensionsList.length]);
 
   useEffect(() => {
-    
-  }, []);
-
-  useEffect(() =>{
-    if (selectedDimension){
+    if (selectedDimension) {
       dispatch(getPropertyList(selectedDimension));
     }
-  }, [selectedDimension])
+  }, [dispatch, selectedDimension]);
 
-
-  const handleDimensionChange = (e) => {
-    setSelectedDimension(e.target.value)
-  };
+  const handleDimensionChange = useCallback((e) => {
+    setSelectedDimension(e.target.value);
+    setDropdownSelectedFields([]);
+  }, []);
 
   const handleBlur = useCallback(() => {
     if (!filename.endsWith('.zip')) {
-      setFilename((prev) => prev + '.zip');
+      setFilename((prev) => `${prev}.zip`);
     }
-  }, []);
+  }, [filename]);
 
   const handleChange = useCallback((e) => {
-    const value = e.target.value.replace(/\./g, ''); // Remove periods
+    const value = e.target.value.replace(/\./g, '');
     setFilename(value);
   }, []);
 
@@ -92,73 +107,76 @@ const ExportIntegration = ({ closeModal }) => {
     setJobName(e.target.value);
   }, []);
 
-  const onSaveClick = () => {
-    if (!jobName || !filename || !selectedDimension || !refreshJobName )  {
+  const onSaveClick = useCallback(() => {
+    if (!jobName || !filename || !selectedDimension || !refreshJobName) {
       toast('All fields are required.');
       return;
     }
 
     const data = {
-      "jobType": jobType,
-      "jobName": jobName,
-      "Filename": filename,
-      "connection_id": connectionIdCurrent,
-      "dimension" : selectedDimension,
-      "properties": dropdownSelectedFields.map((item) => item.value),
-      "delimiter": ",",
-      "output_format": "CSV",
-      "refreshJobName": refreshJobName,
-      "refreshJobType": 'CUBE_REFRESH',
-
+      jobType,
+      jobName,
+      Filename: filename,
+      connection_id: connectionIdCurrent,
+      dimension: selectedDimension,
+      properties: dropdownSelectedFields.map((item) => item.value),
+      delimiter: ',',
+      output_format: 'CSV',
+      refreshJobName,
+      refreshJobType: 'CUBE_REFRESH',
     };
-    console.log("data", data)
+
     dispatch(AddImportConnection(data, mainLoading));
-  };
+
+    if (errorMessage) {
+      toast.error('Something went wrong. Please check credentials.');
+    }
+
+    if (importbackroundTask) {
+      toast.success(importbackroundTask);
+    }
+  }, [jobName, filename, selectedDimension, refreshJobName, dropdownSelectedFields, connectionIdCurrent, dispatch, mainLoading, errorMessage, importbackroundTask]);
 
   const onRunClick = useCallback((item) => {
     if (item.Status === 'Completed') {
-      toast('This item has already been exported.');
+      toast.error('This item has already been exported.');
       return;
     }
-    setLoadingButton(item._is); // Set the loading button
+    setLoadingButton(item._id);
     dispatch(RunimportConnection(item, mainLoading)).finally(() => {
-      setLoadingButton(null); // Reset the loading button
+      setLoadingButton(null);
     });
   }, [dispatch, mainLoading]);
- 
-  if(errorMessage){
-    toast("Something went wrong Please check credentials")
-  }
-  if(importbackroundTask){
-    toast(importbackroundTask)
-  }
+
+  
   const ImportTooltip = (e) => (
     <Tooltip id="ImportTooltip">{e}</Tooltip>
   )
   console.log("importConnections", importConnections)
   return (
     <section className='main-wrapper dimensions-wrapper'>
-      <h3 className='page-name mb-4'>Import Data</h3>
+      <h3 className='page-name mb-4'>Export Data</h3>
       <StyledContainer fluid>
+      {mainLoadingData ? (
+        <div className="d-flex justify-content-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }}>
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      ) : null}
+        
         <div className="inner-main-wrapper">
           <div className="dimensionTable">
             <h4 className="inner-card-heading mb-3">New Import</h4>
             <Form>
               <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Job Type</Form.Label>
-                    <Form.Control type="text" value="IMPORT_METADATA" disabled onChange={handleJobTypeChange} />
-                  </Form.Group>
-                </Col>
+                
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Job Name</Form.Label>
                     <Form.Control type="text" value={jobName} onChange={handleJobNameChange} />
                   </Form.Group>
                 </Col>
-              </Row>
-              <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Filename</Form.Label>
@@ -170,6 +188,14 @@ const ExportIntegration = ({ closeModal }) => {
                       onBlur={handleBlur}
                       onFocus={handleFocus}
                     />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Cube Refresh Job Name</Form.Label>
+                    <Form.Control type="text" value={refreshJobName} onChange={(e) => setRefreshJobName(e.target.value)} />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -214,18 +240,12 @@ const ExportIntegration = ({ closeModal }) => {
                     <Form.Control type="text" value={refreshJobType} onChange={(e) => setRefreshJobType(e.target.value)} />
                   </Form.Group>
                 </Col> */}
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Cube Refresh Job Name</Form.Label>
-                    <Form.Control type="text" value={refreshJobName} onChange={(e) => setRefreshJobName(e.target.value)} />
-                  </Form.Group>
-                </Col>
               </Row>
               <ButtonGroup className="mb-3 d-block text-center">
                 <StyledButton variant="primary" className='w-auto d-inline-block' type="button" onClick={onSaveClick} disabled={loading}>
                   {loading ? (
                     <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                  ) : 'Save Import'}
+                  ) : 'Save Export'}
                 </StyledButton>
               </ButtonGroup>
 
