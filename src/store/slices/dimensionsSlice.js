@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 const initialDimensionData = {
     loading: false,
+    mainLoadingData: false,
     dimensionsList: [],
     hierarchyList: [],
     listProperties: [],
@@ -20,41 +21,51 @@ export const dimensionsSlice = createSlice({
     reducers: {
         dimensionDataLoading: (state, action) => {
             state.loading = true;
+            state.mainLoadingData = true;
         },
         dimensionDataLoadingSuccess: (state, action) => {
             state.loading = false;
             state.smallLoader=false
+            state.mainLoadingData = false;
         },
         dimensionsDataSuccess: (state, action) => {
             state.loading = false;
             state.smallLoader=false
+            state.mainLoadingData = false;
 
         },
         dimensionsDataListSuccess: (state, action) => {
             state.loading = false;
             state.dimensionsList = action.payload
+            state.mainLoadingData = false;
         },
 
         smallLoaderData:(state,action)=>{
             state.smallLoader=true
+            state.mainLoadingData = true;
         },
         smallLoaderStop:(state,action)=>{
             state.smallLoader=false
+            state.mainLoadingData = false;
         },
         dimensionDataError: (state, action) => {
             state.loading = false;
             state.smallLoader=false
+            state.mainLoadingData = false;
         },
         dimensionHierarchy: (state, action) => {
             state.loading = false,
+            state.mainLoadingData = false;
                 state.hierarchyList = action.payload
         },
         allListProperties: (state, action) => {
             state.loading = false,
+            state.mainLoadingData = false;
             state.listProperties = action.payload
         },
         singleNodeProperties: (state, action) => {
             state.loading = false,
+            state.mainLoadingData = false;
                 state.nodeProperties = action.payload
         },
         deleteNodeDisp: (state, action) => {
