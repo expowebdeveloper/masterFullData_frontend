@@ -64,8 +64,13 @@ export function getAllExportList(connection_id) {
             let result = await instance.get(`getexportlist/${connection_id}`)
             dispatch(exportConnectionListSuccess(result.data))
         } catch (error) {
-            const message = error.message || "Something went wrong";
-            dispatch(errorMessage(message))
+            if (error?.response?.data?.detail){
+                const message = error?.response?.data?.detail;
+                dispatch(errorMessage(message))
+            }else{
+                const message = error.message || "Something went wrong";
+                dispatch(errorMessage(message))
+            }
             dispatch(stopLoader())
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
@@ -75,19 +80,24 @@ export function getAllExportList(connection_id) {
 }
 
 
-export function AddExportConnection(payload, callback) {
+export function AddExportConnection(connectionIdCurrent, payload, callback) {
     return async (dispatch) => {
         // dispatch(dimensionDataLoading())
         try {
             dispatch(startLoader())
-            let result = await instance.post(`export_connection/5`, { ...payload })
+            let result = await instance.post(`export_connection/${connectionIdCurrent}`, { ...payload })
             dispatch(exportConnectionCreatedSuccess(result.data))
             dispatch(getAllExportList(payload.connection_id))
         } catch (error) {
-            const message = error.message || "Something went wrong";
-            console.log("message", message)
+            if (error?.response?.data?.detail){
+                const message = error?.response?.data?.detail;
+                dispatch(errorMessage(message))
+            }else{
+                const message = error.message || "Something went wrong";
+                dispatch(errorMessage(message))
+            }
+            
             dispatch(stopLoader())
-            dispatch(errorMessage(message))
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
             }
@@ -113,10 +123,15 @@ export function RunExportConnection(export_item, callback) {
             }
             
         } catch (error) {
-            const message = error.message || "Something went wrong";
-            console.log("message", message)
+            if (error?.response?.data?.detail){
+                const message = error?.response?.data?.detail;
+                dispatch(errorMessage(message))
+            }else{
+                const message = error.message || "Something went wrong";
+                dispatch(errorMessage(message))
+            }
+            
             dispatch(stopLoader())
-            dispatch(errorMessage(message))
             if (error.response.status == 400) {
                 dispatch(exportConnectionListError())
             }
