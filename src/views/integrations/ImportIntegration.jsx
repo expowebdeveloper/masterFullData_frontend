@@ -18,7 +18,6 @@ const StyledButton = styled(Button)`
   margin-right: 10px;
 `;
 
-
 const ImportIntegration = ({ closeModal }) => {
   const connectionIdCurrent = window.location.pathname.split('/').pop();
   const dispatch = useDispatch();
@@ -28,25 +27,37 @@ const ImportIntegration = ({ closeModal }) => {
     dispatch(getAllExportList(connectionIdCurrent));
   }, [dispatch, connectionIdCurrent]);
 
+  useEffect(() => {
+    if (errorMessage) {
+      const message = errorMessage?.payload || "Something went wrong. Please check credentials.";
+      toast.error(message);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (exportbackroundTask) {
+      toast.success(exportbackroundTask);
+    }
+  }, [exportbackroundTask]);
+
   const [filename, setFilename] = useState('');
-  const [jobType, setJobType] = useState('');
+  const [jobType, setJobType] = useState('EXPORT_METADATA');
   const [jobName, setJobName] = useState('');
-  const [loadingButton, setLoadingButton] = useState(null); // Track the loading button
+  const [loadingButton, setLoadingButton] = useState(null);
 
   const handleBlur = useCallback(() => {
     if (!filename.endsWith('.zip')) {
-      setFilename((prev) => prev + '.zip');
+      setFilename(prev => prev + '.zip');
     }
-  }, []);
+  }, [filename]);
 
   const handleChange = useCallback((e) => {
-    const value = e.target.value.replace(/\./g, ''); // Remove periods
-    setFilename(value);
+    setFilename(e.target.value.replace(/\./g, ''));
   }, []);
 
   const handleFocus = useCallback(() => {
     if (filename.endsWith('.zip')) {
-      setFilename((prev) => prev.slice(0, -4));
+      setFilename(prev => prev.slice(0, -4));
     }
   }, [filename]);
 
@@ -59,49 +70,38 @@ const ImportIntegration = ({ closeModal }) => {
   }, []);
 
   const onSaveClick = () => {
-    if ( !jobName || !filename) {
-      toast('All fields are required.');
+    if (!jobName || !filename) {
+      toast.error('All fields are required.');
       return;
     }
     const data = {
-      "jobType": jobType,
-      "jobName": jobName,
-      "Filename": filename,
-      "connection_id": connectionIdCurrent
+      jobType,
+      jobName,
+      Filename: filename,
+      connection_id: connectionIdCurrent
     };
-    dispatch(AddExportConnection(data, mainLoading));
+    dispatch(AddExportConnection(connectionIdCurrent, data));
   };
 
   const onRunClick = useCallback((item) => {
     if (item.Status === 'Completed') {
-      toast('This item has already been exported.');
+      toast.error('This item has already been exported.');
       return;
     }
-    setLoadingButton(item._is); // Set the loading button
-    dispatch(RunExportConnection(item, mainLoading)).finally(() => {
-      setLoadingButton(null); // Reset the loading button
-    });
-  }, [dispatch, mainLoading]);
+    setLoadingButton(item._id);
+    dispatch(RunExportConnection(item))
+      .finally(() => {
+        setLoadingButton(null);
+      });
+  }, [dispatch]);
 
-  const exportTooltip = (e) =>(
-    <Tooltip id="exportTooltip">{e}</Tooltip>
-  )
-  if(errorMessage){
-    if (errorMessage?.payload) {
-      console.log("errorMessage", errorMessage?.payload)
-      toast(errorMessage?.payload)
-
-    }else{
-      toast("Something went wrong Please check credentials")
-    }
-  }
-  if(exportbackroundTask){
-    toast(exportbackroundTask)
-  }
+  const exportTooltip = (message) => (
+    <Tooltip id="exportTooltip">{message}</Tooltip>
+  );
 
   return (
     <section className='main-wrapper dimensions-wrapper'>
-      <h3 className='page-name mb-4'>Export Data</h3>
+      <h3 className='page-name mb-4'>Import Data</h3>
       <StyledContainer fluid>
         <div className="inner-main-wrapper">
           <div className="dimensionTable">
@@ -110,18 +110,10 @@ const ImportIntegration = ({ closeModal }) => {
               <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Job Type</Form.Label>
-                    <Form.Control type="text" value='EXPORT_METADATA' disabled onChange={handleJobTypeChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
                     <Form.Label>Job Name</Form.Label>
                     <Form.Control type="text" value={jobName} onChange={handleJobNameChange} />
                   </Form.Group>
                 </Col>
-              </Row>
-              <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Filename</Form.Label>
@@ -140,16 +132,16 @@ const ImportIntegration = ({ closeModal }) => {
                 <StyledButton variant="primary" className='w-auto d-inline-block' type="button" onClick={onSaveClick} disabled={loading}>
                   {loading ? (
                     <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                  ) : 'Save Export'}
+                  ) : 'Save Import'}
                 </StyledButton>
               </ButtonGroup>
             </Form>
           </div>
           {mainLoading ? (
             <div className="d-flex justify-content-center">
-              <div className="spinner-border" role="status">
+              <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
-              </div>
+              </Spinner>
             </div>
           ) : (
             <div className='dimensionTable mt-3'>
@@ -167,7 +159,7 @@ const ImportIntegration = ({ closeModal }) => {
                         <li><span>Filename: </span><b>{item.Filename}</b></li>
                         <li><span>Status: </span><b>{item.Status}</b></li>
                       </ul>
-                      <OverlayTrigger placement='bottom' overlay={exportTooltip(item.Status == "Completed" ? 'Already Export' : 'Run Export')}>
+                      <OverlayTrigger placement='bottom' overlay={exportTooltip(item.Status === "Completed" ? 'Already Export' : 'Run Export')}>
                         <ButtonGroup className="export-btn-group">
                           <StyledButton variant="primary" type="button" className='export-btn' onClick={() => onRunClick(item)} disabled={loadingButton === item._id}>
                             {loadingButton === item._id ? (

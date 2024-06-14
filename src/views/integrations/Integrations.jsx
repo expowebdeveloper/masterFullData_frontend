@@ -111,7 +111,7 @@ const ExportConnections = () => {
                       <ul>
                         <li><span>Username : </span><b>{item.username}</b></li>
                         <li><span>URL :  </span><b>{item.url}</b></li>
-                        <li><span>Metadata Job Name :  </span><b>{item.importMetadataJobName}</b></li>
+                        {/* <li><span>Metadata Job Name :  </span><b>{item.importMetadataJobName}</b></li> */}
                       </ul>
                       <div className="belowButtons">
                         <button onClick={()=>gotToImportPage(item.id)}>Import</button>
