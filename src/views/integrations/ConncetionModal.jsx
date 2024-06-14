@@ -11,13 +11,13 @@ const ConncetionPropertyModal = ({ handleSubmit, modalIsOpen,closeModal, isEdit,
 
     const initial = {
         id: 1,
-        email: 'asklndlkansd',
+        email: 'test@gmail.com',
         password: '',
         url: '',
         applicationName: '',
-        importMetadataJobName: '',
+        importMetadataJobName: 'none',
         apiVersion: 'v3',
-        cubeRefreshJobName: '',
+        cubeRefreshJobName: 'none',
         ConnectionName: '',
         Description: '',
         ConnectionType: '',
@@ -137,7 +137,7 @@ const ConncetionPropertyModal = ({ handleSubmit, modalIsOpen,closeModal, isEdit,
                                 required
                             />
                         </FormField>
-                        <FormField className="primary">
+                        {/* <FormField className="primary">
                             <Label>Import Metadata Job Name:</Label>
                             <Input
                                 type="text"
@@ -146,9 +146,9 @@ const ConncetionPropertyModal = ({ handleSubmit, modalIsOpen,closeModal, isEdit,
                                 onChange={handleChange}
                                 required
                             />
-                        </FormField>
+                        </FormField> */}
                         {/* <FormField className="secondary"> */}
-                        <FormField className="primary">
+                        {/* <FormField className="primary">
                             <Label>Cube Refresh Job Name:</Label>
                             <Input
                                 type="text"
@@ -157,7 +157,7 @@ const ConncetionPropertyModal = ({ handleSubmit, modalIsOpen,closeModal, isEdit,
                                 onChange={handleChange}
                                 required
                             />
-                        </FormField>
+                        </FormField> */}
                         <ButtonGroup className="buttons">
                             {loading === true ? (
                                 <SubmitButtonSpinn type="submit">{isEdit === true ? "Update" : "Create"} </SubmitButtonSpinn>
